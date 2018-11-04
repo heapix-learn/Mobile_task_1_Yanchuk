@@ -23,4 +23,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="updatingReport">Updating Report</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="exit">exit</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main333">Main333Activity</string>
 </resources>

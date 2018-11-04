@@ -347,7 +347,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 if (myUser.userId>0){
                     finish();
-                    Intent myIntent = new Intent(LoginActivity.this,MenuActivity.class);
+                    Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
                     LoginActivity.this.startActivity(myIntent);
                 } else {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -362,7 +362,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         myUser=dbTools.insertUser(myUser);
                                         Toast myToast = Toast.makeText(mContext,R.string.updatingReport, Toast.LENGTH_SHORT);
                                         myToast.show();
-                                        Intent myIntent = new Intent(LoginActivity.this,MenuActivity.class);
+                                        Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
                                         LoginActivity.this.startActivity(myIntent);
                                     } finally{
                                         if (dbTools!=null)
