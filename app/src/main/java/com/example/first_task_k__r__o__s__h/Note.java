@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
-import com.example.objects.ToDoDocuments;
 
 public class Note extends AppCompatActivity {
     private EditText mTitle;
@@ -18,8 +17,8 @@ public class Note extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
-        ToDoDocuments toDoDocuments = (ToDoDocuments)getIntent().getSerializableExtra(MainActivity.TODO_DOCUMENT);
-        setTitle(toDoDocuments.getTitle());
+      //  ToDoDocuments toDoDocuments = (ToDoDocuments)getIntent().getSerializableExtra(MainActivity.TODO_DOCUMENT);
+      //  setTitle(toDoDocuments.getTitle());
     }
 
     @Override

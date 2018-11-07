@@ -11,29 +11,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.objects.ToDoDocuments;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listTasks;
-    public static String TODO_DOCUMENT = "com.example.objects.ToDoDocuments";
+    public static String TODO_DOCUMENT = "ToDoDocuments";
     public static int TODO_NOTE_REQUEST=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         listTasks = (ListView) findViewById(R.id.listViewRow);
         fillList();
     }
 
 
-    public void Exit(View view){
-         Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
-         MainActivity.this.startActivity(myIntent);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -46,9 +43,16 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add_task: {
                 ToDoDocuments toDoDocuments = new ToDoDocuments();
+                Intent myIntent = new Intent(this, Note.class);
+                myIntent.putExtra(TODO_DOCUMENT,toDoDocuments);
+             //   MainActivity.this.startActivity(myIntent);
                 toDoDocuments.setTitle(getResources().getString(R.string.new_document));
                 showDocuments(toDoDocuments);
                 return true;
+            }
+            case R.id.exit:{
+                Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
+                MainActivity.this.startActivity(myIntent);
             }
             default:
                 break;

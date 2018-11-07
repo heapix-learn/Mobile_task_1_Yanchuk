@@ -3,5 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/add_task"
-        android:title="@string/add_task"></item>
+        android:title="@string/add_task">
+
+    </item>
+    <item
+        android:id="@+id/exit"
+        android:title="@string/exit">
+
+    </item>
 </menu>
+

@@ -1,6 +1,9 @@
-package com.example.objects;
+package com.example.first_task_k__r__o__s__h;
+
+
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 public class ToDoDocuments implements Parcelable {
     private String title;
@@ -33,12 +36,17 @@ public class ToDoDocuments implements Parcelable {
     public void writeToParcel(Parcel dest, int flags){
         dest.writeStringArray(new String[] {title});
     }
+    @NonNull
+    @Override
+    public String toString(){
+        return title;
+    }
 
     public static final Parcelable.Creator<ToDoDocuments> CREATOR = new Parcelable.Creator<ToDoDocuments>(){
 
         @Override
         public ToDoDocuments createFromParcel(Parcel source){
-            return new ToDoDocuments(source);
+            return new com.example.first_task_k__r__o__s__h.ToDoDocuments(source);
         }
 
         @Override
