@@ -7,10 +7,15 @@
 
     </item>
     <item
+        android:id="@+id/delete"
+        android:title="@string/delete"
+        app:showAsAction="always">
+
+    </item>
+    <item
         android:id="@+id/save"
         android:title="@string/save"
         app:showAsAction="always">
-
     </item>
 
 </menu>

@@ -1,5 +1,9 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,16 +13,27 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
+import java.util.Objects;
+
 
 public class Note extends AppCompatActivity {
-    private EditText mTitle;
+    private EditText txtToDoDetails;
+    private ToDoDocuments todoDocuments;
     public static final int RESULT_SAVE=100;
+    public static final int RESULT_DELETE=101;
+    private static final int NAME_LENGTH=20;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
-      //  ToDoDocuments toDoDocuments = (ToDoDocuments)getIntent().getSerializableExtra(MainActivity.TODO_DOCUMENT);
-      //  setTitle(toDoDocuments.getTitle());
+
+        txtToDoDetails = (EditText) findViewById(R.id.textToDoDetails);
+        todoDocuments = (ToDoDocuments)getIntent().getParcelableExtra("ToDoDocuments");
+
+        txtToDoDetails.setText(todoDocuments.getTitle());
+     //   getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -31,13 +46,38 @@ public class Note extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case R.id.back: {
-                setResult(RESULT_CANCELED);
+                if (txtToDoDetails.getText().toString().trim().length() == 0){
+                    setResult(RESULT_CANCELED);
+                }   else {
+                    saveDocument();
+                }
                 finish();
                 return true;
             }
             case R.id.save: {
-                setResult(RESULT_SAVE);
+                saveDocument();
                 finish();
+                return true;
+            }
+            case R.id.delete: {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.confirm_delete);
+
+                builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                setResult(RESULT_DELETE, getIntent());
+                                finish();
+                            }
+                        });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                    });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return true;
             }
             default:
@@ -46,12 +86,17 @@ public class Note extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-   public void buttonAdd(View v) {
-        mTitle = (EditText) findViewById(R.id.title);
-        String Titlee = mTitle.getText().toString();
-        Intent intent = new Intent(Note.this, MainActivity.class);
-        intent.putExtra("ToDoDocuments", new ToDoDocuments(Titlee));
-        Note.this.startActivity(intent);
+    private void saveDocument(){
+        StringBuilder sb = new StringBuilder(txtToDoDetails.getText());
+        todoDocuments.setTitle(sb.toString());
+
+        if (sb.length()>NAME_LENGTH){
+            sb.delete(NAME_LENGTH, sb.length()).append("...");
+        }
+        String tmpTitle = sb.toString().trim().split("\n")[0];
+        String title = (tmpTitle.length()>0) ? tmpTitle: todoDocuments.getTitle();
+        todoDocuments.setTitle(title);
+        setResult(RESULT_SAVE, getIntent());
     }
 
 }

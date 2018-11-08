@@ -7,16 +7,19 @@ import android.support.annotation.NonNull;
 
 public class ToDoDocuments implements Parcelable {
     private String title;
+    private int number;
+
 
     public ToDoDocuments(String title){
         this.title=title;
     }
-    public ToDoDocuments(){}
+    public ToDoDocuments(){};
 
     public ToDoDocuments(Parcel in){
-        String[] data = new String[1];
+        String[] data = new String[2];
         in.readStringArray(data);
         title=data[0];
+        number=Integer.parseInt(data[1]);
     }
 
     public void setTitle(String title){
@@ -27,6 +30,14 @@ public class ToDoDocuments implements Parcelable {
         return title;
     }
 
+    public void setNumber(int number){
+        this.number=number;
+    }
+
+    public int getNumber(){
+        return number;
+    }
+
     @Override
     public int describeContents(){
         return 0;
@@ -34,10 +45,10 @@ public class ToDoDocuments implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title});
+        dest.writeStringArray(new String[] {title, ""+number});
     }
+
     @NonNull
-    @Override
     public String toString(){
         return title;
     }
@@ -53,5 +64,13 @@ public class ToDoDocuments implements Parcelable {
         public ToDoDocuments[] newArray(int size){
             return new ToDoDocuments[size];
         }
+
     };
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof ToDoDocuments)) return false;
+        ToDoDocuments document = (ToDoDocuments) o;
+        return number == document.getNumber();
+    }
+
 }

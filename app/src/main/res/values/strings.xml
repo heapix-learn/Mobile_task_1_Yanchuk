@@ -31,4 +31,7 @@
     <string name="save">Сохранить</string>
     <string name="add_task">Добавить</string>
     <string name="exit">Выход</string>
+    <string name="delete">Удалить</string>
+    <string name="confirm_delete">Вы действительно хотетие удалить эту заметку?</string>
+    <string name="cancel">Отмена</string>
 </resources>
