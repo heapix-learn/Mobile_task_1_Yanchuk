@@ -33,6 +33,7 @@ public class Note extends AppCompatActivity {
         todoDocuments = (ToDoDocuments)getIntent().getParcelableExtra("ToDoDocuments");
 
         txtToDoDetails.setText(todoDocuments.getTitle());
+
      //   getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -93,9 +94,9 @@ public class Note extends AppCompatActivity {
         if (sb.length()>NAME_LENGTH){
             sb.delete(NAME_LENGTH, sb.length()).append("...");
         }
-        String tmpTitle = sb.toString().trim().split("\n")[0];
-        String title = (tmpTitle.length()>0) ? tmpTitle: todoDocuments.getTitle();
-        todoDocuments.setTitle(title);
+        String tmpContext = sb.toString().trim().split("\n")[0];
+        String context = (tmpContext.length()>0) ? tmpContext: todoDocuments.getContext();
+        todoDocuments.setContext(context);
         setResult(RESULT_SAVE, getIntent());
     }
 

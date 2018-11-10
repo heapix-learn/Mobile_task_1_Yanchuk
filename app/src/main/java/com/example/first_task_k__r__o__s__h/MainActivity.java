@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         listTasks = (ListView) findViewById(R.id.listViewRow);
         listTasks.setOnItemClickListener(new ListViewClickListener());
-
+        listTasks.setEmptyView(findViewById(R.id.emptyView));
         fillList();
     }
 
@@ -112,16 +113,20 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter.notifyDataSetChanged();
     }
     private void addDocument(ToDoDocuments toDoDocuments){
-    //    kol++;
-   //     toDoDocuments.setNumber(kol);
-        listDocuments.add(toDoDocuments);
-        toDoDocuments.setNumber(listDocuments.indexOf(toDoDocuments));
+        if (toDoDocuments.getNumber()==-1){
+            listDocuments.add(toDoDocuments);
+        }   else {
+            listDocuments.set(toDoDocuments.getNumber(), toDoDocuments);
+
+        }
+        Collections.sort(listDocuments);
         arrayAdapter.notifyDataSetChanged();
     }
     class ListViewClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
             ToDoDocuments toDoDocuments=(ToDoDocuments) parent.getAdapter().getItem(position);
+            toDoDocuments.setNumber(position);
             showDocuments(toDoDocuments);
         }
     }
