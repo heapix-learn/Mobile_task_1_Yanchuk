@@ -10,7 +10,5 @@ public class AppContext extends Application {
     public static final String FIELD_CREATE_DATE="createDate";
     public static final String FIELD_LOGIN="login";
     public static final String FIELD_CONTEXT="context";
-    public String getPrefsDir(){
-        return getApplicationInfo().dataDir+"/"+"shared_prefs";
-    }
+
 }

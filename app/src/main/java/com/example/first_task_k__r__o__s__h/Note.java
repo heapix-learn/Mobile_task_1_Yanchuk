@@ -104,10 +104,10 @@ public class Note extends AppCompatActivity {
 
     private void saveDocument(){
         StringBuilder sb = new StringBuilder(txtToDoDetails.getText());
-        todoDocuments.setTitle(sb.toString());
+
 
         StringBuilder ss= new StringBuilder(textNote.getText());
-        todoDocuments.setTextNote(ss.toString());
+
 
         if (sb.length()>NAME_LENGTH){
             sb.delete(NAME_LENGTH, sb.length()).append("...");
@@ -118,22 +118,24 @@ public class Note extends AppCompatActivity {
         String tmpContext = sb.toString().trim().split("\n")[0];
         String context = (tmpContext.length()>0) ? tmpContext: todoDocuments.getContext();
 
-        todoDocuments.setContext(context);
+
 
         if (todoDocuments.getContext()!=null && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
+            todoDocuments.setTitle(sb.toString());
+            todoDocuments.setTextNote(ss.toString());
+            todoDocuments.setContext(context);
             setResult(RESULT_CANCELED, getIntent());
         } else {
-
-            todoDocuments.setCreateDate(new Date());
+            todoDocuments.setTitle(sb.toString());
+            todoDocuments.setTextNote(ss.toString());
+            todoDocuments.setContext(context);
+            //todoDocuments.setCreateDate(new Date());
             setResult(RESULT_SAVE, getIntent());
 
         }
 
 
 
-
-
-        setResult(RESULT_SAVE, getIntent());
     }
 
 }

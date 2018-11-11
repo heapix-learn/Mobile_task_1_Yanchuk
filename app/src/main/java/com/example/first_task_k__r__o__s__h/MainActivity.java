@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fillList();
+        Collections.sort(listDocuments);
 
         listTasks = (ListView) findViewById(R.id.listViewRow);
         listTasks.setOnItemClickListener(new ListViewClickListener());
@@ -49,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        listDocuments.clear();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.exit:{
+                listDocuments.clear();
                 Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
             }
@@ -84,16 +90,23 @@ public class MainActivity extends AppCompatActivity {
         File prefer = new File(getApplicationInfo().dataDir, "shared_prefs");
         if (prefer.exists() && prefer.isDirectory()){
             String[] list = prefer.list();
+            Long d2000=Long.parseLong("946684800000");
             for (String aList : list) {
-                SharedPreferences sharedPref = getSharedPreferences(aList.replace(".xml", ""), Context.MODE_PRIVATE);
-                ToDoDocuments toDoDocuments = new ToDoDocuments();
-                toDoDocuments.setTitle(sharedPref.getString(AppContext.FIELD_TITLE, null));
-                toDoDocuments.setNumber(sharedPref.getInt(AppContext.FIELD_NUMBER, 0));
-                toDoDocuments.setCreateDate(new Date(sharedPref.getLong(AppContext.FIELD_CREATE_DATE, 0)));
-                toDoDocuments.setLogin(sharedPref.getString(AppContext.FIELD_LOGIN, null));
-                toDoDocuments.setContext(sharedPref.getString(AppContext.FIELD_CONTEXT, null));
-                toDoDocuments.setTextNote(sharedPref.getString(AppContext.FIELD_TEXT_NOTE, null));
-                listDocuments.add(toDoDocuments);
+
+                    SharedPreferences sharedPref = getSharedPreferences(aList.replace(".xml", ""), Context.MODE_PRIVATE);
+
+       /*         SharedPreferences.Editor editor = sharedPref.edit();
+                editor.remove(aList);
+                editor.apply();*/
+                    ToDoDocuments toDoDocuments = new ToDoDocuments();
+                    toDoDocuments.setTitle(sharedPref.getString(AppContext.FIELD_TITLE, null));
+                    toDoDocuments.setNumber(sharedPref.getInt(AppContext.FIELD_NUMBER, 0));
+                    toDoDocuments.setCreateDate(new Date(sharedPref.getLong(AppContext.FIELD_CREATE_DATE, 0)));
+                    toDoDocuments.setLogin(sharedPref.getString(AppContext.FIELD_LOGIN, null));
+                    toDoDocuments.setContext(sharedPref.getString(AppContext.FIELD_CONTEXT, null));
+                    toDoDocuments.setTextNote(sharedPref.getString(AppContext.FIELD_TEXT_NOTE, null));
+                    if (toDoDocuments.getCreateDate().getTime()>d2000) listDocuments.add(toDoDocuments);
+
             }
         }
 
@@ -133,20 +146,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deleteDocument(ToDoDocuments toDoDocuments){
-        File file = getCirrentTodoFile(toDoDocuments);
-        if (file.exists()) {
-            if (file.delete()) {
+        File prefer = new File(getApplicationInfo().dataDir, "shared_prefs");
+        File file;
+        if (prefer.exists() && prefer.isDirectory()){
+            String filePath = prefer.toString() + "/" + toDoDocuments.getCreateDate().getTime() + ".xml";
+                file= new File(filePath);
+                file.delete();
                 listDocuments.remove(toDoDocuments);
+
             }
 
-        }
+
         arrayAdapter.notifyDataSetChanged();
     }
 
-    private File getCirrentTodoFile(ToDoDocuments toDoDocuments){
-        String filePath = ((AppContext) getApplicationContext()).getPrefsDir() + "/" + toDoDocuments.getCreateDate().getTime() + ".xml";
-        return new File(filePath);
-    }
 
     private void addDocument(ToDoDocuments toDoDocuments){
         if (toDoDocuments.getNumber()==-1){

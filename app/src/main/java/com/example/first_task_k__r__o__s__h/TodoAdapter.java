@@ -2,6 +2,7 @@ package com.example.first_task_k__r__o__s__h;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,10 @@ public class TodoAdapter extends ArrayAdapter<ToDoDocuments> {
         this.list=list;
     }
 
-    @SuppressLint("ViewHolder")
+
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, @NonNull ViewGroup parent){
 
         if (convertView==null) {
 
