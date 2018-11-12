@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -102,10 +103,14 @@ public class MainActivity extends AppCompatActivity {
                     toDoDocuments.setTitle(sharedPref.getString(AppContext.FIELD_TITLE, null));
                     toDoDocuments.setNumber(sharedPref.getInt(AppContext.FIELD_NUMBER, 0));
                     toDoDocuments.setCreateDate(new Date(sharedPref.getLong(AppContext.FIELD_CREATE_DATE, 0)));
+                if (toDoDocuments.getCreateDate().getTime()>d2000) {
                     toDoDocuments.setLogin(sharedPref.getString(AppContext.FIELD_LOGIN, null));
                     toDoDocuments.setContext(sharedPref.getString(AppContext.FIELD_CONTEXT, null));
                     toDoDocuments.setTextNote(sharedPref.getString(AppContext.FIELD_TEXT_NOTE, null));
-                    if (toDoDocuments.getCreateDate().getTime()>d2000) listDocuments.add(toDoDocuments);
+                    toDoDocuments.setImagePath(Uri.parse(sharedPref.getString(AppContext.FIELD_IMAGE_PATH, null)));
+                    listDocuments.add(toDoDocuments);
+                }
+
 
             }
         }
@@ -135,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
                 case Note.RESULT_DELETE: {
                     ToDoDocuments toDoDocuments = (ToDoDocuments) data.getParcelableExtra("ToDoDocuments");
                     deleteDocument(toDoDocuments);
-
                     break;
                 }
+
                 default:
                     break;
 
@@ -156,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-
         arrayAdapter.notifyDataSetChanged();
     }
 
@@ -174,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString(AppContext.FIELD_LOGIN, toDoDocuments.getLogin());
                 editor.putString(AppContext.FIELD_CONTEXT, toDoDocuments.getContext());
                 editor.putString(AppContext.FIELD_TEXT_NOTE, toDoDocuments.getTextNote());
+                editor.putString(AppContext.FIELD_IMAGE_PATH, toDoDocuments.getImagePath().toString());
+
                 editor.apply();
             }   catch (Exception e){
                 //     log.e("error", e.getMessage());

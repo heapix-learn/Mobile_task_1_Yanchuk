@@ -1,9 +1,11 @@
 package com.example.first_task_k__r__o__s__h;
 
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+
 
 import java.util.Date;
 
@@ -14,16 +16,18 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
     private String login;
     private String context;
     private String textNote;
+    private Uri imagePath;
 
 
     public ToDoDocuments(){
         CreateDate=new Date();
         number=-1;
         login=LoginActivity.myUser.username;
+        imagePath = null;
     }
 
     public ToDoDocuments(Parcel in){
-        String[] data = new String[6];
+        String[] data = new String[7];
         in.readStringArray(data);
         title=data[0];
         number=Integer.parseInt(data[1]);
@@ -32,17 +36,17 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
         login=data[3];
         context=data[4];
         textNote=data[5];
-
+        imagePath= Uri.parse(data[6]);
     }
 
- /*   public String getImagePath() {
+    public Uri getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(String imagePath) {
+    public void setImagePath(Uri imagePath) {
         this.imagePath = imagePath;
     }
-*/
+
     public String getTextNote() {
         return textNote;
     }
@@ -98,7 +102,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath});
     }
 
     @NonNull

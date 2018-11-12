@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,8 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.Date;
 import java.util.Objects;
 
@@ -29,9 +33,12 @@ public class Note extends AppCompatActivity {
     private EditText txtToDoDetails;
     private EditText textNote;
     private ToDoDocuments todoDocuments;
+    private ImageView imageView;
     public static final int RESULT_SAVE=100;
     public static final int RESULT_DELETE=101;
+    static final int GALLERY_REQUEST = 1;
     private static final int NAME_LENGTH=20;
+
 
 
     @Override
@@ -40,9 +47,24 @@ public class Note extends AppCompatActivity {
         setContentView(R.layout.activity_note);
 
         txtToDoDetails = (EditText) findViewById(R.id.textToDoDetails);
+
         todoDocuments = (ToDoDocuments)getIntent().getParcelableExtra("ToDoDocuments");
         textNote=(EditText) findViewById(R.id.note_text);
+      /*  imageView = (ImageView) findViewById(R.id.imageView);
 
+        if (todoDocuments.getImagePath()!=null) {
+
+            Bitmap bitmap = null;
+
+            Uri selectedImage = todoDocuments.getImagePath();
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imageView.setImageBitmap(bitmap);
+        }*/
         txtToDoDetails.setText(todoDocuments.getTitle());
         textNote.setText(todoDocuments.getTextNote());
     }
@@ -94,12 +116,20 @@ public class Note extends AppCompatActivity {
                 return true;
             }
 
+            case R.id.gallery:{
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                return true;
+            }
 
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
     private void saveDocument(){
@@ -133,9 +163,29 @@ public class Note extends AppCompatActivity {
             setResult(RESULT_SAVE, getIntent());
 
         }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
+        Bitmap bitmap = null;
+        imageView = (ImageView) findViewById(R.id.imageView);
 
+        switch(requestCode) {
+            case GALLERY_REQUEST:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    assert selectedImage != null;
+                    todoDocuments.setImagePath(selectedImage);
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    imageView.setImageBitmap(bitmap);
+                }
+        }
     }
 
 }
