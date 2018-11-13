@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add_task: {
                 ToDoDocuments toDoDocuments = new ToDoDocuments();
-                toDoDocuments.setTitle(getResources().getString(R.string.new_document));
                 showDocuments(toDoDocuments);
                 return true;
             }
@@ -108,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     toDoDocuments.setContext(sharedPref.getString(AppContext.FIELD_CONTEXT, null));
                     toDoDocuments.setTextNote(sharedPref.getString(AppContext.FIELD_TEXT_NOTE, null));
                     toDoDocuments.setImagePath(Uri.parse(sharedPref.getString(AppContext.FIELD_IMAGE_PATH, null)));
+                    toDoDocuments.setLocation(sharedPref.getString(AppContext.FIELD_LOCATION, null));
                     listDocuments.add(toDoDocuments);
                 }
 
@@ -133,12 +133,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case Note.RESULT_SAVE: {
-                    ToDoDocuments toDoDocuments = (ToDoDocuments) data.getParcelableExtra("ToDoDocuments");
+                    ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
                     addDocument(toDoDocuments);
                     break;
                 }
                 case Note.RESULT_DELETE: {
-                    ToDoDocuments toDoDocuments = (ToDoDocuments) data.getParcelableExtra("ToDoDocuments");
+                    ToDoDocuments toDoDocuments = data.getParcelableExtra("ToDoDocuments");
                     deleteDocument(toDoDocuments);
                     break;
                 }
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString(AppContext.FIELD_CONTEXT, toDoDocuments.getContext());
                 editor.putString(AppContext.FIELD_TEXT_NOTE, toDoDocuments.getTextNote());
                 editor.putString(AppContext.FIELD_IMAGE_PATH, toDoDocuments.getImagePath().toString());
-
+                editor.putString(AppContext.FIELD_LOCATION, toDoDocuments.getLocation());
                 editor.apply();
             }   catch (Exception e){
                 //     log.e("error", e.getMessage());

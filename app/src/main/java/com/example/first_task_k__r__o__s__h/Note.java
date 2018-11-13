@@ -1,32 +1,20 @@
 package com.example.first_task_k__r__o__s__h;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.util.Date;
-import java.util.Objects;
 
-import static com.example.first_task_k__r__o__s__h.MainActivity.listDocuments;
 
 
 public class Note extends AppCompatActivity {
@@ -41,16 +29,23 @@ public class Note extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
+
         txtToDoDetails = (EditText) findViewById(R.id.textToDoDetails);
 
-        todoDocuments = (ToDoDocuments)getIntent().getParcelableExtra("ToDoDocuments");
+        todoDocuments = getIntent().getParcelableExtra("ToDoDocuments");
         textNote=(EditText) findViewById(R.id.note_text);
-      /*  imageView = (ImageView) findViewById(R.id.imageView);
+  /*      MyLocationListener.SetUpLocationListener(this);
+        if (todoDocuments.getLocation()==null) {
+            todoDocuments.setLocation("" + MyLocationListener.imHere.toString());
+        }*/
+
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         if (todoDocuments.getImagePath()!=null) {
 
@@ -64,7 +59,9 @@ public class Note extends AppCompatActivity {
                 e.printStackTrace();
             }
             imageView.setImageBitmap(bitmap);
-        }*/
+        }
+
+
         txtToDoDetails.setText(todoDocuments.getTitle());
         textNote.setText(todoDocuments.getTextNote());
     }

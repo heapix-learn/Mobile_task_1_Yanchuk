@@ -17,17 +17,18 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
     private String context;
     private String textNote;
     private Uri imagePath;
+    private String location;
 
 
     public ToDoDocuments(){
         CreateDate=new Date();
         number=-1;
         login=LoginActivity.myUser.username;
-        imagePath = null;
+
     }
 
     public ToDoDocuments(Parcel in){
-        String[] data = new String[7];
+        String[] data = new String[8];
         in.readStringArray(data);
         title=data[0];
         number=Integer.parseInt(data[1]);
@@ -37,6 +38,15 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
         context=data[4];
         textNote=data[5];
         imagePath= Uri.parse(data[6]);
+        location = data[7];
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Uri getImagePath() {
@@ -102,7 +112,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath, location});
     }
 
     @NonNull
