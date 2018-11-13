@@ -37,4 +37,6 @@
     <string name="empty_list">(заметок нет)</string>
     <string name="prompt_title">Заголовок</string>
     <string name="prompt_text">Примечания</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="geolocation">Геолокация</string>
 </resources>

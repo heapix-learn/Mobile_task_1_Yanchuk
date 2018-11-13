@@ -1,6 +1,7 @@
 package com.example.first_task_k__r__o__s__h;
 
 
+import android.location.Location;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,18 +18,20 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
     private String context;
     private String textNote;
     private Uri imagePath;
-    private String location;
+    private double locationLatitude;
+    private double locationLongitude;
 
 
     public ToDoDocuments(){
         CreateDate=new Date();
         number=-1;
         login=LoginActivity.myUser.username;
-
+        locationLongitude=-1000;
+        locationLatitude=-1000;
     }
 
     public ToDoDocuments(Parcel in){
-        String[] data = new String[8];
+        String[] data = new String[9];
         in.readStringArray(data);
         title=data[0];
         number=Integer.parseInt(data[1]);
@@ -38,15 +41,24 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
         context=data[4];
         textNote=data[5];
         imagePath= Uri.parse(data[6]);
-        location = data[7];
+        locationLatitude = Double.parseDouble(data[7]);
+        locationLongitude = Double.parseDouble(data[8]);
     }
 
-    public String getLocation() {
-        return location;
+    public double getLocationLatitude() {
+        return locationLatitude;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public double getLocationLongitude() {
+        return locationLongitude;
+    }
+
+    public void setLocationLatitude(double locationLatitude) {
+        this.locationLatitude = locationLatitude;
+    }
+
+    public void setLocationLongitude(double locationLongitude) {
+        this.locationLongitude = locationLongitude;
     }
 
     public Uri getImagePath() {
@@ -112,7 +124,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath, location});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath, ""+locationLatitude, ""+locationLongitude});
     }
 
     @NonNull

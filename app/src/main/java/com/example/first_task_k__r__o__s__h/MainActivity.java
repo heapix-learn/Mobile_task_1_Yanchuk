@@ -76,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
             }
+            case R.id.geolocation: {
+                Intent myIntent = new Intent(this, MapsActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
             default:
                 break;
         }
@@ -107,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                     toDoDocuments.setContext(sharedPref.getString(AppContext.FIELD_CONTEXT, null));
                     toDoDocuments.setTextNote(sharedPref.getString(AppContext.FIELD_TEXT_NOTE, null));
                     toDoDocuments.setImagePath(Uri.parse(sharedPref.getString(AppContext.FIELD_IMAGE_PATH, null)));
-                    toDoDocuments.setLocation(sharedPref.getString(AppContext.FIELD_LOCATION, null));
+
+                    toDoDocuments.setLocationLatitude(sharedPref.getFloat(AppContext.FIELD_LOCATION_LATITUDE, 0));
+                    toDoDocuments.setLocationLongitude(sharedPref.getFloat(AppContext.FIELD_LOCATION_LONGITUDE, 0));
                     listDocuments.add(toDoDocuments);
                 }
 
@@ -179,7 +185,10 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString(AppContext.FIELD_CONTEXT, toDoDocuments.getContext());
                 editor.putString(AppContext.FIELD_TEXT_NOTE, toDoDocuments.getTextNote());
                 editor.putString(AppContext.FIELD_IMAGE_PATH, toDoDocuments.getImagePath().toString());
-                editor.putString(AppContext.FIELD_LOCATION, toDoDocuments.getLocation());
+
+                editor.putFloat(AppContext.FIELD_LOCATION_LATITUDE, (float) toDoDocuments.getLocationLatitude());
+                editor.putFloat(AppContext.FIELD_LOCATION_LONGITUDE, (float) toDoDocuments.getLocationLongitude());
+
                 editor.apply();
             }   catch (Exception e){
                 //     log.e("error", e.getMessage());

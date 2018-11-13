@@ -10,6 +10,8 @@ public class AppContext extends Application {
     public static final String FIELD_CREATE_DATE="createDate";
     public static final String FIELD_LOGIN="login";
     public static final String FIELD_CONTEXT="context";
-    public static final String FIELD_IMAGE_PATH="image path";
-    public static final String FIELD_LOCATION="location";
+    public static final String FIELD_IMAGE_PATH="imagePath";
+    public static final String FIELD_LOCATION_LATITUDE="locationLatitude";
+    public static final String FIELD_LOCATION_LONGITUDE="locationLongitude";
+
 }

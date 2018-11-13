@@ -41,10 +41,12 @@ public class Note extends AppCompatActivity {
         todoDocuments = getIntent().getParcelableExtra("ToDoDocuments");
         textNote=(EditText) findViewById(R.id.note_text);
 
-        MyLocationListener.SetUpLocationListener(this);
 
-        if (todoDocuments.getLocation()==null) {
-            todoDocuments.setLocation("" + MyLocationListener.imHere);
+
+        if (todoDocuments.getLocationLatitude()==-1000 && todoDocuments.getLocationLongitude()==-1000) {
+            MyLocationListener.SetUpLocationListener(this);
+            todoDocuments.setLocationLatitude(MyLocationListener.imHere.getLatitude());
+            todoDocuments.setLocationLongitude(MyLocationListener.imHere.getLongitude());
         }
 
         imageView = (ImageView) findViewById(R.id.imageView);
