@@ -40,17 +40,18 @@ public class Note extends AppCompatActivity {
 
         todoDocuments = getIntent().getParcelableExtra("ToDoDocuments");
         textNote=(EditText) findViewById(R.id.note_text);
-  /*      MyLocationListener.SetUpLocationListener(this);
+
+        MyLocationListener.SetUpLocationListener(this);
+
         if (todoDocuments.getLocation()==null) {
-            todoDocuments.setLocation("" + MyLocationListener.imHere.toString());
-        }*/
+            todoDocuments.setLocation("" + MyLocationListener.imHere);
+        }
 
         imageView = (ImageView) findViewById(R.id.imageView);
 
         if (todoDocuments.getImagePath()!=null) {
 
             Bitmap bitmap = null;
-
             Uri selectedImage = todoDocuments.getImagePath();
 
             try {
