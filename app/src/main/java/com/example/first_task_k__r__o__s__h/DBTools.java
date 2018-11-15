@@ -62,7 +62,7 @@ public class DBTools extends SQLiteOpenHelper {
         values.put("username", queryValues.username);
         values.put("password", queryValues.password);
         queryValues.userId=database.insert("logins", null, values);
-        database.close();
+                database.close();
         return database.update("logins", values, "userId = ?", new String[] {String.valueOf(queryValues.userId)});
     }
 

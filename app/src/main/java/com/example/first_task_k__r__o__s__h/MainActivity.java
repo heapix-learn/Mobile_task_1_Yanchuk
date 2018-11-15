@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -28,6 +29,8 @@ import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
+
+
     private ListView listTasks;
     public static String TODO_DOCUMENT = "ToDoDocuments";
     public static int TODO_NOTE_REQUEST=1;
@@ -75,10 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 listDocuments.clear();
                 Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
+                return true;
             }
             case R.id.geolocation: {
                 Intent myIntent = new Intent(this, MapsActivity.class);
                 MainActivity.this.startActivity(myIntent);
+                return true;
             }
             default:
                 break;
@@ -89,42 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fillList(){
-
-
-        File prefer = new File(getApplicationInfo().dataDir, "shared_prefs");
-        if (prefer.exists() && prefer.isDirectory()){
-            String[] list = prefer.list();
-            Long d2000=Long.parseLong("946684800000");
-            for (String aList : list) {
-
-                    SharedPreferences sharedPref = getSharedPreferences(aList.replace(".xml", ""), Context.MODE_PRIVATE);
-
-       /*         SharedPreferences.Editor editor = sharedPref.edit();
-                editor.remove(aList);
-                editor.apply();*/
-                    ToDoDocuments toDoDocuments = new ToDoDocuments();
-                    toDoDocuments.setTitle(sharedPref.getString(AppContext.FIELD_TITLE, null));
-                    toDoDocuments.setNumber(sharedPref.getInt(AppContext.FIELD_NUMBER, 0));
-                    toDoDocuments.setCreateDate(new Date(sharedPref.getLong(AppContext.FIELD_CREATE_DATE, 0)));
-                if (toDoDocuments.getCreateDate().getTime()>d2000) {
-                    toDoDocuments.setLogin(sharedPref.getString(AppContext.FIELD_LOGIN, null));
-                    toDoDocuments.setContext(sharedPref.getString(AppContext.FIELD_CONTEXT, null));
-                    toDoDocuments.setTextNote(sharedPref.getString(AppContext.FIELD_TEXT_NOTE, null));
-                    toDoDocuments.setImagePath(Uri.parse(sharedPref.getString(AppContext.FIELD_IMAGE_PATH, null)));
-
-                    toDoDocuments.setLocationLatitude(sharedPref.getFloat(AppContext.FIELD_LOCATION_LATITUDE, 0));
-                    toDoDocuments.setLocationLongitude(sharedPref.getFloat(AppContext.FIELD_LOCATION_LONGITUDE, 0));
-                    listDocuments.add(toDoDocuments);
-                }
-
-
-            }
-        }
-
-
+        DBNotes database = new DBNotes(this);
+        listDocuments=database.getNote(LoginActivity.myUser.username);
+        database.close();
     }
+
     private void showDocuments(ToDoDocuments toDoDocuments){
         Intent myIntent = new Intent(this, Note.class);
+
         myIntent.putExtra(TODO_DOCUMENT,toDoDocuments);
         startActivityForResult(myIntent, TODO_NOTE_REQUEST);
     }
@@ -133,18 +110,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode ,Intent data){
         if (requestCode == TODO_NOTE_REQUEST){
 
+            DBNotes database = new DBNotes(this);
+
 
             switch(resultCode){
                 case RESULT_CANCELED: {
+                    ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
+                    database.insertNote(toDoDocuments);
                     break;
                 }
                 case Note.RESULT_SAVE: {
                     ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
                     addDocument(toDoDocuments);
+                    database.insertNote(toDoDocuments);
                     break;
                 }
                 case Note.RESULT_DELETE: {
                     ToDoDocuments toDoDocuments = data.getParcelableExtra("ToDoDocuments");
+
                     deleteDocument(toDoDocuments);
                     break;
                 }
@@ -153,49 +136,24 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
             }
+            database.close();
         }
     }
 
     public void deleteDocument(ToDoDocuments toDoDocuments){
-        File prefer = new File(getApplicationInfo().dataDir, "shared_prefs");
-        File file;
-        if (prefer.exists() && prefer.isDirectory()){
-            String filePath = prefer.toString() + "/" + toDoDocuments.getCreateDate().getTime() + ".xml";
-                file= new File(filePath);
-                file.delete();
-                listDocuments.remove(toDoDocuments);
-
-            }
-
+        listDocuments.remove(toDoDocuments);
         arrayAdapter.notifyDataSetChanged();
+
     }
 
 
     private void addDocument(ToDoDocuments toDoDocuments){
-        if (toDoDocuments.getNumber()==-1){
+        if (toDoDocuments.getNumber()==-1) {
+            toDoDocuments.setNumber(listDocuments.size());
             listDocuments.add(toDoDocuments);
-            try{
 
-                SharedPreferences sharedPref= getSharedPreferences(String.valueOf(toDoDocuments.getCreateDate().getTime()), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(AppContext.FIELD_TITLE, toDoDocuments.getTitle());
-                editor.putInt(AppContext.FIELD_NUMBER, toDoDocuments.getNumber());
-                editor.putLong(AppContext.FIELD_CREATE_DATE, toDoDocuments.getCreateDate().getTime());
-                editor.putString(AppContext.FIELD_LOGIN, toDoDocuments.getLogin());
-                editor.putString(AppContext.FIELD_CONTEXT, toDoDocuments.getContext());
-                editor.putString(AppContext.FIELD_TEXT_NOTE, toDoDocuments.getTextNote());
-                editor.putString(AppContext.FIELD_IMAGE_PATH, toDoDocuments.getImagePath().toString());
-
-                editor.putFloat(AppContext.FIELD_LOCATION_LATITUDE, (float) toDoDocuments.getLocationLatitude());
-                editor.putFloat(AppContext.FIELD_LOCATION_LONGITUDE, (float) toDoDocuments.getLocationLongitude());
-
-                editor.apply();
-            }   catch (Exception e){
-                //     log.e("error", e.getMessage());
-            }
         }   else {
             listDocuments.set(toDoDocuments.getNumber(), toDoDocuments);
-
         }
         Collections.sort(listDocuments);
         arrayAdapter.notifyDataSetChanged();

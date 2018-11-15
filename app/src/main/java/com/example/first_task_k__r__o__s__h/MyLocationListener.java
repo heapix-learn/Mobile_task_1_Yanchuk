@@ -29,7 +29,7 @@ class MyLocationListener implements LocationListener {
             return;
         }
 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 100, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 1, locationListener);
 
         imHere = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 

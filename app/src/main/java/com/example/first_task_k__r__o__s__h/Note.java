@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import java.io.IOException;
 
 
-
 public class Note extends AppCompatActivity {
     private EditText txtToDoDetails;
     private EditText textNote;
@@ -36,6 +35,7 @@ public class Note extends AppCompatActivity {
         setContentView(R.layout.activity_note);
 
 
+
         txtToDoDetails = (EditText) findViewById(R.id.textToDoDetails);
 
         todoDocuments = getIntent().getParcelableExtra("ToDoDocuments");
@@ -47,6 +47,11 @@ public class Note extends AppCompatActivity {
             MyLocationListener.SetUpLocationListener(this);
             todoDocuments.setLocationLatitude(MyLocationListener.imHere.getLatitude());
             todoDocuments.setLocationLongitude(MyLocationListener.imHere.getLongitude());
+        }
+        else {
+            DBNotes database = new DBNotes(this);
+            database.deleteNote(todoDocuments);
+            database.close();
         }
 
         imageView = (ImageView) findViewById(R.id.imageView);

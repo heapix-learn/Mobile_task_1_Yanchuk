@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,43 +46,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        List<ToDoDocuments> listDocuments= new ArrayList<ToDoDocuments>();
         // Add a marker in Sydney and move the camera
 
-        File prefer = new File(getApplicationInfo().dataDir, "shared_prefs");
-        if (prefer.exists() && prefer.isDirectory()){
-            String[] list = prefer.list();
-            Long d2000=Long.parseLong("946684800000");
-            for (String aList : list) {
+        DBNotes database = new DBNotes(this);
+        listDocuments = database.getNote(LoginActivity.myUser.username);
+        database.close();
 
-                SharedPreferences sharedPref = getSharedPreferences(aList.replace(".xml", ""), Context.MODE_PRIVATE);
-
-       /*         SharedPreferences.Editor editor = sharedPref.edit();
-                editor.remove(aList);
-                editor.apply();*/
-                ToDoDocuments toDoDocuments = new ToDoDocuments();
-                toDoDocuments.setTitle(sharedPref.getString(AppContext.FIELD_TITLE, null));
-                toDoDocuments.setNumber(sharedPref.getInt(AppContext.FIELD_NUMBER, 0));
-                toDoDocuments.setCreateDate(new Date(sharedPref.getLong(AppContext.FIELD_CREATE_DATE, 0)));
-                if (toDoDocuments.getCreateDate().getTime()>d2000) {
-                    toDoDocuments.setLogin(sharedPref.getString(AppContext.FIELD_LOGIN, null));
-                    toDoDocuments.setContext(sharedPref.getString(AppContext.FIELD_CONTEXT, null));
-                    toDoDocuments.setTextNote(sharedPref.getString(AppContext.FIELD_TEXT_NOTE, null));
-                    toDoDocuments.setImagePath(Uri.parse(sharedPref.getString(AppContext.FIELD_IMAGE_PATH, null)));
-
-                    toDoDocuments.setLocationLatitude(sharedPref.getFloat(AppContext.FIELD_LOCATION_LATITUDE, 0));
-                    toDoDocuments.setLocationLongitude(sharedPref.getFloat(AppContext.FIELD_LOCATION_LONGITUDE, 0));
-
-                    LatLng position = new LatLng(toDoDocuments.getLocationLatitude(),toDoDocuments.getLocationLongitude());
-
-                    mMap.addMarker(new MarkerOptions().position(position).title(toDoDocuments.getContext()));
-                   // mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
-                }
-
-
-            }
+        for (int i=0; i<listDocuments.size(); i++) {
+            ToDoDocuments toDoDocuments = listDocuments.get(i);
+            LatLng position = new LatLng(toDoDocuments.getLocationLatitude(), toDoDocuments.getLocationLongitude());
+            mMap.addMarker(new MarkerOptions().position(position).title(toDoDocuments.getTitle()));
+        //    mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
         }
-
 
 
 
@@ -89,6 +66,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(position).title("Title"));
 */
-
     }
 }
