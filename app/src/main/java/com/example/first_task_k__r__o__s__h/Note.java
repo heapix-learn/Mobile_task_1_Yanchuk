@@ -1,17 +1,23 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -19,12 +25,14 @@ import java.io.IOException;
 public class Note extends AppCompatActivity {
     private EditText txtToDoDetails;
     private EditText textNote;
+    private Switch switch_;
     private ToDoDocuments todoDocuments;
     private ImageView imageView;
     public static final int RESULT_SAVE=100;
     public static final int RESULT_DELETE=101;
     static final int GALLERY_REQUEST = 1;
     private static final int NAME_LENGTH=20;
+    private Menu menu1;
 
 
 
@@ -43,10 +51,9 @@ public class Note extends AppCompatActivity {
 
 
 
-        if (todoDocuments.getLocationLatitude()==-1000 && todoDocuments.getLocationLongitude()==-1000) {
+        if (todoDocuments.getLocationLatitude()<-999 && todoDocuments.getLocationLongitude()<-999) {
             MyLocationListener.SetUpLocationListener(this);
-            todoDocuments.setLocationLatitude(MyLocationListener.imHere.getLatitude());
-            todoDocuments.setLocationLongitude(MyLocationListener.imHere.getLongitude());
+            todoDocuments.setLocation("" + MyLocationListener.imHere.getLatitude()+"/"+MyLocationListener.imHere.getLongitude());
         }
         else {
             DBNotes database = new DBNotes(this);
@@ -70,13 +77,24 @@ public class Note extends AppCompatActivity {
         }
 
 
+
         txtToDoDetails.setText(todoDocuments.getTitle());
         textNote.setText(todoDocuments.getTextNote());
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.todo_details, menu);
+
+        if (todoDocuments.getAccess()==0) {
+            MenuItem item = menu.findItem(R.id.publicc);
+            item.setChecked(true);
+        }
+        else {
+            MenuItem item = menu.findItem(R.id.privatee);
+            item.setChecked(true);
+        }
         return true;
     }
 
@@ -84,7 +102,18 @@ public class Note extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+
         switch (item.getItemId()) {
+            case R.id.privatee: {
+                item.setChecked(true);
+                todoDocuments.setAccess(1);
+                return true;
+            }
+            case R.id.publicc: {
+                item.setChecked(true);
+                todoDocuments.setAccess(0);
+                return true;
+            }
             case R.id.back: {
                 if (txtToDoDetails.getText().toString().trim().length() == 0){
                     setResult(RESULT_CANCELED);

@@ -39,4 +39,8 @@
     <string name="prompt_text">Примечания</string>
     <string name="title_activity_maps">Map</string>
     <string name="geolocation">Геолокация</string>
+    <string name="access">Доступ</string>
+    <string name="public_access">Открытый</string>
+    <string name="private_access">Закрытый</string>
+
 </resources>

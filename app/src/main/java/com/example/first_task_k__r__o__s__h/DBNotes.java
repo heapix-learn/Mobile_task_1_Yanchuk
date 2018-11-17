@@ -21,17 +21,17 @@ public class DBNotes extends SQLiteOpenHelper {
     public final static String KEY_CONTEXT="context";
     public final static String KEY_TEXT_NOTE="textNote";
     public final static String KEY_IMAGE_PATH="imagePath";
-    public final static String KEY_LOCATION_LATITUDE="locationLatitude";
-    public final static String KEY_LOCATION_LONGITUDE="locationLongitude";
+    public final static String KEY_LOCATION="location";
+    public final static String KEY_ACCESS="access";
     public final static String KEY_TABLE_NAME="notes";
 
     public DBNotes(Context context) {
-        super(context, "DBNote_s.db", null,DB_VERSION);
+        super(context, "DBNotes_.db", null,DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String table="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_CONTEXT + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION_LATITUDE + " Float," + KEY_LOCATION_LONGITUDE + " Float)";
+        String table="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_CONTEXT + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
         sqLiteDatabase.execSQL(table);
     }
 
@@ -41,7 +41,7 @@ public class DBNotes extends SQLiteOpenHelper {
             System.out.println("UPGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
             recreateDb(sqLiteDatabase);
             if (oldVersion<10){
-                String query="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_CONTEXT + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION_LATITUDE + " Float," + KEY_LOCATION_LONGITUDE + " Float)";
+                String query="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_CONTEXT + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
                 sqLiteDatabase.execSQL(query);
             }
         }
@@ -59,8 +59,8 @@ public class DBNotes extends SQLiteOpenHelper {
         values.put(KEY_CONTEXT, queryValues.getContext());
         values.put(KEY_TEXT_NOTE, queryValues.getTextNote());
         values.put(KEY_IMAGE_PATH, queryValues.getImagePath().toString());
-        values.put(KEY_LOCATION_LATITUDE, queryValues.getLocationLatitude());
-        values.put(KEY_LOCATION_LONGITUDE, queryValues.getLocationLongitude());
+        values.put(KEY_LOCATION, queryValues.getLocation());
+        values.put(KEY_ACCESS, queryValues.getAccess());
         database.insert(KEY_TABLE_NAME, null, values);
 
         database.close();
@@ -89,8 +89,8 @@ public class DBNotes extends SQLiteOpenHelper {
                 myNote.setContext(cursor.getString(4));
                 myNote.setTextNote(cursor.getString(5));
                 myNote.setImagePath(Uri.parse(cursor.getString(6)));
-                myNote.setLocationLatitude(cursor.getFloat(7));
-                myNote.setLocationLongitude(cursor.getFloat(8));
+                myNote.setLocation(cursor.getString(7));
+                myNote.setAccess(cursor.getInt(8));
                 read.add(myNote);
             } while (cursor.moveToNext());
         }

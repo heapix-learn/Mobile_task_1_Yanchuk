@@ -18,16 +18,17 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
     private String context;
     private String textNote;
     private Uri imagePath;
-    private double locationLatitude;
-    private double locationLongitude;
+    private String location;
+    private int access;
+
 
 
     public ToDoDocuments(){
         CreateDate=new Date();
         number=-1;
         login=LoginActivity.myUser.username;
-        locationLongitude=-1000;
-        locationLatitude=-1000;
+        location="-1000/-1000";
+        access=0;
     }
 
     public ToDoDocuments(Parcel in){
@@ -41,24 +42,42 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
         context=data[4];
         textNote=data[5];
         imagePath= Uri.parse(data[6]);
-        locationLatitude = Double.parseDouble(data[7]);
-        locationLongitude = Double.parseDouble(data[8]);
+        location = data[7];
+        access = Integer.parseInt(data[8]);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getAccess() {
+        return access;
+    }
+
+    public void setAccess(int access) {
+        this.access = access;
     }
 
     public double getLocationLatitude() {
-        return locationLatitude;
+        StringBuilder help= new StringBuilder();
+        for (int i=0; i<location.length(); i++){
+            if (location.charAt(i) == '/') break;
+            else help.append(location.charAt(i));
+        }
+        return Double.parseDouble(help.toString());
     }
 
     public double getLocationLongitude() {
-        return locationLongitude;
+        StringBuilder help= new StringBuilder();
+        for (int i=location.length()-1; i>=0; i--){
+            if (location.charAt(i) == '/') break;
+            else help.insert(0, location.charAt(i));
+        }
+        return Double.parseDouble(help.toString());
     }
 
-    public void setLocationLatitude(double locationLatitude) {
-        this.locationLatitude = locationLatitude;
-    }
-
-    public void setLocationLongitude(double locationLongitude) {
-        this.locationLongitude = locationLongitude;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Uri getImagePath() {
@@ -124,7 +143,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath, ""+locationLatitude, ""+locationLongitude});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath, location, ""+access});
     }
 
     @NonNull
