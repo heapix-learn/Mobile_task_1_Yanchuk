@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillList(){
         DBNotes database = new DBNotes(this);
-        listDocuments=database.getNote(LoginActivity.myUser.username);
+        listDocuments=database.getNotesAllMy(LoginActivity.myUser.username);
         database.close();
     }
 

@@ -50,7 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
 
         DBNotes database = new DBNotes(this);
-        listDocuments = database.getNote(LoginActivity.myUser.username);
+        listDocuments = database.getNotesAllPublic(LoginActivity.myUser.username);
+        listDocuments.addAll(database.getNotesMy_Access1(LoginActivity.myUser.username));
         database.close();
 
         for (int i=0; i<listDocuments.size(); i++) {

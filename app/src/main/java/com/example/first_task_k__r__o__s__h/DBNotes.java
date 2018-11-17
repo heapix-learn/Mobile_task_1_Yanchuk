@@ -71,7 +71,32 @@ public class DBNotes extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public  List<ToDoDocuments> getNote (String login){
+    public  List<ToDoDocuments> getNotesMy_Access1 (String login){
+        List<ToDoDocuments> read = new ArrayList<ToDoDocuments>();
+
+        String query = "select * from "+KEY_TABLE_NAME+" where login = '"+login+"'" + " and access = '"+1+"'";
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                ToDoDocuments myNote = new ToDoDocuments();
+                myNote.setTitle(cursor.getString(0));
+                myNote.setNumber(cursor.getInt(1));
+                myNote.setCreateDate(new Date(cursor.getLong(2)));
+                myNote.setLogin(cursor.getString(3));
+                myNote.setContext(cursor.getString(4));
+                myNote.setTextNote(cursor.getString(5));
+                myNote.setImagePath(Uri.parse(cursor.getString(6)));
+                myNote.setLocation(cursor.getString(7));
+                myNote.setAccess(cursor.getInt(8));
+                read.add(myNote);
+            } while (cursor.moveToNext());
+        }
+        return read;
+    }
+    public  List<ToDoDocuments> getNotesAllMy (String login){
         List<ToDoDocuments> read = new ArrayList<ToDoDocuments>();
 
         String query = "select * from "+KEY_TABLE_NAME+" where login = '"+login+"'";
@@ -96,7 +121,31 @@ public class DBNotes extends SQLiteOpenHelper {
         }
         return read;
     }
+    public  List<ToDoDocuments> getNotesAllPublic (String login){
+        List<ToDoDocuments> read = new ArrayList<ToDoDocuments>();
 
+        String query = "select * from "+KEY_TABLE_NAME+" where access = '"+0+"'";
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                ToDoDocuments myNote = new ToDoDocuments();
+                myNote.setTitle(cursor.getString(0));
+                myNote.setNumber(cursor.getInt(1));
+                myNote.setCreateDate(new Date(cursor.getLong(2)));
+                myNote.setLogin(cursor.getString(3));
+                myNote.setContext(cursor.getString(4));
+                myNote.setTextNote(cursor.getString(5));
+                myNote.setImagePath(Uri.parse(cursor.getString(6)));
+                myNote.setLocation(cursor.getString(7));
+                myNote.setAccess(cursor.getInt(8));
+                read.add(myNote);
+            } while (cursor.moveToNext());
+        }
+        return read;
+    }
     public void deleteNote (ToDoDocuments doc){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(KEY_TABLE_NAME, KEY_CREATE_DATE+" = " + doc.getCreateDate().getTime(), null);
