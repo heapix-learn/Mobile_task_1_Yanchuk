@@ -5,6 +5,9 @@ public class User {
     public String username;
     public String password;
 
+    public User(){}
+
+
     public User(long userId, String username, String password){
         this.userId=userId;
         this.username=username;
