@@ -2,18 +2,33 @@ package com.example.first_task_k__r__o__s__h;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private List<LatLng> myPosition;
+
+    private ClusterManager<ToDoDocuments> mClusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +61,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-        List<ToDoDocuments> listDocuments= new ArrayList<ToDoDocuments>();
+
+
         // Add a marker in Sydney and move the camera
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker arg0) {
+
+                // Getting view from the layout file info_window_layout
+                View v = getLayoutInflater().inflate(R.layout.info_window, null);
+
+                // Getting the snippet from the marker
+                String snippet = arg0.getSnippet();
+
+                // Getting the snippet from the marker
+                String titlestr = arg0.getTitle();
+
+                String cutchar1= "%#";
+                String cutchar2= "%##";
+                String ratingstr = snippet.substring(0,snippet.indexOf(cutchar1));
+                String vicinitystr = snippet.substring(snippet.indexOf(cutchar1)+2, snippet.indexOf(cutchar2));
+                String iconurl= snippet.substring(snippet.indexOf(cutchar2)+3);
+
+                // Getting reference to the TextView to set latitude
+                TextView title = (TextView) v.findViewById(R.id.place_title);
+
+                TextView vicinity = (TextView) v.findViewById(R.id.place_vicinity);
+
+                ImageView image = (ImageView) v.findViewById(R.id.place_icon);
+
+                // Setting the latitude
+                title.setText(titlestr);
+
+                vicinity.setText(vicinitystr);
+
+               Picasso.with(MapsActivity.this).load(Uri.parse(iconurl)).resize(250,250).into(image);
+
+                return v;
+
+            }
+        });
+
+        setUpClusterer();
+
+    }
+    private void setUpClusterer() {
+        mClusterManager = new ClusterManager<ToDoDocuments>(this, mMap);
+
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+
+        addItems();
+    }
+
+    private void addItems() {
+        List<ToDoDocuments> listDocuments= new ArrayList<ToDoDocuments>();
+
+        // Set some lat/lng coordinates to start with.
 
         DBNotes database = new DBNotes(this);
         listDocuments = database.getNotesAllPublic(LoginActivity.myUser.username);
@@ -56,16 +136,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (int i=0; i<listDocuments.size(); i++) {
             ToDoDocuments toDoDocuments = listDocuments.get(i);
-            LatLng position = new LatLng(toDoDocuments.getLocationLatitude(), toDoDocuments.getLocationLongitude());
-            mMap.addMarker(new MarkerOptions().position(position).title(toDoDocuments.getTitle()));
-        //    mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+            mClusterManager.addItem(toDoDocuments);
         }
 
 
 
-     /*   LatLng position = new LatLng(10,20);
-
-        mMap.addMarker(new MarkerOptions().position(position).title("Title"));
-*/
     }
 }

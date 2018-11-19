@@ -8,9 +8,12 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+
 import java.util.Date;
 
-public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
+public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, ClusterItem {
     private String title;
     private int number;
     private Date CreateDate;
@@ -174,6 +177,16 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments> {
     @Override
     public int compareTo(ToDoDocuments another){
         return another.getCreateDate().compareTo(CreateDate);
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return new LatLng(getLocationLatitude(), getLocationLongitude());
+    }
+
+    @Override
+    public String getSnippet() {
+        return getNumber()+"%#"+getTextNote()+"%##"+getImagePath();
     }
 
 }
