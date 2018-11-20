@@ -1,38 +1,33 @@
 package com.example.first_task_k__r__o__s__h;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.Toast;
-
+import android.widget.MediaController;
+import android.widget.VideoView;
 import java.io.IOException;
 
 
 public class Note extends AppCompatActivity {
     private EditText txtToDoDetails;
     private EditText textNote;
-    private Switch switch_;
     private ToDoDocuments todoDocuments;
     private ImageView imageView;
+    private VideoView videoView;
     public static final int RESULT_SAVE=100;
     public static final int RESULT_DELETE=101;
     static final int GALLERY_REQUEST = 1;
     private static final int NAME_LENGTH=20;
-    private Menu menu1;
     private boolean update=false;
 
 
@@ -62,10 +57,10 @@ public class Note extends AppCompatActivity {
             database.close();
         }
 
-        imageView = (ImageView) findViewById(R.id.imageView);
 
-        if (todoDocuments.getImagePath()!=null) {
 
+        if (!todoDocuments.getImagePath().toString().equals("null")) {
+            imageView = (ImageView) findViewById(R.id.imageView);
             Bitmap bitmap = null;
             Uri selectedImage = todoDocuments.getImagePath();
 
@@ -75,6 +70,18 @@ public class Note extends AppCompatActivity {
                 e.printStackTrace();
             }
             imageView.setImageBitmap(bitmap);
+        }
+
+
+
+        if (!todoDocuments.getVideoPath().toString().equals("null")) {
+            videoView = (VideoView) findViewById(R.id.videoView);
+            videoView.setVisibility(View.VISIBLE);
+            Uri selectedVideo = todoDocuments.getVideoPath();
+            videoView.setVideoURI(selectedVideo);
+            videoView.setMediaController(new MediaController(this));
+            videoView.requestFocus(0);
+ //           videoView.start(); // начинаем воспроизведение автоматически
         }
 
 
@@ -155,7 +162,8 @@ public class Note extends AppCompatActivity {
 
             case R.id.gallery:{
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
+                photoPickerIntent.setType("video/* image/*");
+
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
                 update=true;
                 return true;
@@ -183,20 +191,13 @@ public class Note extends AppCompatActivity {
 
 
 
-        String tmpContext = sb.toString().trim().split("\n")[0];
-        String context = (tmpContext.length()>0) ? tmpContext: todoDocuments.getContext();
-
-
-
-        if (update == false && todoDocuments.getContext()!=null && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
+        if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
             todoDocuments.setTitle(sb.toString());
             todoDocuments.setTextNote(ss.toString());
-            todoDocuments.setContext(context);
             setResult(RESULT_CANCELED, getIntent());
         } else {
             todoDocuments.setTitle(sb.toString());
             todoDocuments.setTextNote(ss.toString());
-            todoDocuments.setContext(context);
             //todoDocuments.setCreateDate(new Date());
             setResult(RESULT_SAVE, getIntent());
 
@@ -210,20 +211,43 @@ public class Note extends AppCompatActivity {
         Bitmap bitmap = null;
         imageView = (ImageView) findViewById(R.id.imageView);
 
+
         switch(requestCode) {
             case GALLERY_REQUEST:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    assert selectedImage != null;
-                    todoDocuments.setImagePath(selectedImage);
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if (resultCode == RESULT_OK) {
+
+                    switch (checkType(imageReturnedIntent.getData().toString())) {
+                        case 0:
+                            Uri selectedImage = imageReturnedIntent.getData();
+                            assert selectedImage != null;
+                            todoDocuments.setImagePath(selectedImage);
+                            try {
+                                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            imageView.setImageBitmap(bitmap);
+                            break;
+                        case 1:
+                            videoView = (VideoView) findViewById(R.id.videoView);
+                            videoView.setVisibility(View.VISIBLE);
+                            Uri selectedVideo = imageReturnedIntent.getData();
+                            todoDocuments.setVideoPath(selectedVideo);
+                            videoView.setVideoURI(selectedVideo);
+                            videoView.setMediaController(new MediaController(this));
+                            videoView.requestFocus(0);
+                           // videoView.start(); // начинаем воспроизведение автоматически
+                            break;
                     }
-                    imageView.setImageBitmap(bitmap);
+
                 }
         }
     }
 
+    private int checkType(String str){
+
+        int index = str.lastIndexOf("/images/");
+        if (index!=-1) return 0;
+        else return 1;
+    }
 }

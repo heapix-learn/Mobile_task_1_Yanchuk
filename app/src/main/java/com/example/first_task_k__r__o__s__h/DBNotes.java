@@ -18,7 +18,7 @@ public class DBNotes extends SQLiteOpenHelper {
     public final static String KEY_NUMBER="number";
     public final static String KEY_CREATE_DATE="CreateDate";
     public final static String KEY_LOGIN="login";
-    public final static String KEY_CONTEXT="context";
+    public final static String KEY_VIDEO_PATH="videoPath";
     public final static String KEY_TEXT_NOTE="textNote";
     public final static String KEY_IMAGE_PATH="imagePath";
     public final static String KEY_LOCATION="location";
@@ -31,7 +31,7 @@ public class DBNotes extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String table="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_CONTEXT + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
+        String table="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_VIDEO_PATH + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
         sqLiteDatabase.execSQL(table);
     }
 
@@ -41,7 +41,7 @@ public class DBNotes extends SQLiteOpenHelper {
             System.out.println("UPGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
             recreateDb(sqLiteDatabase);
             if (oldVersion<10){
-                String query="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_CONTEXT + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
+                String query="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_VIDEO_PATH + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
                 sqLiteDatabase.execSQL(query);
             }
         }
@@ -56,7 +56,7 @@ public class DBNotes extends SQLiteOpenHelper {
         values.put(KEY_NUMBER, queryValues.getNumber());
         values.put(KEY_CREATE_DATE, queryValues.getCreateDate().getTime());
         values.put(KEY_LOGIN, queryValues.getLogin());
-        values.put(KEY_CONTEXT, queryValues.getContext());
+        values.put(KEY_VIDEO_PATH, queryValues.getVideoPath().toString());
         values.put(KEY_TEXT_NOTE, queryValues.getTextNote());
         values.put(KEY_IMAGE_PATH, queryValues.getImagePath().toString());
         values.put(KEY_LOCATION, queryValues.getLocation());
@@ -86,7 +86,7 @@ public class DBNotes extends SQLiteOpenHelper {
                 myNote.setNumber(cursor.getInt(1));
                 myNote.setCreateDate(new Date(cursor.getLong(2)));
                 myNote.setLogin(cursor.getString(3));
-                myNote.setContext(cursor.getString(4));
+                myNote.setVideoPath(Uri.parse(cursor.getString(4)));
                 myNote.setTextNote(cursor.getString(5));
                 myNote.setImagePath(Uri.parse(cursor.getString(6)));
                 myNote.setLocation(cursor.getString(7));
@@ -111,7 +111,7 @@ public class DBNotes extends SQLiteOpenHelper {
                 myNote.setNumber(cursor.getInt(1));
                 myNote.setCreateDate(new Date(cursor.getLong(2)));
                 myNote.setLogin(cursor.getString(3));
-                myNote.setContext(cursor.getString(4));
+                myNote.setVideoPath(Uri.parse(cursor.getString(4)));
                 myNote.setTextNote(cursor.getString(5));
                 myNote.setImagePath(Uri.parse(cursor.getString(6)));
                 myNote.setLocation(cursor.getString(7));
@@ -136,7 +136,7 @@ public class DBNotes extends SQLiteOpenHelper {
                 myNote.setNumber(cursor.getInt(1));
                 myNote.setCreateDate(new Date(cursor.getLong(2)));
                 myNote.setLogin(cursor.getString(3));
-                myNote.setContext(cursor.getString(4));
+                myNote.setVideoPath(Uri.parse(cursor.getString(4)));
                 myNote.setTextNote(cursor.getString(5));
                 myNote.setImagePath(Uri.parse(cursor.getString(6)));
                 myNote.setLocation(cursor.getString(7));

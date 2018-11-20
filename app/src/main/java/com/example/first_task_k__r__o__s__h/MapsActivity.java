@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +27,7 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.InputStream;
@@ -89,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 String cutchar1= "%#";
                 String cutchar2= "%##";
-                String ratingstr = snippet.substring(0,snippet.indexOf(cutchar1));
+                String videostr = snippet.substring(0,snippet.indexOf(cutchar1));
                 String vicinitystr = snippet.substring(snippet.indexOf(cutchar1)+2, snippet.indexOf(cutchar2));
                 String iconurl= snippet.substring(snippet.indexOf(cutchar2)+3);
 

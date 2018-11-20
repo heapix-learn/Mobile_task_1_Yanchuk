@@ -18,7 +18,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     private int number;
     private Date CreateDate;
     private String login;
-    private String context;
+    private Uri videoPath;
     private String textNote;
     private Uri imagePath;
     private String location;
@@ -32,6 +32,8 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         login=LoginActivity.myUser.username;
         location="-1000/-1000";
         access=0;
+        imagePath=null;
+        videoPath=null;
     }
 
     public ToDoDocuments(Parcel in){
@@ -42,7 +44,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         long tmpDate=Long.parseLong(data[2]);
         CreateDate=new Date(tmpDate);
         login=data[3];
-        context=data[4];
+        videoPath=Uri.parse(data[4]);
         textNote=data[5];
         imagePath= Uri.parse(data[6]);
         location = data[7];
@@ -111,12 +113,12 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         this.CreateDate=CreateDate;
     }
 
-    public String getContext() {
-        return context;
+    public Uri getVideoPath() {
+        return videoPath;
     }
 
-    public void setContext(String context) {
-        this.context = context;
+    public void setVideoPath(Uri videoPath) {
+        this.videoPath = videoPath;
     }
 
     public Date getCreateDate(){
@@ -146,12 +148,12 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, context, textNote, ""+imagePath, location, ""+access});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, ""+videoPath, textNote, ""+imagePath, location, ""+access});
     }
 
     @NonNull
     public String toString(){
-        return context;
+        return title;
     }
 
     public static final Parcelable.Creator<ToDoDocuments> CREATOR = new Parcelable.Creator<ToDoDocuments>(){
@@ -186,7 +188,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public String getSnippet() {
-        return getNumber()+"%#"+getTextNote()+"%##"+getImagePath();
+        return getVideoPath()+"%#"+getTextNote()+"%##"+getImagePath();
     }
 
 }
