@@ -33,6 +33,7 @@ public class Note extends AppCompatActivity {
     static final int GALLERY_REQUEST = 1;
     private static final int NAME_LENGTH=20;
     private Menu menu1;
+    private boolean update=false;
 
 
 
@@ -107,11 +108,13 @@ public class Note extends AppCompatActivity {
             case R.id.privatee: {
                 item.setChecked(true);
                 todoDocuments.setAccess(1);
+                update=true;
                 return true;
             }
             case R.id.publicc: {
                 item.setChecked(true);
                 todoDocuments.setAccess(0);
+                update=true;
                 return true;
             }
             case R.id.back: {
@@ -154,6 +157,7 @@ public class Note extends AppCompatActivity {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                update=true;
                 return true;
             }
 
@@ -184,7 +188,7 @@ public class Note extends AppCompatActivity {
 
 
 
-        if (todoDocuments.getContext()!=null && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
+        if (update == false && todoDocuments.getContext()!=null && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
             todoDocuments.setTitle(sb.toString());
             todoDocuments.setTextNote(ss.toString());
             todoDocuments.setContext(context);
