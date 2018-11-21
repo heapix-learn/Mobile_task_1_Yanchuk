@@ -58,7 +58,7 @@ public class DBNotes extends SQLiteOpenHelper {
         values.put(KEY_LOGIN, queryValues.getLogin());
         values.put(KEY_VIDEO_PATH, queryValues.getVideoPath().toString());
         values.put(KEY_TEXT_NOTE, queryValues.getTextNote());
-        values.put(KEY_IMAGE_PATH, queryValues.getImagePath().toString());
+        values.put(KEY_IMAGE_PATH, queryValues.ImagePathToString());
         values.put(KEY_LOCATION, queryValues.getLocation());
         values.put(KEY_ACCESS, queryValues.getAccess());
         database.insert(KEY_TABLE_NAME, null, values);
@@ -88,7 +88,7 @@ public class DBNotes extends SQLiteOpenHelper {
                 myNote.setLogin(cursor.getString(3));
                 myNote.setVideoPath(Uri.parse(cursor.getString(4)));
                 myNote.setTextNote(cursor.getString(5));
-                myNote.setImagePath(Uri.parse(cursor.getString(6)));
+                myNote.setImagePath(myNote.FromStringToUriList(cursor.getString(6)));
                 myNote.setLocation(cursor.getString(7));
                 myNote.setAccess(cursor.getInt(8));
                 read.add(myNote);
@@ -113,7 +113,7 @@ public class DBNotes extends SQLiteOpenHelper {
                 myNote.setLogin(cursor.getString(3));
                 myNote.setVideoPath(Uri.parse(cursor.getString(4)));
                 myNote.setTextNote(cursor.getString(5));
-                myNote.setImagePath(Uri.parse(cursor.getString(6)));
+                myNote.setImagePath(myNote.FromStringToUriList(cursor.getString(6)));
                 myNote.setLocation(cursor.getString(7));
                 myNote.setAccess(cursor.getInt(8));
                 read.add(myNote);
@@ -138,7 +138,7 @@ public class DBNotes extends SQLiteOpenHelper {
                 myNote.setLogin(cursor.getString(3));
                 myNote.setVideoPath(Uri.parse(cursor.getString(4)));
                 myNote.setTextNote(cursor.getString(5));
-                myNote.setImagePath(Uri.parse(cursor.getString(6)));
+                myNote.setImagePath(myNote.FromStringToUriList(cursor.getString(6)));
                 myNote.setLocation(cursor.getString(7));
                 myNote.setAccess(cursor.getInt(8));
                 read.add(myNote);

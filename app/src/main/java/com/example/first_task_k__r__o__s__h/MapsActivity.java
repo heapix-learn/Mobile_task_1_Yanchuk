@@ -106,17 +106,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 title.setText(titlestr);
 
                 vicinity.setText(vicinitystr);
-
-               Picasso.with(MapsActivity.this).load(Uri.parse(iconurl)).resize(250,250).into(image);
-
+                String img=getImage(iconurl);
+                if (!img.equals("")) {
+                    Picasso.with(MapsActivity.this).load(Uri.parse(img)).resize(250, 250).into(image);
+                }
                 return v;
-
             }
         });
 
         setUpClusterer();
 
     }
+
+    private String getImage(String str){
+        StringBuilder help= new StringBuilder();
+        for (int i=0; i<str.length()-1; i++){
+            if (str.charAt(i)=='&' && str.charAt(i+1)=='&'){
+                if (PicAdapter.checkType(help.toString())==0) return help.toString();
+                help = new StringBuilder();
+                i++;
+            }
+            else help.append(str.charAt(i));
+        }
+        return "";
+    }
+
     private void setUpClusterer() {
         mClusterManager = new ClusterManager<ToDoDocuments>(this, mMap);
 
@@ -140,8 +154,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ToDoDocuments toDoDocuments = listDocuments.get(i);
             mClusterManager.addItem(toDoDocuments);
         }
-
-
 
     }
 }

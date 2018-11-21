@@ -115,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
             switch(resultCode){
                 case RESULT_CANCELED: {
-                    ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
-                    database.insertNote(toDoDocuments);
+                    //ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
+                   // database.insertNote(toDoDocuments);
                     break;
                 }
                 case Note.RESULT_SAVE: {

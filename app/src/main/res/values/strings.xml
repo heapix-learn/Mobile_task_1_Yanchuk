@@ -43,4 +43,7 @@
     <string name="public_access">Открытый</string>
     <string name="private_access">Закрытый</string>
     <string name="server_client_id">1053947145143-a48i1jsgtquna5vc5t9di1eopes4snp8.apps.googleusercontent.com</string>
+    <string name="picture">Picture</string>
+    <string name="select_intro">Long-press a thumbnail to add an image</string>
+    <string name="show_intro">Press a thumbnail to display at larger size</string>
 </resources>

@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -23,15 +25,16 @@ public class Note extends AppCompatActivity {
     private EditText textNote;
     private ToDoDocuments todoDocuments;
     private ImageView imageView;
+    private Gallery picGallery;
     private VideoView videoView;
     public static final int RESULT_SAVE=100;
     public static final int RESULT_DELETE=101;
     static final int GALLERY_REQUEST = 1;
     private static final int NAME_LENGTH=20;
     private boolean update=false;
-
-
-
+    private PicAdapter imgAdapt;
+    private boolean imgKey = false;
+    private int keyPosition=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,55 @@ public class Note extends AppCompatActivity {
 
         todoDocuments = getIntent().getParcelableExtra("ToDoDocuments");
         textNote=(EditText) findViewById(R.id.note_text);
+        picGallery = (Gallery) findViewById(R.id.gallery_note);
+        imageView = (ImageView) findViewById(R.id.picture);
+        videoView = (VideoView) findViewById(R.id.videoView);
 
+        //create a new adapter
+        if (todoDocuments.getImagePath().size()!=0) {
+            picGallery.setVisibility(View.VISIBLE);
+            imgAdapt = new PicAdapter(this, todoDocuments.getImagePath());
+            picGallery.setAdapter(imgAdapt);
+        }
+
+        picGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //handle long clicks
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                if (keyPosition!=position) imgKey=false;
+                if (imgKey==false) {
+                    switch (PicAdapter.checkType(todoDocuments.getImagePath().get(position).toString())){
+                        case 0:
+                            videoView.setVisibility(View.GONE);
+
+                            imageView.setVisibility(View.VISIBLE);
+                            imageView.setImageURI(todoDocuments.getImagePath().get(position));
+                            break;
+                        case 1:
+                            imageView.setVisibility(View.GONE);
+
+                            videoView.setVisibility(View.VISIBLE);
+                            Uri selectedVideo = todoDocuments.getImagePath().get(position);
+                            todoDocuments.setVideoPath(selectedVideo);
+                            videoView.setVideoURI(selectedVideo);
+                            videoView.setMediaController(new MediaController(Note.this));
+                            videoView.requestFocus(0);
+                            videoView.start(); // начинаем воспроизведение автоматически
+                            break;
+                    }
+
+                    imgKey=next(imgKey);
+                }
+                else {
+                    imageView.setVisibility(View.GONE);
+                    videoView.setVisibility(View.GONE);
+                    imgKey=next(imgKey);
+                }
+                keyPosition=position;
+            }
+            boolean next(boolean key){
+                return !key;
+            }
+        });
 
 
         if (todoDocuments.getLocationLatitude()<-999 && todoDocuments.getLocationLongitude()<-999) {
@@ -57,38 +108,8 @@ public class Note extends AppCompatActivity {
             database.close();
         }
 
-
-
-        if (!todoDocuments.getImagePath().toString().equals("null")) {
-            imageView = (ImageView) findViewById(R.id.imageView);
-            Bitmap bitmap = null;
-            Uri selectedImage = todoDocuments.getImagePath();
-
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imageView.setImageBitmap(bitmap);
-        }
-
-
-
-        if (!todoDocuments.getVideoPath().toString().equals("null")) {
-            videoView = (VideoView) findViewById(R.id.videoView);
-            videoView.setVisibility(View.VISIBLE);
-            Uri selectedVideo = todoDocuments.getVideoPath();
-            videoView.setVideoURI(selectedVideo);
-            videoView.setMediaController(new MediaController(this));
-            videoView.requestFocus(0);
- //           videoView.start(); // начинаем воспроизведение автоматически
-        }
-
-
-
         txtToDoDetails.setText(todoDocuments.getTitle());
         textNote.setText(todoDocuments.getTextNote());
-
     }
 
     @Override
@@ -125,9 +146,7 @@ public class Note extends AppCompatActivity {
                 return true;
             }
             case R.id.back: {
-                if (txtToDoDetails.getText().toString().trim().length() == 0){
-                    setResult(RESULT_CANCELED);
-                }   else {
+                if (update) {
                     saveDocument();
                 }
                 finish();
@@ -176,20 +195,12 @@ public class Note extends AppCompatActivity {
     }
 
 
-
-
     private void saveDocument(){
         StringBuilder sb = new StringBuilder(txtToDoDetails.getText());
-
-
         StringBuilder ss= new StringBuilder(textNote.getText());
-
-
         if (sb.length()>NAME_LENGTH){
             sb.delete(NAME_LENGTH, sb.length()).append("...");
         }
-
-
 
         if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
             todoDocuments.setTitle(sb.toString());
@@ -207,47 +218,16 @@ public class Note extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        Bitmap bitmap = null;
-        imageView = (ImageView) findViewById(R.id.imageView);
-
-
         switch(requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
-
-                    switch (checkType(imageReturnedIntent.getData().toString())) {
-                        case 0:
                             Uri selectedImage = imageReturnedIntent.getData();
-                            assert selectedImage != null;
                             todoDocuments.setImagePath(selectedImage);
-                            try {
-                                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            imageView.setImageBitmap(bitmap);
-                            break;
-                        case 1:
-                            videoView = (VideoView) findViewById(R.id.videoView);
-                            videoView.setVisibility(View.VISIBLE);
-                            Uri selectedVideo = imageReturnedIntent.getData();
-                            todoDocuments.setVideoPath(selectedVideo);
-                            videoView.setVideoURI(selectedVideo);
-                            videoView.setMediaController(new MediaController(this));
-                            videoView.requestFocus(0);
-                           // videoView.start(); // начинаем воспроизведение автоматически
-                            break;
-                    }
-
+                            imgAdapt = new PicAdapter(this, todoDocuments.getImagePath());
+                            picGallery.setAdapter(imgAdapt);
+                            picGallery.setVisibility(View.VISIBLE);
                 }
         }
     }
 
-    private int checkType(String str){
-
-        int index = str.lastIndexOf("/images/");
-        if (index!=-1) return 0;
-        else return 1;
-    }
 }

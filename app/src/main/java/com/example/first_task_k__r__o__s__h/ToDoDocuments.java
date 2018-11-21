@@ -11,7 +11,9 @@ import android.support.annotation.NonNull;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, ClusterItem {
     private String title;
@@ -20,9 +22,9 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     private String login;
     private Uri videoPath;
     private String textNote;
-    private Uri imagePath;
     private String location;
     private int access;
+    private List<Uri> imagePath;
 
 
 
@@ -32,7 +34,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         login=LoginActivity.myUser.username;
         location="-1000/-1000";
         access=0;
-        imagePath=null;
+        imagePath = new ArrayList<>();
         videoPath=null;
     }
 
@@ -46,9 +48,32 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         login=data[3];
         videoPath=Uri.parse(data[4]);
         textNote=data[5];
-        imagePath= Uri.parse(data[6]);
+        imagePath= FromStringToUriList(data[6]);
         location = data[7];
         access = Integer.parseInt(data[8]);
+    }
+
+    public String ImagePathToString(){
+        if (imagePath.size()==0) return "";
+        StringBuilder ans= new StringBuilder();
+        for (int i=0; i<imagePath.size(); i++){
+            ans.append(imagePath.get(i)).append("&&");
+        }
+        return ans.toString();
+    }
+
+    public List<Uri>FromStringToUriList(String str){
+        List<Uri> ans = new ArrayList<>();
+        StringBuilder help= new StringBuilder();
+        for (int i=0; i<str.length()-1; i++){
+            if (str.charAt(i)=='&' && str.charAt(i+1)=='&'){
+                ans.add(Uri.parse(help.toString()));
+                help = new StringBuilder();
+                i++;
+            }
+            else help.append(str.charAt(i));
+        }
+        return ans;
     }
 
     public String getLocation() {
@@ -85,12 +110,15 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         this.location = location;
     }
 
-    public Uri getImagePath() {
+    public List<Uri> getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(Uri imagePath) {
+    public void setImagePath(List<Uri> imagePath) {
         this.imagePath = imagePath;
+    }
+    public void setImagePath(Uri imagePath) {
+        this.imagePath.add(imagePath);
     }
 
     public String getTextNote() {
@@ -148,7 +176,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, ""+videoPath, textNote, ""+imagePath, location, ""+access});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, ""+videoPath, textNote, ImagePathToString(), location, ""+access});
     }
 
     @NonNull
@@ -188,7 +216,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public String getSnippet() {
-        return getVideoPath()+"%#"+getTextNote()+"%##"+getImagePath();
+        return getVideoPath()+"%#"+getTextNote()+"%##"+ImagePathToString();
     }
 
 }
