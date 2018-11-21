@@ -62,7 +62,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         return ans.toString();
     }
 
-    public List<Uri>FromStringToUriList(String str){
+    public static List<Uri>FromStringToUriList(String str){
         List<Uri> ans = new ArrayList<>();
         StringBuilder help= new StringBuilder();
         for (int i=0; i<str.length()-1; i++){
@@ -216,7 +216,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public String getSnippet() {
-        return getVideoPath()+"%#"+getTextNote()+"%##"+ImagePathToString();
+        return getTitle()+"%#"+getTextNote()+"%##"+ImagePathToString();
     }
 
 }

@@ -41,10 +41,7 @@ public class Note extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-
-
         txtToDoDetails = (EditText) findViewById(R.id.textToDoDetails);
-
         todoDocuments = getIntent().getParcelableExtra("ToDoDocuments");
         textNote=(EditText) findViewById(R.id.note_text);
         picGallery = (Gallery) findViewById(R.id.gallery_note);
@@ -75,7 +72,6 @@ public class Note extends AppCompatActivity {
 
                             videoView.setVisibility(View.VISIBLE);
                             Uri selectedVideo = todoDocuments.getImagePath().get(position);
-                            todoDocuments.setVideoPath(selectedVideo);
                             videoView.setVideoURI(selectedVideo);
                             videoView.setMediaController(new MediaController(Note.this));
                             videoView.requestFocus(0);
@@ -106,6 +102,7 @@ public class Note extends AppCompatActivity {
             DBNotes database = new DBNotes(this);
             database.deleteNote(todoDocuments);
             database.close();
+            update=true;
         }
 
         txtToDoDetails.setText(todoDocuments.getTitle());

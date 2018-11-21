@@ -1,6 +1,7 @@
 package com.example.first_task_k__r__o__s__h;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,7 +39,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private List<LatLng> myPosition;
+    public static final int KEY_ID=7;
 
     private ClusterManager<ToDoDocuments> mClusterManager;
 
@@ -84,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 View v = getLayoutInflater().inflate(R.layout.info_window, null);
 
                 // Getting the snippet from the marker
-                String snippet = arg0.getSnippet();
+                final String snippet = arg0.getSnippet();
 
                 // Getting the snippet from the marker
                 String titlestr = arg0.getTitle();
@@ -110,8 +111,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (!img.equals("")) {
                     Picasso.with(MapsActivity.this).load(Uri.parse(img)).resize(250, 250).into(image);
                 }
+
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent = new Intent(getApplicationContext(), ViewActivity.class);
+                        intent.putExtra("name", snippet);
+                        startActivity(intent);
+                    }
+
+                });
+
                 return v;
             }
+
         });
 
         setUpClusterer();
