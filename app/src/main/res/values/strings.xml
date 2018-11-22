@@ -38,7 +38,8 @@
     <string name="prompt_title">Заголовок</string>
     <string name="prompt_text">Примечания</string>
     <string name="title_activity_maps">Map</string>
-    <string name="geolocation">Геолокация</string>
+    <string name="geolocation_global">Глобальная карта</string>
+    <string name="geolocation_local">Локальная карта</string>
     <string name="access">Доступ</string>
     <string name="public_access">Открытый</string>
     <string name="private_access">Закрытый</string>

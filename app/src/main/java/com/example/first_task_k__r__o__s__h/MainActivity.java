@@ -80,9 +80,16 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(myIntent);
                 return true;
             }
-            case R.id.geolocation: {
+            case R.id.geolocation_global: {
                 Intent myIntent = new Intent(this, MapsActivity.class);
-                MainActivity.this.startActivity(myIntent);
+                myIntent.putExtra("global", 1);
+                startActivity(myIntent);
+                return true;
+            }
+            case R.id.geolocation_local: {
+                Intent myIntent = new Intent(this, MapsActivity.class);
+                myIntent.putExtra("local", 2);
+                startActivity(myIntent);
                 return true;
             }
             default:

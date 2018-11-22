@@ -156,10 +156,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<ToDoDocuments> listDocuments= new ArrayList<ToDoDocuments>();
 
         // Set some lat/lng coordinates to start with.
+        int info = getIntent().getExtras().getInt("global", 0);
+
 
         DBNotes database = new DBNotes(this);
-        listDocuments = database.getNotesAllPublic(LoginActivity.myUser.username);
-        listDocuments.addAll(database.getNotesMy_Access1(LoginActivity.myUser.username));
+
+
+        if (info==0) {
+            listDocuments = database.getNotesAllMy(LoginActivity.myUser.username);
+        }else{
+            listDocuments = database.getNotesAllPublic(LoginActivity.myUser.username);
+
+        }
+
         database.close();
 
         for (int i=0; i<listDocuments.size(); i++) {

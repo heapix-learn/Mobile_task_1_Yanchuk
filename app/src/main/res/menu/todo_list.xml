@@ -6,8 +6,12 @@
         android:title="@string/add_task">
     </item>
     <item
-        android:id="@+id/geolocation"
-        android:title="@string/geolocation">
+        android:id="@+id/geolocation_global"
+        android:title="@string/geolocation_global">
+    </item>
+    <item
+        android:id="@+id/geolocation_local"
+        android:title="@string/geolocation_local">
     </item>
     <item
         android:id="@+id/exit"
