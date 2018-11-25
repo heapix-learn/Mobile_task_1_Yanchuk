@@ -53,6 +53,11 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -64,13 +69,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    public static User myUser;
+    public static UserModel myUser;
 
     private final static String G_PLUS_SCOPE ="oauth2:https://www.googleapis.com/auth/plus.me";
     private final static String USERINFO_SCOPE ="https://www.googleapis.com/auth/userinfo.profile";
     private final static String EMAIL_SCOPE ="https://www.googleapis.com/auth/userinfo.email";
     private final static String SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
+    private static UserApi userApi;
+    private int index;
 
+    private List<UserModel> posts;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -97,6 +105,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+
+
+
+        userApi = Controller.getApi();
+
+        posts = new ArrayList<>();
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
          gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -205,8 +220,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
             // updateUI(account);
-            myUser = new User();
-            myUser.username= account.getEmail();
+            myUser = new UserModel();
+            myUser.setUsername(account.getEmail());
             myIntent = new Intent(LoginActivity.this,MainActivity.class);
             LoginActivity.this.startActivity(myIntent);
             signOut();
@@ -281,6 +296,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password, this);
             mAuthTask.execute((Void) null);
         }
+
+
     }
 
     private boolean isEmailValid(String email) {
@@ -397,28 +414,55 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmail = email;
             mPassword = password;
             mContext= context;
+
         }
+
+
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            DBTools dbTools=null;
-            try{
-                dbTools = new DBTools(mContext);
-                myUser = dbTools.getUser(mEmail);
+            userApi.checkLogin(mEmail).enqueue(new Callback<List<UserModel>>() {
+                @Override
+                public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                    posts.addAll(response.body());
 
-                if (myUser.userId>0) {
-                    // Account exists, check password.
-                    if (myUser.password.equals(mPassword))
-                        return true;
-                    else
-                        return false;
-                } else {
-                    myUser.password=mPassword;
-                    return true;
                 }
+
+                @Override
+                public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                }
+            });
+            if (posts.size()==0) {
+                myUser=new UserModel();
+                myUser.setUsername(mEmail);
+                myUser.setPassword(mPassword);
+                myUser.setId("-1");
+                userApi.getAll().enqueue(new Callback<List<UserModel>>() {
+                    @Override
+                    public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                        posts.addAll(response.body());
+                        index=posts.size();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return true;
+            }
+            try{
+
+                myUser=posts.get(0);
+
+
+                if (myUser.getPassword().equals(mPassword))
+                    return true;
+                else
+                    return false;
             } finally{
-                if (dbTools!=null)
-                    dbTools.close();
+               posts.clear();
             }
         }
 
@@ -428,28 +472,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                if (myUser.userId>0){
-                    finish();
+                if (!myUser.getId().equals("-1")){
                     Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
                     LoginActivity.this.startActivity(myIntent);
+                    ///finish();
                 } else {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    DBTools dbTools=null;
+
+
                                     try{
-                                        finish();
-                                        dbTools = new DBTools(mContext);
-                                        myUser=dbTools.insertUser(myUser);
+                                    //    finish();
+
+
+                                        myUser.setId(String.valueOf(index+1));
+                                        if (posts.size()!=0) posts.clear();
+
+                                        Controller.pushLogin(myUser, new Callback<UserModel>(){
+                                            @Override
+                                            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<UserModel> call, Throwable t) {
+                                                Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } );
+
+
                                         Toast myToast = Toast.makeText(mContext,R.string.updatingReport, Toast.LENGTH_SHORT);
                                         myToast.show();
                                         Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
                                         LoginActivity.this.startActivity(myIntent);
                                     } finally{
-                                        if (dbTools!=null)
-                                            dbTools.close();
+
                                     }
                                     break;
 
