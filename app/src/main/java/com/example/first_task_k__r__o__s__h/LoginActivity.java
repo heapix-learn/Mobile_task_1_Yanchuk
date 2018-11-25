@@ -50,6 +50,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -421,42 +422,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            userApi.checkLogin(mEmail).enqueue(new Callback<List<UserModel>>() {
-                @Override
-                public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                    posts.addAll(response.body());
+            try {
+                posts.addAll(userApi.checkLogin(mEmail).execute().body());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            userApi.checkLogin(mEmail).enqueue(new Callback<List<UserModel>>() {
+//                @Override
+//                public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+//                    posts.addAll(response.body());
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<UserModel>> call, Throwable t) {
+//                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
-                }
-
-                @Override
-                public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                }
-            });
             if (posts.size()==0) {
                 myUser=new UserModel();
                 myUser.setUsername(mEmail);
                 myUser.setPassword(mPassword);
                 myUser.setId("-1");
-                userApi.getAll().enqueue(new Callback<List<UserModel>>() {
-                    @Override
-                    public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                        posts.addAll(response.body());
-                        index=posts.size();
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                    }
-                });
                 return true;
             }
             try{
-
                 myUser=posts.get(0);
-
-
                 if (myUser.getPassword().equals(mPassword))
                     return true;
                 else
@@ -482,36 +475,57 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    userApi.getSize("1").enqueue(new Callback<SizeOfAccounts>() {
+                                        @Override
+                                        public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
+                                            index=Integer.parseInt(response.body().getSize());
+                                            myUser.setId(String.valueOf(index + 1));
 
+                                            Controller.pushLogin(myUser, new Callback<UserModel>() {
+                                                @Override
+                                                public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                                                    Toast myToast = Toast.makeText(mContext, R.string.updatingReport, Toast.LENGTH_SHORT);
+                                                    myToast.show();
 
-                                    try{
-                                    //    finish();
+                                                    userApi.deleteSize("1").enqueue(new Callback<ResponseBody>() {
+                                                        @Override
+                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                            SizeOfAccounts sizeOfAccounts=new SizeOfAccounts();
+                                                            sizeOfAccounts.setId("1");
+                                                            sizeOfAccounts.setSize(String.valueOf(index+1));
+                                                            userApi.pushSize(sizeOfAccounts).enqueue(new Callback<SizeOfAccounts>() {
+                                                                @Override
+                                                                public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
+                                                                    Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                                                    LoginActivity.this.startActivity(myIntent);
+                                                                }
+                                                                @Override
+                                                                public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+                                                                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
 
+                                                        }
+                                                        @Override
+                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                            Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
 
-                                        myUser.setId(String.valueOf(index+1));
-                                        if (posts.size()!=0) posts.clear();
+                                                }
 
-                                        Controller.pushLogin(myUser, new Callback<UserModel>(){
-                                            @Override
-                                            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                                                @Override
+                                                public void onFailure(Call<UserModel> call, Throwable t) {
+                                                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                        @Override
+                                        public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+                                            Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
-
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<UserModel> call, Throwable t) {
-                                                Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                                            }
-                                        } );
-
-
-                                        Toast myToast = Toast.makeText(mContext,R.string.updatingReport, Toast.LENGTH_SHORT);
-                                        myToast.show();
-                                        Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
-                                        LoginActivity.this.startActivity(myIntent);
-                                    } finally{
-
-                                    }
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:

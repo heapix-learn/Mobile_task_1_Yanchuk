@@ -26,8 +26,6 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     private int access;
     private List<Uri> imagePath;
 
-
-
     public ToDoDocuments(){
         CreateDate=new Date();
         number=-1;

@@ -21,6 +21,7 @@ public class Controller {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+
                 .build();
 
         service = retrofit.create(UserApi.class);
