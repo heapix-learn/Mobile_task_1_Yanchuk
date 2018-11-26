@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode ,Intent data){
         if (requestCode == TODO_NOTE_REQUEST){
-
+ //           if (resultCode==0) resultCode=Note.RESULT_SAVE;
 
             switch(resultCode){
                 case RESULT_CANCELED: {

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 import java.io.IOException;
+import java.util.Date;
 
 
 public class Note extends AppCompatActivity {
@@ -35,6 +36,7 @@ public class Note extends AppCompatActivity {
     private PicAdapter imgAdapt;
     private boolean imgKey = false;
     private int keyPosition=0;
+    public boolean finish=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,10 +142,13 @@ public class Note extends AppCompatActivity {
                 return true;
             }
             case R.id.back: {
-                if (update) {
+                if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
+                    finish=true;
+                    finish();
+                } else {
                     saveDocument();
+                    finish();
                 }
-                finish();
                 return true;
             }
             case R.id.save: {
@@ -170,6 +175,7 @@ public class Note extends AppCompatActivity {
                     });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                finish=true;
                 return true;
             }
 
@@ -193,14 +199,39 @@ public class Note extends AppCompatActivity {
         StringBuilder ss= new StringBuilder(textNote.getText());
 
         if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
-            todoDocuments.setTitle(sb.toString());
-            todoDocuments.setTextNote(ss.toString());
+
+
+            finish=true;
             setResult(RESULT_CANCELED, getIntent());
+//            finish();
         } else {
             todoDocuments.setTitle(sb.toString());
             todoDocuments.setTextNote(ss.toString());
-            //todoDocuments.setCreateDate(new Date());
+            todoDocuments.setCreateDate(new Date());
+            finish=true;
             setResult(RESULT_SAVE, getIntent());
+//            finish();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (finish==false){
+            StringBuilder sb = new StringBuilder(txtToDoDetails.getText());
+            StringBuilder ss= new StringBuilder(textNote.getText());
+
+            if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
+                finish=true;
+                setResult(RESULT_CANCELED, getIntent());
+            } else {
+                todoDocuments.setTitle(sb.toString());
+                todoDocuments.setTextNote(ss.toString());
+                todoDocuments.setCreateDate(new Date());
+                finish=true;
+                setResult(RESULT_SAVE, getIntent());
+
+            }
         }
     }
 
