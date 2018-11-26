@@ -99,10 +99,7 @@ public class Note extends AppCompatActivity {
             todoDocuments.setLocation("" + MyLocationListener.imHere.getLatitude()+"/"+MyLocationListener.imHere.getLongitude());
         }
         else {
-            DBNotes database = new DBNotes(this);
-            database.deleteNote(todoDocuments);
-            database.close();
-            update=true;
+//            update=true;
         }
 
         txtToDoDetails.setText(todoDocuments.getTitle());
@@ -179,7 +176,6 @@ public class Note extends AppCompatActivity {
             case R.id.gallery:{
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("video/* image/*");
-
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
                 update=true;
                 return true;
@@ -195,9 +191,6 @@ public class Note extends AppCompatActivity {
     private void saveDocument(){
         StringBuilder sb = new StringBuilder(txtToDoDetails.getText());
         StringBuilder ss= new StringBuilder(textNote.getText());
-        if (sb.length()>NAME_LENGTH){
-            sb.delete(NAME_LENGTH, sb.length()).append("...");
-        }
 
         if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
             todoDocuments.setTitle(sb.toString());
@@ -208,7 +201,6 @@ public class Note extends AppCompatActivity {
             todoDocuments.setTextNote(ss.toString());
             //todoDocuments.setCreateDate(new Date());
             setResult(RESULT_SAVE, getIntent());
-
         }
     }
 

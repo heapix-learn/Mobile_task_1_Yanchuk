@@ -1,162 +1,186 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v4.content.AsyncTaskLoader;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-public class DBNotes extends SQLiteOpenHelper {
-    private final static int DB_VERSION=10;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    public final static String KEY_TITLE="title";
-    public final static String KEY_NUMBER="number";
-    public final static String KEY_CREATE_DATE="CreateDate";
-    public final static String KEY_LOGIN="login";
-    public final static String KEY_VIDEO_PATH="videoPath";
-    public final static String KEY_TEXT_NOTE="textNote";
-    public final static String KEY_IMAGE_PATH="imagePath";
-    public final static String KEY_LOCATION="location";
-    public final static String KEY_ACCESS="access";
-    public final static String KEY_TABLE_NAME="notes";
+public abstract class DBNotes {
 
-    public DBNotes(Context context) {
-        super(context, "DBNotes_.db", null,DB_VERSION);
-    }
+    private final static UserApi userApi=Controller.getApi();
 
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String table="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_VIDEO_PATH + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
-        sqLiteDatabase.execSQL(table);
-    }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        try{
-            System.out.println("UPGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
-            recreateDb(sqLiteDatabase);
-            if (oldVersion<10){
-                String query="create table " + KEY_TABLE_NAME + " (" + KEY_TITLE + " text," + KEY_NUMBER + " Integer," + KEY_CREATE_DATE + " Long," + KEY_LOGIN + " text," + KEY_VIDEO_PATH + " text," + KEY_TEXT_NOTE + " text," + KEY_IMAGE_PATH + " text," + KEY_LOCATION + " text," + KEY_ACCESS + " Integer)";
-                sqLiteDatabase.execSQL(query);
+
+    public static void insertNote(ToDoDocuments queryValues){
+        ConvertToDoDocuments values = new ConvertToDoDocuments();
+        values.setTitle(queryValues.getTitle());
+        values.setNumber(String.valueOf(queryValues.getNumber()));
+        values.setCreateDate(String.valueOf(queryValues.getCreateDate().getTime()));
+        values.setId(queryValues.getId());
+        values.setLogin(queryValues.getLogin());
+        values.setTextNote(queryValues.getTextNote());
+        values.setImagePath(queryValues.ImagePathToString());
+        values.setLocation(queryValues.getLocation());
+        values.setAccess(String.valueOf(queryValues.getAccess()));
+        userApi.pushNote(values).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
             }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //        Toast.makeText(.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    public static List<ToDoDocuments> getNotesAllMy(String login){
+        List<ConvertToDoDocuments> convertRead = new ArrayList<ConvertToDoDocuments>();
+
+        try {
+            convertRead=(new DownloadMyNoteLogin().execute(login)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        catch (Exception e){e.printStackTrace();}
-    }
 
-    public void insertNote (ToDoDocuments queryValues){
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(KEY_TITLE, queryValues.getTitle());
-        values.put(KEY_NUMBER, queryValues.getNumber());
-        values.put(KEY_CREATE_DATE, queryValues.getCreateDate().getTime());
-        values.put(KEY_LOGIN, queryValues.getLogin());
-        values.put(KEY_VIDEO_PATH, queryValues.getVideoPath().toString());
-        values.put(KEY_TEXT_NOTE, queryValues.getTextNote());
-        values.put(KEY_IMAGE_PATH, queryValues.ImagePathToString());
-        values.put(KEY_LOCATION, queryValues.getLocation());
-        values.put(KEY_ACCESS, queryValues.getAccess());
-        database.insert(KEY_TABLE_NAME, null, values);
-
-        database.close();
-
-    }
-
-    private void recreateDb(SQLiteDatabase sqLiteDatabase) {
-        onCreate(sqLiteDatabase);
-    }
-
-    public  List<ToDoDocuments> getNotesMy_Access1 (String login){
         List<ToDoDocuments> read = new ArrayList<ToDoDocuments>();
-
-        String query = "select * from "+KEY_TABLE_NAME+" where login = '"+login+"'" + " and access = '"+1+"'";
-
-        SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery(query, null);
-
-        if (cursor.moveToFirst()){
-            do {
-                ToDoDocuments myNote = new ToDoDocuments();
-                myNote.setTitle(cursor.getString(0));
-                myNote.setNumber(cursor.getInt(1));
-                myNote.setCreateDate(new Date(cursor.getLong(2)));
-                myNote.setLogin(cursor.getString(3));
-                myNote.setVideoPath(Uri.parse(cursor.getString(4)));
-                myNote.setTextNote(cursor.getString(5));
-                myNote.setImagePath(myNote.FromStringToUriList(cursor.getString(6)));
-                myNote.setLocation(cursor.getString(7));
-                myNote.setAccess(cursor.getInt(8));
-                read.add(myNote);
-            } while (cursor.moveToNext());
+        for (int i=0; i<convertRead.size(); i++) {
+            ToDoDocuments add = new ToDoDocuments();
+            add.setTitle(convertRead.get(i).getTitle());
+            add.setImagePath(ToDoDocuments.FromStringToUriList(convertRead.get(i).getImagePath()));
+            add.setNumber(Integer.parseInt(convertRead.get(i).getNumber()));
+            add.setCreateDate(new Date(Long.parseLong(convertRead.get(i).getCreateDate())));
+            add.setLogin(convertRead.get(i).getLogin());
+            add.setId(convertRead.get(i).getId());
+            add.setTextNote(convertRead.get(i).getTextNote());
+            add.setLocation(convertRead.get(i).getLocation());
+            add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
+            read.add(add);
         }
         return read;
     }
-    public  List<ToDoDocuments> getNotesAllMy (String login){
+    public static List<ToDoDocuments> getNotesAllPublic(){
+        List<ConvertToDoDocuments> convertRead = new ArrayList<ConvertToDoDocuments>();
+
+
+        try {
+            convertRead=(new DownloadMyNoteAccess().execute("0")).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         List<ToDoDocuments> read = new ArrayList<ToDoDocuments>();
-
-        String query = "select * from "+KEY_TABLE_NAME+" where login = '"+login+"'";
-
-        SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery(query, null);
-
-        if (cursor.moveToFirst()){
-            do {
-                ToDoDocuments myNote = new ToDoDocuments();
-                myNote.setTitle(cursor.getString(0));
-                myNote.setNumber(cursor.getInt(1));
-                myNote.setCreateDate(new Date(cursor.getLong(2)));
-                myNote.setLogin(cursor.getString(3));
-                myNote.setVideoPath(Uri.parse(cursor.getString(4)));
-                myNote.setTextNote(cursor.getString(5));
-                myNote.setImagePath(myNote.FromStringToUriList(cursor.getString(6)));
-                myNote.setLocation(cursor.getString(7));
-                myNote.setAccess(cursor.getInt(8));
-                read.add(myNote);
-            } while (cursor.moveToNext());
+        for (int i=0; i<convertRead.size(); i++) {
+            ToDoDocuments add = new ToDoDocuments();
+            add.setTitle(convertRead.get(i).getTitle());
+            add.setImagePath(ToDoDocuments.FromStringToUriList(convertRead.get(i).getImagePath()));
+            add.setNumber(Integer.parseInt(convertRead.get(i).getNumber()));
+            add.setCreateDate(new Date(Long.parseLong(convertRead.get(i).getCreateDate())));
+            add.setLogin(convertRead.get(i).getLogin());
+            add.setId(convertRead.get(i).getId());
+            add.setTextNote(convertRead.get(i).getTextNote());
+            add.setLocation(convertRead.get(i).getLocation());
+            add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
+            read.add(add);
         }
         return read;
     }
-    public  List<ToDoDocuments> getNotesAllPublic (String login){
-        List<ToDoDocuments> read = new ArrayList<ToDoDocuments>();
 
-        String query = "select * from "+KEY_TABLE_NAME+" where access = '"+0+"'";
+    public static void deleteNote(ToDoDocuments doc){
+        new ServerDeleteBackground().execute(doc.getId());
+    }
 
-        SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery(query, null);
+    public static void updateNote(ToDoDocuments queryValues){
+        deleteNote(queryValues);
+        ConvertToDoDocuments values = new ConvertToDoDocuments();
+        values.setTitle(queryValues.getTitle());
+        values.setNumber(String.valueOf(queryValues.getNumber()));
+        values.setCreateDate(String.valueOf(queryValues.getCreateDate().getTime()));
+        values.setId(queryValues.getId());
+        values.setLogin(queryValues.getLogin());
+        values.setTextNote(queryValues.getTextNote());
+        values.setImagePath(queryValues.ImagePathToString());
+        values.setLocation(queryValues.getLocation());
+        values.setAccess(String.valueOf(queryValues.getAccess()));
+        new ServerPushNoteBackground().execute(values);
+    }
 
-        if (cursor.moveToFirst()){
-            do {
-                ToDoDocuments myNote = new ToDoDocuments();
-                myNote.setTitle(cursor.getString(0));
-                myNote.setNumber(cursor.getInt(1));
-                myNote.setCreateDate(new Date(cursor.getLong(2)));
-                myNote.setLogin(cursor.getString(3));
-                myNote.setVideoPath(Uri.parse(cursor.getString(4)));
-                myNote.setTextNote(cursor.getString(5));
-                myNote.setImagePath(myNote.FromStringToUriList(cursor.getString(6)));
-                myNote.setLocation(cursor.getString(7));
-                myNote.setAccess(cursor.getInt(8));
-                read.add(myNote);
-            } while (cursor.moveToNext());
+    static class ServerPushNoteBackground extends AsyncTask<ConvertToDoDocuments, Void, Void> {
+        @Override
+        protected Void doInBackground(ConvertToDoDocuments... params) {
+            try {
+                userApi.pushNote(params[0]).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
-        return read;
-    }
-    public void deleteNote (ToDoDocuments doc){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(KEY_TABLE_NAME, KEY_CREATE_DATE+" = " + doc.getCreateDate().getTime(), null);
-        db.close();
     }
 
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // super.onDowngrade(db, oldVersion, newVersion);
-        System.out.println("DOWNGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
+    static class ServerDeleteBackground extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                userApi.deleteNote(params[0]).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
+    static class DownloadMyNoteLogin extends AsyncTask<String, Void, List<ConvertToDoDocuments>> {
+        List<ConvertToDoDocuments> list = new ArrayList<>();
+
+        @Override
+        protected List<ConvertToDoDocuments> doInBackground(String... params) {
+            try {
+                list.addAll(userApi.getNotesLogin(params[0]).execute().body());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return list;
+        }
+    }
+    static class DownloadMyNoteAccess extends AsyncTask<String, Void, List<ConvertToDoDocuments>> {
+        List<ConvertToDoDocuments> list = new ArrayList<>();
+
+        @Override
+        protected List<ConvertToDoDocuments> doInBackground(String... params) {
+            try {
+                list.addAll(userApi.getNotesAccess(params[0]).execute().body());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return list;
+        }
+
+    }
 
 }

@@ -20,12 +20,17 @@ import android.widget.Toast;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     public static int TODO_NOTE_REQUEST=1;
     public static List<ToDoDocuments> listDocuments = new ArrayList<ToDoDocuments>();
     private TodoAdapter arrayAdapter;
-
-
+    public int size=0;
+    private final static UserApi userApi=Controller.getApi();
+    private SizeOfAccounts accounts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,9 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fillList(){
-        DBNotes database = new DBNotes(this);
-        listDocuments=database.getNotesAllMy(LoginActivity.myUser.getUsername());
-        database.close();
+        listDocuments=DBNotes.getNotesAllMy(LoginActivity.myUser.getUsername());
     }
 
     private void showDocuments(ToDoDocuments toDoDocuments){
@@ -117,24 +121,58 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode ,Intent data){
         if (requestCode == TODO_NOTE_REQUEST){
 
-            DBNotes database = new DBNotes(this);
-
 
             switch(resultCode){
                 case RESULT_CANCELED: {
-                    //ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
-                   // database.insertNote(toDoDocuments);
                     break;
                 }
                 case Note.RESULT_SAVE: {
-                    ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
+                    final ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
                     addDocument(toDoDocuments);
-                    database.insertNote(toDoDocuments);
+                    if (toDoDocuments.getId().equals("-1")){
+
+                        userApi.getSizeOfNotes("1").enqueue(new Callback<SizeOfAccounts>() {
+                            @Override
+                            public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
+                                accounts=response.body();
+                                accounts.setSize(String.valueOf(Integer.parseInt(accounts.getSize())+1));
+                                userApi.deleteSizeOfNotes("1").enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        userApi.pushSizeOfNotes(accounts).enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                toDoDocuments.setId(accounts.getSize());
+                                                DBNotes.insertNote(toDoDocuments);
+                                            }
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                            @Override
+                            public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+                                Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                    else {
+                        DBNotes.updateNote(toDoDocuments);
+                    }
                     break;
                 }
                 case Note.RESULT_DELETE: {
                     ToDoDocuments toDoDocuments = data.getParcelableExtra("ToDoDocuments");
-
+                    DBNotes.deleteNote(toDoDocuments);
                     deleteDocument(toDoDocuments);
                     break;
                 }
@@ -143,7 +181,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
             }
-            database.close();
         }
     }
 

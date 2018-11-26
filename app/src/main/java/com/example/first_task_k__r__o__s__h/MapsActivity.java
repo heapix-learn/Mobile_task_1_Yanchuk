@@ -159,17 +159,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int info = getIntent().getExtras().getInt("global", 0);
 
 
-        DBNotes database = new DBNotes(this);
 
 
         if (info==0) {
-            listDocuments = database.getNotesAllMy(LoginActivity.myUser.username);
+            listDocuments = DBNotes.getNotesAllMy(LoginActivity.myUser.username);
         }else{
-            listDocuments = database.getNotesAllPublic(LoginActivity.myUser.username);
+            listDocuments = DBNotes.getNotesAllPublic();
 
         }
-
-        database.close();
 
         for (int i=0; i<listDocuments.size(); i++) {
             ToDoDocuments toDoDocuments = listDocuments.get(i);

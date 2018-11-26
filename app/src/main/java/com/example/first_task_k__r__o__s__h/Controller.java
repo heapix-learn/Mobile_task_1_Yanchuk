@@ -7,6 +7,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Controller {
@@ -21,7 +22,7 @@ public class Controller {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
         service = retrofit.create(UserApi.class);

@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
 
 import java.util.ArrayList;
@@ -16,14 +18,32 @@ import java.util.Date;
 import java.util.List;
 
 public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, ClusterItem {
+    @SerializedName("id")
+    @Expose
+    private String id;
+    @SerializedName("title")
+    @Expose
     private String title;
+    @SerializedName("number")
+    @Expose
     private int number;
+    @SerializedName("CreateDate")
+    @Expose
     private Date CreateDate;
+    @SerializedName("login")
+    @Expose
     private String login;
-    private Uri videoPath;
+    @SerializedName("textNote")
+    @Expose
     private String textNote;
+    @SerializedName("location")
+    @Expose
     private String location;
+    @SerializedName("access")
+    @Expose
     private int access;
+    @SerializedName("imagePath")
+    @Expose
     private List<Uri> imagePath;
 
     public ToDoDocuments(){
@@ -33,7 +53,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         location="-1000/-1000";
         access=0;
         imagePath = new ArrayList<>();
-        videoPath=null;
+        id="-1";
     }
 
     public ToDoDocuments(Parcel in){
@@ -44,7 +64,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         long tmpDate=Long.parseLong(data[2]);
         CreateDate=new Date(tmpDate);
         login=data[3];
-        videoPath=Uri.parse(data[4]);
+        id = data[4];
         textNote=data[5];
         imagePath= FromStringToUriList(data[6]);
         location = data[7];
@@ -139,12 +159,12 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         this.CreateDate=CreateDate;
     }
 
-    public Uri getVideoPath() {
-        return videoPath;
+    public String getId() {
+        return id;
     }
 
-    public void setVideoPath(Uri videoPath) {
-        this.videoPath = videoPath;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Date getCreateDate(){
@@ -174,7 +194,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, ""+videoPath, textNote, ImagePathToString(), location, ""+access});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access});
     }
 
     @NonNull

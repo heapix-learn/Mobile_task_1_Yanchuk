@@ -76,8 +76,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private final static String USERINFO_SCOPE ="https://www.googleapis.com/auth/userinfo.profile";
     private final static String EMAIL_SCOPE ="https://www.googleapis.com/auth/userinfo.email";
     private final static String SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
-    private static UserApi userApi;
+    private final static UserApi userApi=Controller.getApi();
     private int index;
+
 
     private List<UserModel> posts;
     /**
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-        userApi = Controller.getApi();
+
 
         posts = new ArrayList<>();
 
@@ -427,18 +428,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            userApi.checkLogin(mEmail).enqueue(new Callback<List<UserModel>>() {
-//                @Override
-//                public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-//                    posts.addAll(response.body());
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<UserModel>> call, Throwable t) {
-//                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-//                }
-//            });
 
             if (posts.size()==0) {
                 myUser=new UserModel();
