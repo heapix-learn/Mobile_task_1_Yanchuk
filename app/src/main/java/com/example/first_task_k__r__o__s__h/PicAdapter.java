@@ -2,7 +2,10 @@ package com.example.first_task_k__r__o__s__h;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,16 +23,16 @@ public class PicAdapter extends BaseAdapter {
     private Context galleryContext;
 
     //array to store bitmaps to display
-    private List<Uri> imageURI;
+    private List<String> image;
 
 
-    public PicAdapter(Context c, List<Uri> image_info) {
+    public PicAdapter(Context c, List<String> image_info) {
 
         //instantiate context
         galleryContext = c;
 
         //create bitmap array
-        imageURI=image_info;
+        image=image_info;
 
         //get the styling attributes - use default Andorid system resources
         TypedArray styleAttrs = galleryContext.obtainStyledAttributes(R.styleable.PicGallery);
@@ -43,7 +46,7 @@ public class PicAdapter extends BaseAdapter {
 
     //return number of data items i.e. bitmap images
     public int getCount() {
-        return imageURI.size();
+        return image.size();
     }
 
     //return item at specified position
@@ -59,12 +62,12 @@ public class PicAdapter extends BaseAdapter {
     //get view specifies layout and display options for each thumbnail in the gallery
     public View getView(int position, View convertView, ViewGroup parent) {
         View ret = null;
-        switch (checkType(imageURI.get(position).toString())) {
+        switch (checkType(image.get(position))) {
             case 0:
                 //create the view
                 ImageView imageView = new ImageView(galleryContext);
                 //specify the bitmap at this position in the array
-                imageView.setImageURI(imageURI.get(position));
+                imageView.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(image.get(position)));
                 //set layout options
                 imageView.setLayoutParams(new Gallery.LayoutParams(300, 200));
                 //scale type within view area
@@ -74,28 +77,29 @@ public class PicAdapter extends BaseAdapter {
                 //return the view
                 ret = imageView;
                 break;
-            case 1:
-                //create the view
-                VideoView videoView = new VideoView(galleryContext);
-                //specify the bitmap at this position in the array
-                videoView.setVideoURI(imageURI.get(position));
-                //set layout options
-                videoView.setLayoutParams(new Gallery.LayoutParams(300, 200));
-                //scale type within view area
-            //    videoView.setScaleType(ViView.ScaleType.FIT_CENTER);
-                //set default gallery item background
-                videoView.setBackgroundResource(defaultItemBackground);
-                //return the view
-                ret = videoView;
-                break;
+//            case 1:
+//                //create the view
+//                VideoView videoView = new VideoView(galleryContext);
+//                //specify the bitmap at this position in the array
+//                videoView.setVideoURI(imageURI.get(position));
+//                //set layout options
+//                videoView.setLayoutParams(new Gallery.LayoutParams(300, 200));
+//                //scale type within view area
+//            //    videoView.setScaleType(ViView.ScaleType.FIT_CENTER);
+//                //set default gallery item background
+//                videoView.setBackgroundResource(defaultItemBackground);
+//                //return the view
+//                ret = videoView;
+//                break;
         }
         return ret;
     }
 
     public static int checkType(String str){
         int index = str.lastIndexOf("/images/");
-        if (index!=-1) return 0;
+        if (index==-1) return 0;
         else return 1;
     }
+
 
 }

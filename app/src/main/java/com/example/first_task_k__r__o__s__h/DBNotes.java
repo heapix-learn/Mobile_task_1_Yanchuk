@@ -10,24 +10,28 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class DBNotes {
+public abstract class DBNotes{
 
     private final static UserApi userApi=Controller.getApi();
-
-
 
     public static void insertNote(ToDoDocuments queryValues){
         ConvertToDoDocuments values = new ConvertToDoDocuments();
@@ -52,8 +56,6 @@ public abstract class DBNotes {
         });
 
     }
-
-
     public static List<ToDoDocuments> getNotesAllMy(String login){
         List<ConvertToDoDocuments> convertRead = new ArrayList<ConvertToDoDocuments>();
 
@@ -69,7 +71,7 @@ public abstract class DBNotes {
         for (int i=0; i<convertRead.size(); i++) {
             ToDoDocuments add = new ToDoDocuments();
             add.setTitle(convertRead.get(i).getTitle());
-            add.setImagePath(ToDoDocuments.FromStringToUriList(convertRead.get(i).getImagePath()));
+            add.setImagePath(ToDoDocuments.FromStringToList(convertRead.get(i).getImagePath()));
             add.setNumber(Integer.parseInt(convertRead.get(i).getNumber()));
             add.setCreateDate(new Date(Long.parseLong(convertRead.get(i).getCreateDate())));
             add.setLogin(convertRead.get(i).getLogin());
@@ -97,7 +99,7 @@ public abstract class DBNotes {
         for (int i=0; i<convertRead.size(); i++) {
             ToDoDocuments add = new ToDoDocuments();
             add.setTitle(convertRead.get(i).getTitle());
-            add.setImagePath(ToDoDocuments.FromStringToUriList(convertRead.get(i).getImagePath()));
+            add.setImagePath(ToDoDocuments.FromStringToList(convertRead.get(i).getImagePath()));
             add.setNumber(Integer.parseInt(convertRead.get(i).getNumber()));
             add.setCreateDate(new Date(Long.parseLong(convertRead.get(i).getCreateDate())));
             add.setLogin(convertRead.get(i).getLogin());
@@ -109,11 +111,9 @@ public abstract class DBNotes {
         }
         return read;
     }
-
     public static void deleteNote(ToDoDocuments doc){
         new ServerDeleteBackground().execute(doc.getId());
     }
-
     public static void updateNote(ToDoDocuments queryValues){
         deleteNote(queryValues);
         ConvertToDoDocuments values = new ConvertToDoDocuments();
@@ -128,6 +128,72 @@ public abstract class DBNotes {
         values.setAccess(String.valueOf(queryValues.getAccess()));
         new ServerPushNoteBackground().execute(values);
     }
+//    public static void uploadImg(Uri fileUri,String fileName){
+//        File file = new File(fileName);
+//        // Выполняем запрос
+//        new uploadToServer().execute(fileName);
+//
+//    }
+//
+//
+//    public static class uploadToServer extends AsyncTask<String, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            File file = new File(params[0]);
+//            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//            final MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+//            String descriptionString = "hello, this is description speaking";
+//            final RequestBody description =RequestBody.create(MediaType.parse("multipart/form-data"), descriptionString);
+//
+//
+//            userApi.getSizeOfImage("1").enqueue(new Callback<SizeOfAccounts>() {
+//                @Override
+//                public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
+//                    final SizeOfAccounts accounts = response.body();
+//                    accounts.setSize(String.valueOf((Integer.parseInt(accounts.getSize())+1)));
+//                    userApi.deleteSizeOfImage("1").enqueue(new Callback<ResponseBody>() {
+//                        @Override
+//                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                            userApi.pushSizeOfImage(accounts).enqueue(new Callback<ResponseBody>() {
+//                                @Override
+//                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//
+////                                        userApi.upload(description, body,"5").enqueue(new Callback<ResponseBody>() {
+////                                            @Override
+////                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+////                                            }
+////                                            @Override
+////                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//////                                    Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+////                                            }
+////                                        });
+//
+//                                }
+//                                @Override
+//                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+////                                    Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                        }
+//                        @Override
+//                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+////                            Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//                }
+//                @Override
+//                public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+////                    Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//            return null;
+//        }
+//    }
+
+
 
     static class ServerPushNoteBackground extends AsyncTask<ConvertToDoDocuments, Void, Void> {
         @Override

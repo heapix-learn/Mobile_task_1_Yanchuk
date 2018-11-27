@@ -1,10 +1,18 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -109,4 +117,6 @@ public class ConvertToDoDocuments {
     public String getAccess() {
         return access;
     }
+
+
 }

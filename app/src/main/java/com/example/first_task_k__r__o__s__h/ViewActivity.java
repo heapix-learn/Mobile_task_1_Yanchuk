@@ -22,7 +22,7 @@ public class ViewActivity extends AppCompatActivity {
     private Gallery picGallery;
     private ImageView imageView;
     private VideoView videoView;
-    private List<Uri> galleryInfo;
+    private List<String> galleryInfo;
     private boolean imgKey;
     private PicAdapter imgAdapt;
     private int keyPosition=0;
@@ -47,7 +47,7 @@ public class ViewActivity extends AppCompatActivity {
         txtToDoDetails.setText(titlestr);
         textNote.setText(vicinitystr);
 
-        galleryInfo=ToDoDocuments.FromStringToUriList(iconurl);
+        galleryInfo=ToDoDocuments.FromStringToList(iconurl);
 
         if (galleryInfo.size()!=0) {
             picGallery.setVisibility(View.VISIBLE);
@@ -60,22 +60,22 @@ public class ViewActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (keyPosition!=position) imgKey=false;
                 if (imgKey==false) {
-                    switch (PicAdapter.checkType(galleryInfo.get(position).toString())){
+                    switch (PicAdapter.checkType(galleryInfo.get(position))){
                         case 0:
                             videoView.setVisibility(View.GONE);
 
                             imageView.setVisibility(View.VISIBLE);
-                            imageView.setImageURI(galleryInfo.get(position));
+                            imageView.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(galleryInfo.get(position)));
                             break;
                         case 1:
-                            imageView.setVisibility(View.GONE);
-
-                            videoView.setVisibility(View.VISIBLE);
-                            Uri selectedVideo = galleryInfo.get(position);
-                            videoView.setVideoURI(selectedVideo);
-                            videoView.setMediaController(new MediaController(ViewActivity.this));
-                            videoView.requestFocus(0);
-                            videoView.start(); // начинаем воспроизведение автоматически
+//                            imageView.setVisibility(View.GONE);
+//
+//                            videoView.setVisibility(View.VISIBLE);
+//                            Uri selectedVideo = galleryInfo.get(position);
+//                            videoView.setVideoURI(selectedVideo);
+//                            videoView.setMediaController(new MediaController(ViewActivity.this));
+//                            videoView.requestFocus(0);
+//                            videoView.start(); // начинаем воспроизведение автоматически
                             break;
                     }
 

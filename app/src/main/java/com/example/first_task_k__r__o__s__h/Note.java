@@ -3,11 +3,15 @@ package com.example.first_task_k__r__o__s__h;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +21,10 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 
@@ -62,22 +70,20 @@ public class Note extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (keyPosition!=position) imgKey=false;
                 if (imgKey==false) {
-                    switch (PicAdapter.checkType(todoDocuments.getImagePath().get(position).toString())){
+                    switch (PicAdapter.checkType(todoDocuments.getImagePath().get(position))){
                         case 0:
-                            videoView.setVisibility(View.GONE);
-
+                  //          videoView.setVisibility(View.GONE);
                             imageView.setVisibility(View.VISIBLE);
-                            imageView.setImageURI(todoDocuments.getImagePath().get(position));
+                            imageView.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(todoDocuments.getImagePath().get(position)));
                             break;
                         case 1:
-                            imageView.setVisibility(View.GONE);
-
-                            videoView.setVisibility(View.VISIBLE);
-                            Uri selectedVideo = todoDocuments.getImagePath().get(position);
-                            videoView.setVideoURI(selectedVideo);
-                            videoView.setMediaController(new MediaController(Note.this));
-                            videoView.requestFocus(0);
-                            videoView.start(); // начинаем воспроизведение автоматически
+//                            imageView.setVisibility(View.GONE);
+//                            videoView.setVisibility(View.VISIBLE);
+//                            Uri selectedVideo = todoDocuments.getImagePath().get(position);
+//                            videoView.setVideoURI(selectedVideo);
+//                            videoView.setMediaController(new MediaController(Note.this));
+//                            videoView.requestFocus(0);
+//                            videoView.start(); // начинаем воспроизведение автоматически
                             break;
                     }
 
@@ -100,10 +106,6 @@ public class Note extends AppCompatActivity {
             MyLocationListener.SetUpLocationListener(this);
             todoDocuments.setLocation("" + MyLocationListener.imHere.getLatitude()+"/"+MyLocationListener.imHere.getLongitude());
         }
-        else {
-//            update=true;
-        }
-
         txtToDoDetails.setText(todoDocuments.getTitle());
         textNote.setText(todoDocuments.getTextNote());
     }
@@ -199,18 +201,14 @@ public class Note extends AppCompatActivity {
         StringBuilder ss= new StringBuilder(textNote.getText());
 
         if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
-
-
             finish=true;
             setResult(RESULT_CANCELED, getIntent());
-//            finish();
         } else {
             todoDocuments.setTitle(sb.toString());
             todoDocuments.setTextNote(ss.toString());
             todoDocuments.setCreateDate(new Date());
             finish=true;
             setResult(RESULT_SAVE, getIntent());
-//            finish();
         }
     }
 
@@ -242,12 +240,39 @@ public class Note extends AppCompatActivity {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
                             Uri selectedImage = imageReturnedIntent.getData();
-                            todoDocuments.setImagePath(selectedImage);
-                            imgAdapt = new PicAdapter(this, todoDocuments.getImagePath());
+
+
+                    Bitmap bitmap=null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    bitmap= Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/20,
+                            bitmap.getHeight()/20, false);
+                    if (bitmap!=null) {
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+                        byte[] byteArray = byteArrayOutputStream.toByteArray();
+                        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                        todoDocuments.setImagePath(encoded);
+                        if (byteArrayOutputStream!=null) {
+                            try {
+                                byteArrayOutputStream.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    imgAdapt = new PicAdapter(this, todoDocuments.getImagePath());
                             picGallery.setAdapter(imgAdapt);
                             picGallery.setVisibility(View.VISIBLE);
                 }
         }
     }
+
 
 }
