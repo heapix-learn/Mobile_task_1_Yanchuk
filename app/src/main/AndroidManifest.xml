@@ -33,7 +33,6 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
         <activity android:name=".Note"></activity>
-        <activity android:name=".ListActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

@@ -50,6 +50,11 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     @SerializedName("imagePath")
     @Expose
     private List<String> imagePath;
+    @SerializedName("typeOfResource")
+    @Expose
+    private String typeOfResource;
+
+
 
     public ToDoDocuments(){
         CreateDate=new Date();
@@ -59,10 +64,11 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         access=0;
         imagePath = new ArrayList<>();
         id="-1";
+        typeOfResource="";
     }
 
     public ToDoDocuments(Parcel in){
-        String[] data = new String[9];
+        String[] data = new String[10];
         in.readStringArray(data);
         title=data[0];
         number=Integer.parseInt(data[1]);
@@ -74,6 +80,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         imagePath= FromStringToList(data[6]);
         location = data[7];
         access = Integer.parseInt(data[8]);
+        typeOfResource = data[9];
     }
 
     public String ImagePathToString(){
@@ -195,6 +202,18 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         return number;
     }
 
+    public String getTypeOfResource() {
+        return typeOfResource;
+    }
+
+    public void setTypeOfResource(String typeOfResource) {
+        this.typeOfResource = typeOfResource;
+    }
+    public void setTypeOfResource(char typeOfResource) {
+        this.typeOfResource += typeOfResource;
+    }
+
+
     @Override
     public int describeContents(){
         return 0;
@@ -202,7 +221,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, typeOfResource});
     }
 
     @NonNull
@@ -227,7 +246,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     public boolean equals(Object o){
         if (!(o instanceof ToDoDocuments)) return false;
         ToDoDocuments document = (ToDoDocuments) o;
-        return number == document.getNumber();
+        return id.equals(document.getId());
     }
 
     @Override
@@ -242,7 +261,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public String getSnippet() {
-        return getTitle()+"%#"+getTextNote()+"%##"+ImagePathToString();
+        return getTypeOfResource()+"%#"+getTextNote()+"%##"+ImagePathToString();
     }
 
     public static Bitmap ConvertBase64ToBitmap(String encodedImage){

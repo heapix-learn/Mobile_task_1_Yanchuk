@@ -61,7 +61,7 @@ public class Note extends AppCompatActivity {
         //create a new adapter
         if (todoDocuments.getImagePath().size()!=0) {
             picGallery.setVisibility(View.VISIBLE);
-            imgAdapt = new PicAdapter(this, todoDocuments.getImagePath());
+            imgAdapt = new PicAdapter(this, todoDocuments.getImagePath(), todoDocuments.getTypeOfResource());
             picGallery.setAdapter(imgAdapt);
         }
 
@@ -70,13 +70,13 @@ public class Note extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (keyPosition!=position) imgKey=false;
                 if (imgKey==false) {
-                    switch (PicAdapter.checkType(todoDocuments.getImagePath().get(position))){
-                        case 0:
+                    switch (PicAdapter.checkType(position)){
+                        case '0':
                   //          videoView.setVisibility(View.GONE);
                             imageView.setVisibility(View.VISIBLE);
                             imageView.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(todoDocuments.getImagePath().get(position)));
                             break;
-                        case 1:
+                        case '1':
 //                            imageView.setVisibility(View.GONE);
 //                            videoView.setVisibility(View.VISIBLE);
 //                            Uri selectedVideo = todoDocuments.getImagePath().get(position);
@@ -212,26 +212,26 @@ public class Note extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (finish==false){
-            StringBuilder sb = new StringBuilder(txtToDoDetails.getText());
-            StringBuilder ss= new StringBuilder(textNote.getText());
-
-            if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
-                finish=true;
-                setResult(RESULT_CANCELED, getIntent());
-            } else {
-                todoDocuments.setTitle(sb.toString());
-                todoDocuments.setTextNote(ss.toString());
-                todoDocuments.setCreateDate(new Date());
-                finish=true;
-                setResult(RESULT_SAVE, getIntent());
-
-            }
-        }
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (finish==false){
+//            StringBuilder sb = new StringBuilder(txtToDoDetails.getText());
+//            StringBuilder ss= new StringBuilder(textNote.getText());
+//
+//            if (update == false && txtToDoDetails.getText().toString().equals(todoDocuments.getTitle()) && textNote.getText().toString().equals(todoDocuments.getTextNote())){
+//                finish=true;
+//                setResult(RESULT_CANCELED, getIntent());
+//            } else {
+//                todoDocuments.setTitle(sb.toString());
+//                todoDocuments.setTextNote(ss.toString());
+//                todoDocuments.setCreateDate(new Date());
+//                finish=true;
+//                setResult(RESULT_SAVE, getIntent());
+//
+//            }
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -239,8 +239,10 @@ public class Note extends AppCompatActivity {
         switch(requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
-                            Uri selectedImage = imageReturnedIntent.getData();
-
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    if (checkType(selectedImage.toString())==0){
+                        todoDocuments.setTypeOfResource('0');
+                    }
 
                     Bitmap bitmap=null;
                     try {
@@ -267,11 +269,18 @@ public class Note extends AppCompatActivity {
                         }
                     }
 
-                    imgAdapt = new PicAdapter(this, todoDocuments.getImagePath());
+                    imgAdapt = new PicAdapter(this, todoDocuments.getImagePath(), todoDocuments.getTypeOfResource());
                             picGallery.setAdapter(imgAdapt);
                             picGallery.setVisibility(View.VISIBLE);
+
+
                 }
         }
+    }
+    public int checkType(String str){
+        int index = str.lastIndexOf("/images/");
+        if (index!=-1) return 0;
+        else return 1;
     }
 
 

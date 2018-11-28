@@ -26,13 +26,14 @@ public class ViewActivity extends AppCompatActivity {
     private boolean imgKey;
     private PicAdapter imgAdapt;
     private int keyPosition=0;
+    private String types;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
         info = getIntent().getExtras().getString("name", "");
-
+        String titlestr = getIntent().getExtras().getString("title", "");
         txtToDoDetails = (TextView) findViewById(R.id.textToDoDetails);
         textNote=(TextView) findViewById(R.id.note_text);
         picGallery = (Gallery) findViewById(R.id.gallery_note);
@@ -41,7 +42,7 @@ public class ViewActivity extends AppCompatActivity {
 
         String cutchar1= "%#";
         String cutchar2= "%##";
-        String titlestr = info.substring(0,info.indexOf(cutchar1));
+        String types = info.substring(0,info.indexOf(cutchar1));
         String vicinitystr = info.substring(info.indexOf(cutchar1)+2, info.indexOf(cutchar2));
         String iconurl= info.substring(info.indexOf(cutchar2)+3);
         txtToDoDetails.setText(titlestr);
@@ -51,7 +52,7 @@ public class ViewActivity extends AppCompatActivity {
 
         if (galleryInfo.size()!=0) {
             picGallery.setVisibility(View.VISIBLE);
-            imgAdapt = new PicAdapter(this, galleryInfo);
+            imgAdapt = new PicAdapter(this, galleryInfo,types);
             picGallery.setAdapter(imgAdapt);
         }
 
@@ -60,14 +61,14 @@ public class ViewActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (keyPosition!=position) imgKey=false;
                 if (imgKey==false) {
-                    switch (PicAdapter.checkType(galleryInfo.get(position))){
-                        case 0:
+                    switch (PicAdapter.checkType(position)){
+                        case '0':
                             videoView.setVisibility(View.GONE);
 
                             imageView.setVisibility(View.VISIBLE);
                             imageView.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(galleryInfo.get(position)));
                             break;
-                        case 1:
+                        case '1':
 //                            imageView.setVisibility(View.GONE);
 //
 //                            videoView.setVisibility(View.VISIBLE);

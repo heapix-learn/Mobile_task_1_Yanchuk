@@ -44,7 +44,9 @@ public class ConvertToDoDocuments {
     @SerializedName("imagePath")
     @Expose
     private String imagePath;
-
+    @SerializedName("typeOfResource")
+    @Expose
+    private String typeOfResource;
 
     public void setId(String id) {
         this.id = id;
@@ -118,5 +120,11 @@ public class ConvertToDoDocuments {
         return access;
     }
 
+    public void setTypeOfResource(String typeOfResource) {
+        this.typeOfResource = typeOfResource;
+    }
 
+    public String getTypeOfResource() {
+        return typeOfResource;
+    }
 }

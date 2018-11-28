@@ -11,7 +11,6 @@ public class SizeOfAccounts {
     @Expose
     public String size;
 
-
     public void setId(String id) {
         this.id = id;
     }

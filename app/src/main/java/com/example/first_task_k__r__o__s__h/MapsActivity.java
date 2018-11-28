@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -92,12 +93,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 String cutchar1= "%#";
                 String cutchar2= "%##";
-                String videostr = snippet.substring(0,snippet.indexOf(cutchar1));
+                final String types = snippet.substring(0,snippet.indexOf(cutchar1));
                 String vicinitystr = snippet.substring(snippet.indexOf(cutchar1)+2, snippet.indexOf(cutchar2));
-                String iconurl= snippet.substring(snippet.indexOf(cutchar2)+3);
+                String base= snippet.substring(snippet.indexOf(cutchar2)+3);
 
                 // Getting reference to the TextView to set latitude
-                TextView title = (TextView) v.findViewById(R.id.place_title);
+                final TextView title = (TextView) v.findViewById(R.id.place_title);
 
                 TextView vicinity = (TextView) v.findViewById(R.id.place_vicinity);
 
@@ -107,15 +108,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 title.setText(titlestr);
 
                 vicinity.setText(vicinitystr);
-                String img=getImage(iconurl);
+                String img=getImage(base, types);
                 if (!img.equals("")) {
-                    Picasso.with(MapsActivity.this).load(Uri.parse(img)).resize(250, 250).into(image);
+
+//                       Picasso.with(MapsActivity.this).load(Uri.parse(img)).resize(250, 250).into(image);
+                    byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+//
+//                    File file=null;
+//                    Picasso.with(MapsActivity.this).load(file).resize(250, 250).into(image);
+                    image.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(img));
                 }
 
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     public void onInfoWindowClick(Marker marker) {
                         Intent intent = new Intent(getApplicationContext(), ViewActivity.class);
                         intent.putExtra("name", snippet);
+                        intent.putExtra("title", title.getText());
                         startActivity(intent);
                     }
 
@@ -130,15 +138,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private String getImage(String str){
+    private String getImage(String base, String types){
         StringBuilder help= new StringBuilder();
-        for (int i=0; i<str.length()-1; i++){
-            if (str.charAt(i)=='&' && str.charAt(i+1)=='&'){
-                if (PicAdapter.checkType(help.toString())==0) return help.toString();
-                help = new StringBuilder();
-                i++;
+        int index = -1;
+        for (int i=0; i<types.length(); i++){
+            if (types.charAt(i)=='0'){
+                index=i;
+                break;
             }
-            else help.append(str.charAt(i));
+        }
+
+        int helpCountOfElement=0;
+        if (index!=-1){
+            for (int i=0; i<base.length()-1; i++){
+                if (base.charAt(i)=='&' && base.charAt(i+1)=='&'){
+                    if (helpCountOfElement==index)
+                        return help.toString();
+                    else {
+                        helpCountOfElement++;
+                        i++;
+                        help = new StringBuilder();
+                    }
+                }
+                else help.append(base.charAt(i));
+            }
+
         }
         return "";
     }
@@ -157,8 +181,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Set some lat/lng coordinates to start with.
         int info = getIntent().getExtras().getInt("global", 0);
-
-
 
 
         if (info==0) {

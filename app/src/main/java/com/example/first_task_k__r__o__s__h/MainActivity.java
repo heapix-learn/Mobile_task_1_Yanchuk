@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fillList();
-        Collections.sort(listDocuments);
+//        Collections.sort(listDocuments);
 
         listTasks = (ListView) findViewById(R.id.listViewRow);
         listTasks.setOnItemClickListener(new ListViewClickListener());

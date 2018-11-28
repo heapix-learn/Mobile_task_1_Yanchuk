@@ -24,10 +24,11 @@ public class PicAdapter extends BaseAdapter {
 
     //array to store bitmaps to display
     private List<String> image;
+    private static String types;
 
+    public PicAdapter(Context c, List<String> image_info, String types) {
 
-    public PicAdapter(Context c, List<String> image_info) {
-
+        this.types=types;
         //instantiate context
         galleryContext = c;
 
@@ -62,8 +63,8 @@ public class PicAdapter extends BaseAdapter {
     //get view specifies layout and display options for each thumbnail in the gallery
     public View getView(int position, View convertView, ViewGroup parent) {
         View ret = null;
-        switch (checkType(image.get(position))) {
-            case 0:
+        switch (checkType(position)) {
+            case '0':
                 //create the view
                 ImageView imageView = new ImageView(galleryContext);
                 //specify the bitmap at this position in the array
@@ -77,7 +78,7 @@ public class PicAdapter extends BaseAdapter {
                 //return the view
                 ret = imageView;
                 break;
-//            case 1:
+//            case '1':
 //                //create the view
 //                VideoView videoView = new VideoView(galleryContext);
 //                //specify the bitmap at this position in the array
@@ -95,11 +96,8 @@ public class PicAdapter extends BaseAdapter {
         return ret;
     }
 
-    public static int checkType(String str){
-        int index = str.lastIndexOf("/images/");
-        if (index==-1) return 0;
-        else return 1;
+    public static char checkType(int position){
+        return types.charAt(position);
     }
-
 
 }
