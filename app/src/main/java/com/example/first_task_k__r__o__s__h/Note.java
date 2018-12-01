@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,9 +25,11 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 
@@ -72,18 +76,23 @@ public class Note extends AppCompatActivity {
                 if (imgKey==false) {
                     switch (PicAdapter.checkType(position)){
                         case '0':
-                  //          videoView.setVisibility(View.GONE);
+                            videoView.setVisibility(View.GONE);
                             imageView.setVisibility(View.VISIBLE);
                             imageView.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(todoDocuments.getImagePath().get(position)));
                             break;
                         case '1':
-//                            imageView.setVisibility(View.GONE);
-//                            videoView.setVisibility(View.VISIBLE);
+                            imageView.setVisibility(View.GONE);
+                            videoView.setVisibility(View.VISIBLE);
+
 //                            Uri selectedVideo = todoDocuments.getImagePath().get(position);
 //                            videoView.setVideoURI(selectedVideo);
-//                            videoView.setMediaController(new MediaController(Note.this));
-//                            videoView.requestFocus(0);
-//                            videoView.start(); // начинаем воспроизведение автоматически
+
+                            File file = ToDoDocuments.ConvertBase64ToFile(Note.this, todoDocuments.getImagePath().get(position));
+
+                            videoView.setVideoPath(file.getPath());
+                            videoView.setMediaController(new MediaController(Note.this));
+                            videoView.requestFocus(0);
+                            videoView.start(); // начинаем воспроизведение автоматически
                             break;
                     }
 
@@ -242,38 +251,88 @@ public class Note extends AppCompatActivity {
                     Uri selectedImage = imageReturnedIntent.getData();
                     if (checkType(selectedImage.toString())==0){
                         todoDocuments.setTypeOfResource('0');
-                    }
+                        Bitmap bitmap=null;
+                        try {
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                    Bitmap bitmap=null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        bitmap= Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/15,
+                                bitmap.getHeight()/15, false);
+                        if (bitmap!=null) {
+                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+                            byte[] byteArray = byteArrayOutputStream.toByteArray();
+                            String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-                    bitmap= Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/20,
-                            bitmap.getHeight()/20, false);
-                    if (bitmap!=null) {
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
-                        byte[] byteArray = byteArrayOutputStream.toByteArray();
-                        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-                        todoDocuments.setImagePath(encoded);
-                        if (byteArrayOutputStream!=null) {
-                            try {
-                                byteArrayOutputStream.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                            todoDocuments.setImagePath(encoded);
+                            if (byteArrayOutputStream!=null) {
+                                try {
+                                    byteArrayOutputStream.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
+                    else {
+                        todoDocuments.setTypeOfResource('1');
+                        Uri selectedVideoUri = imageReturnedIntent.getData();
+                        String[] projection = {MediaStore.Video.Media.DATA, MediaStore.Video.Media.SIZE, MediaStore.Video.Media.DURATION};
+                        Cursor cursor = managedQuery(selectedVideoUri, projection, null, null, null);
+
+                        cursor.moveToFirst();
+                        String filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA));
+                        Log.d("File Name:",filePath);
+
+                        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
+                        // Setting the thumbnail of the video in to the image view
+                     //   msImage.setImageBitmap(thumb);
+                        InputStream inputStream = null;
+// Converting the video in to the bytes
+                        try
+                        {
+                            inputStream = getContentResolver().openInputStream(selectedVideoUri);
+                        }
+                        catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        int bufferSize = 1024;
+                        byte[] buffer = new byte[bufferSize];
+                        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+                        int len = 0;
+                        try
+                        {
+                            while ((len = inputStream.read(buffer)) != -1)
+                            {
+                                byteBuffer.write(buffer, 0, len);
+                            }
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("converted!");
+
+                        String videoData="";
+                        //Converting bytes into base64
+                        videoData = Base64.encodeToString(byteBuffer.toByteArray(), Base64.DEFAULT);
+                        Log.d("VideoData**>  " , videoData);
+//
+//                        String sinSaltoFinal2 = videoData.trim();
+//                        String sinsinSalto2 = sinSaltoFinal2.replaceAll("\n", "");
+//                        Log.d("VideoData**>  " , sinsinSalto2);
+
+                        todoDocuments.setImagePath(videoData);
+                    }
+
+
 
                     imgAdapt = new PicAdapter(this, todoDocuments.getImagePath(), todoDocuments.getTypeOfResource());
                             picGallery.setAdapter(imgAdapt);
                             picGallery.setVisibility(View.VISIBLE);
-
-
                 }
         }
     }
@@ -283,5 +342,8 @@ public class Note extends AppCompatActivity {
         else return 1;
     }
 
+    public File getFileDir(){
+        return this.getFilesDir();
+    }
 
 }

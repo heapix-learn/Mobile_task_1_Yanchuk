@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,11 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class PicAdapter extends BaseAdapter {
@@ -78,20 +84,23 @@ public class PicAdapter extends BaseAdapter {
                 //return the view
                 ret = imageView;
                 break;
-//            case '1':
-//                //create the view
-//                VideoView videoView = new VideoView(galleryContext);
-//                //specify the bitmap at this position in the array
+            case '1':
+                //create the view
+                VideoView videoView = new VideoView(galleryContext);
+                //specify the bitmap at this position in the array
 //                videoView.setVideoURI(imageURI.get(position));
-//                //set layout options
-//                videoView.setLayoutParams(new Gallery.LayoutParams(300, 200));
-//                //scale type within view area
-//            //    videoView.setScaleType(ViView.ScaleType.FIT_CENTER);
-//                //set default gallery item background
-//                videoView.setBackgroundResource(defaultItemBackground);
-//                //return the view
-//                ret = videoView;
-//                break;
+                File file = ToDoDocuments.ConvertBase64ToFile(galleryContext, image.get(position));
+
+                videoView.setVideoPath(file.getPath());
+                //set layout options
+                videoView.setLayoutParams(new Gallery.LayoutParams(300, 200));
+                //scale type within view area
+            //    videoView.setScaleType(ViView.ScaleType.FIT_CENTER);
+                //set default gallery item background
+                videoView.setBackgroundResource(defaultItemBackground);
+                //return the view
+                ret = videoView;
+                break;
         }
         return ret;
     }
