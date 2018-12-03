@@ -128,7 +128,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-
                     android:layout_marginTop="5dp"
                     android:alpha="0.8"
                     android:autofillHints="@string/username"
@@ -137,7 +136,6 @@
                     android:shadowColor="@color/white"
                     android:textAppearance="@style/username"
                     android:backgroundTint="@color/white"
-
                     android:textColor="@color/white"
                     android:textColorHint="@color/white" />
 

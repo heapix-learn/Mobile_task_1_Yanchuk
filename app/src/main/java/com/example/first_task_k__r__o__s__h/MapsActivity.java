@@ -3,10 +3,14 @@ package com.example.first_task_k__r__o__s__h;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -17,32 +21,38 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.google.android.gms.common.api.internal.BackgroundDetector;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.google.maps.android.ui.IconGenerator;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    public static final int KEY_ID=7;
 
     private ClusterManager<ToDoDocuments> mClusterManager;
+    private Cluster<ToDoDocuments> chosenCluster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,74 +77,84 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_dark));
 
-
-        // Add a marker in Sydney and move the camera
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
-            // Use default InfoWindow frame
-            @Override
-            public View getInfoWindow(Marker arg0) {
-                return null;
+            if (!success) {
             }
+        } catch (Resources.NotFoundException e) {
 
-            // Defines the contents of the InfoWindow
-            @Override
-            public View getInfoContents(Marker arg0) {
+        }
 
-                // Getting view from the layout file info_window_layout
-                View v = getLayoutInflater().inflate(R.layout.info_window, null);
 
-                // Getting the snippet from the marker
-                final String snippet = arg0.getSnippet();
-
-                // Getting the snippet from the marker
-                String titlestr = arg0.getTitle();
-
-                String cutchar1= "%#";
-                String cutchar2= "%##";
-                final String types = snippet.substring(0,snippet.indexOf(cutchar1));
-                String vicinitystr = snippet.substring(snippet.indexOf(cutchar1)+2, snippet.indexOf(cutchar2));
-                String base= snippet.substring(snippet.indexOf(cutchar2)+3);
-
-                // Getting reference to the TextView to set latitude
-                final TextView title = (TextView) v.findViewById(R.id.place_title);
-
-                TextView vicinity = (TextView) v.findViewById(R.id.place_vicinity);
-
-                ImageView image = (ImageView) v.findViewById(R.id.place_icon);
-
-                // Setting the latitude
-                title.setText(titlestr);
-
-                vicinity.setText(vicinitystr);
-                String img=getImage(base, types);
-                if (!img.equals("")) {
-
-//                       Picasso.with(MapsActivity.this).load(Uri.parse(img)).resize(250, 250).into(image);
-                    byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+//        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 //
-//                    File file=null;
-//                    Picasso.with(MapsActivity.this).load(file).resize(250, 250).into(image);
-                    image.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(img));
-                }
-
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    public void onInfoWindowClick(Marker marker) {
-                        Intent intent = new Intent(getApplicationContext(), ViewActivity.class);
-                        intent.putExtra("name", snippet);
-                        intent.putExtra("title", title.getText());
-                        startActivity(intent);
-                    }
-
-                });
-
-                return v;
-            }
-
-        });
+//            // Use default InfoWindow frame
+//            @Override
+//            public View getInfoWindow(Marker arg0) {
+//                return null;
+//            }
+//
+//            // Defines the contents of the InfoWindow
+//            @Override
+//            public View getInfoContents(Marker arg0) {
+//
+//                // Getting view from the layout file info_window_layout
+//                View v = getLayoutInflater().inflate(R.layout.info_window, null);
+//
+//                // Getting the snippet from the marker
+//                final String snippet = arg0.getSnippet();
+//
+//                // Getting the snippet from the marker
+//                String titlestr = arg0.getTitle();
+//
+//                String cutchar1= "%#";
+//                String cutchar2= "%##";
+//                final String types = snippet.substring(0,snippet.indexOf(cutchar1));
+//                String vicinitystr = snippet.substring(snippet.indexOf(cutchar1)+2, snippet.indexOf(cutchar2));
+//                String base= snippet.substring(snippet.indexOf(cutchar2)+3);
+//
+//                // Getting reference to the TextView to set latitude
+//                final TextView title = (TextView) v.findViewById(R.id.place_title);
+//
+//                TextView vicinity = (TextView) v.findViewById(R.id.place_vicinity);
+//
+//                ImageView image = (ImageView) v.findViewById(R.id.place_icon);
+//
+//                // Setting the latitude
+//                title.setText(titlestr);
+//
+//                vicinity.setText(vicinitystr);
+//                String img=getImage(base, types);
+//                if (!img.equals("")) {
+//
+////                       Picasso.with(MapsActivity.this).load(Uri.parse(img)).resize(250, 250).into(image);
+//                    byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+////
+////                    File file=null;
+////                    Picasso.with(MapsActivity.this).load(file).resize(250, 250).into(image);
+//                    image.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(img));
+//                }
+//
+//                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//                    public void onInfoWindowClick(Marker marker) {
+//                        Intent intent = new Intent(getApplicationContext(), ViewActivity.class);
+//                        intent.putExtra("name", snippet);
+//                        intent.putExtra("title", title.getText());
+//                        startActivity(intent);
+//                    }
+//
+//                });
+//
+//                return v;
+//            }
+//
+//        });
 
         setUpClusterer();
+
 
     }
 
@@ -169,11 +189,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setUpClusterer() {
         mClusterManager = new ClusterManager<ToDoDocuments>(this, mMap);
-
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
 
-        addItems();
+        addItems_help();
     }
 
     private void addItems() {
@@ -196,4 +215,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
+
+
+
+    private void addItems_help() {
+
+        // Set some lat/lng coordinates to start with.
+        double lat = 51.5145160;
+        double lng = -0.1270060;
+
+        // Add ten cluster items in close proximity, for purposes of this example.
+        for (int i = 0; i < 60; i++) {
+            double offset = i / 150d;
+            lat = lat + offset;
+            lng = lng + offset;
+            ToDoDocuments offsetItem = new ToDoDocuments();
+            offsetItem.setLocation(lat+"/"+lng);
+            mClusterManager.setRenderer(new OwnIconRendered(getApplicationContext(), mMap, mClusterManager));
+
+            mClusterManager.addItem(offsetItem);
+
+        }
+    }
+    public class OwnIconRendered extends DefaultClusterRenderer<ToDoDocuments> {
+
+
+
+        public OwnIconRendered(Context context, GoogleMap map, ClusterManager<ToDoDocuments> clusterManager) {
+            super(context, map, clusterManager);
+
+        }
+
+//        @Override
+//        protected void onBeforeClusterItemRendered(ToDoDocuments item, MarkerOptions markerOptions) {
+//            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ellipse));
+//        }
+        @Override
+        protected void onBeforeClusterRendered(Cluster<ToDoDocuments> cluster, MarkerOptions markerOptions) {
+
+            Bitmap bitmapImg = BitmapFactory.decodeResource(getResources(), R.drawable.ellipse);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (cluster.getSize()!=0) {
+                    bitmapImg= Bitmap.createScaledBitmap(bitmapImg, bitmapImg.getWidth()*cluster.getSize()/15,
+                            bitmapImg.getHeight()*cluster.getSize()/15, false);
+                }
+
+            }
+
+            BitmapDescriptor img = BitmapDescriptorFactory.fromBitmap(bitmapImg);
+            markerOptions.icon(img);
+            markerOptions.title(String.valueOf(cluster.getSize()));
+
+
+        }
+
+
+
+    }
+
+
+
 }

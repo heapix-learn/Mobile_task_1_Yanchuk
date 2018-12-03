@@ -67,7 +67,8 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     public ToDoDocuments(){
         CreateDate=new Date();
         number=-1;
-        login=LoginActivity.myUser.getUsername();
+//        login=LoginActivity.myUser.getUsername();
+        login="";
         location="-1000/-1000";
         access=0;
         imagePath = new ArrayList<>();
