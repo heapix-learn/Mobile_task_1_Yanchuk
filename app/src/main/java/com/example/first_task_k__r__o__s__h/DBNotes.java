@@ -44,7 +44,7 @@ public abstract class DBNotes{
         values.setImagePath(queryValues.ImagePathToString());
         values.setLocation(queryValues.getLocation());
         values.setAccess(String.valueOf(queryValues.getAccess()));
-        values.setTypeOfResource(queryValues.getTypeOfResource());
+        values.setVideoPath(queryValues.VideoPathToString());
         userApi.pushNote(values).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -80,7 +80,7 @@ public abstract class DBNotes{
             add.setTextNote(convertRead.get(i).getTextNote());
             add.setLocation(convertRead.get(i).getLocation());
             add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
-            add.setTypeOfResource(convertRead.get(i).getTypeOfResource());
+            add.setVideoPath(convertRead.get(i).getVideoPath());
             read.add(add);
         }
         return read;
@@ -101,7 +101,7 @@ public abstract class DBNotes{
         for (int i=0; i<convertRead.size(); i++) {
             ToDoDocuments add = new ToDoDocuments();
             add.setTitle(convertRead.get(i).getTitle());
-            add.setImagePath(ToDoDocuments.FromStringToList(convertRead.get(i).getImagePath()));
+            add.setImagePath (ToDoDocuments.FromStringToList(convertRead.get(i).getImagePath()));
             add.setNumber(Integer.parseInt(convertRead.get(i).getNumber()));
             add.setCreateDate(new Date(Long.parseLong(convertRead.get(i).getCreateDate())));
             add.setLogin(convertRead.get(i).getLogin());
@@ -109,7 +109,7 @@ public abstract class DBNotes{
             add.setTextNote(convertRead.get(i).getTextNote());
             add.setLocation(convertRead.get(i).getLocation());
             add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
-            add.setTypeOfResource(convertRead.get(i).getTypeOfResource());
+            add.setVideoPath(ToDoDocuments.FromStringToList(convertRead.get(i).getVideoPath()));
             read.add(add);
         }
         return read;
@@ -129,7 +129,7 @@ public abstract class DBNotes{
         values.setImagePath(queryValues.ImagePathToString());
         values.setLocation(queryValues.getLocation());
         values.setAccess(String.valueOf(queryValues.getAccess()));
-        values.setTypeOfResource(queryValues.getTypeOfResource());
+        values.setVideoPath(queryValues.VideoPathToString());
         new ServerPushNoteBackground().execute(values);
     }
 //    public static void uploadImg(Uri fileUri,String fileName){

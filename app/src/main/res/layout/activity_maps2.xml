@@ -35,23 +35,27 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/add_button"
                 android:background="#0000"
-                />
+                android:onClick="onClickAddNoteMaps"
+                android:src="@drawable/add_button" />
         </LinearLayout>
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
+
         android:layout_width="0dp"
 
         android:layout_height="53dp"
 
         android:background="#000000"
-        app:itemIconTint="@color/white"
+        app:itemIconTint="@animator/bottom_navigation_colors"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation"
+        >
+    </android.support.design.widget.BottomNavigationView>
 
 </android.support.constraint.ConstraintLayout>

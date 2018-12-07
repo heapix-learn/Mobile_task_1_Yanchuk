@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Base64;
+import android.widget.VideoView;
 
 
 import com.google.android.gms.maps.model.LatLng;
@@ -58,9 +59,9 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     @SerializedName("imagePath")
     @Expose
     private List<String> imagePath;
-    @SerializedName("typeOfResource")
+    @SerializedName("videoPath")
     @Expose
-    private String typeOfResource;
+    private List<String> videoPath;
 
 
 
@@ -73,7 +74,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         access=0;
         imagePath = new ArrayList<>();
         id="-1";
-        typeOfResource="";
+        videoPath = new ArrayList<>();
     }
 
     public ToDoDocuments(Parcel in){
@@ -89,7 +90,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         imagePath= FromStringToList(data[6]);
         location = data[7];
         access = Integer.parseInt(data[8]);
-        typeOfResource = data[9];
+        videoPath= FromStringToList(data[9]);
     }
 
     public String ImagePathToString(){
@@ -98,6 +99,16 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         for (int i=0; i<imagePath.size(); i++){
 
             ans.append(imagePath.get(i)).append("&&");
+        }
+        return ans.toString();
+    }
+
+    public String VideoPathToString(){
+        if (videoPath.size()==0) return "";
+        StringBuilder ans= new StringBuilder();
+        for (int i=0; i<videoPath.size(); i++){
+
+            ans.append(videoPath.get(i)).append("&&");
         }
         return ans.toString();
     }
@@ -211,15 +222,16 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         return number;
     }
 
-    public String getTypeOfResource() {
-        return typeOfResource;
+    public List<String> getVideoPath() {
+        return videoPath;
     }
 
-    public void setTypeOfResource(String typeOfResource) {
-        this.typeOfResource = typeOfResource;
+    public void setVideoPath(String videoPath) {
+        this.videoPath.add(videoPath);
     }
-    public void setTypeOfResource(char typeOfResource) {
-        this.typeOfResource += typeOfResource;
+
+    public void setVideoPath(List<String> videoPath) {
+        this.videoPath.addAll(videoPath);
     }
 
 
@@ -230,7 +242,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, typeOfResource});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, VideoPathToString()});
     }
 
     @NonNull
@@ -270,7 +282,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public String getSnippet() {
-        return getTypeOfResource()+"%#"+getTextNote()+"%##"+ImagePathToString();
+        return ""+"%#"+getTextNote()+"%##"+ImagePathToString();
     }
 
     public static Bitmap ConvertBase64ToBitmap(String encodedImage){

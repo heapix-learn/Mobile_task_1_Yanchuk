@@ -6,4 +6,6 @@
     <color name="gray">#808080</color>
     <color name="bg_color">#FFFFFF</color>
     <color name="white">#ffffff</color>
+    <color name="windowBackground">#9F000000</color>
+    <color name="chartreuse">#8CE676</color>
 </resources>

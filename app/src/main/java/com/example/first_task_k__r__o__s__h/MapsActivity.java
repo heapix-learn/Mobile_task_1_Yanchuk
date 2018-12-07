@@ -1,11 +1,15 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -15,10 +19,15 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.gms.common.api.internal.BackgroundDetector;
@@ -44,8 +53,14 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -53,11 +68,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private ClusterManager<ToDoDocuments> mClusterManager;
     private Cluster<ToDoDocuments> chosenCluster;
-
+    private ImageButton imageButtonAddNoteMaps;
+    public static String TODO_DOCUMENT = "ToDoDocuments";
+    public static int TODO_NOTE_REQUEST=1;
+    public static List<ToDoDocuments> listDocuments = new ArrayList<ToDoDocuments>();
+    public int size=0;
+    private final static UserApi userApi=Controller.getApi();
+    private SizeOfAccounts accounts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
+        imageButtonAddNoteMaps = (ImageButton) findViewById(R.id.add_button);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -206,7 +228,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             listDocuments = DBNotes.getNotesAllMy(LoginActivity.myUser.username);
         }else{
             listDocuments = DBNotes.getNotesAllPublic();
-
         }
 
         for (int i=0; i<listDocuments.size(); i++) {
@@ -217,7 +238,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
     private void addItems_help() {
 
         // Set some lat/lng coordinates to start with.
@@ -225,8 +245,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double lng = -0.1270060;
 
         // Add ten cluster items in close proximity, for purposes of this example.
-        for (int i = 0; i < 60; i++) {
-            double offset = i / 150d;
+        for (int i = 0; i < 200; i++) {
+            double offset = 0.005;
             lat = lat + offset;
             lng = lng + offset;
             ToDoDocuments offsetItem = new ToDoDocuments();
@@ -237,12 +257,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
-    public class OwnIconRendered extends DefaultClusterRenderer<ToDoDocuments> {
 
+
+
+    public class OwnIconRendered extends DefaultClusterRenderer<ToDoDocuments>{
+
+        private boolean shouldCluster = true;
+        private static final int MIN_CLUSTER_SIZE = 1;
 
 
         public OwnIconRendered(Context context, GoogleMap map, ClusterManager<ToDoDocuments> clusterManager) {
             super(context, map, clusterManager);
+            shouldCluster=true;
 
         }
 
@@ -251,28 +277,138 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ellipse));
 //        }
         @Override
-        protected void onBeforeClusterRendered(Cluster<ToDoDocuments> cluster, MarkerOptions markerOptions) {
+        protected void onClusterRendered(Cluster<ToDoDocuments> cluster, Marker marker) {
 
             Bitmap bitmapImg = BitmapFactory.decodeResource(getResources(), R.drawable.ellipse);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 if (cluster.getSize()!=0) {
-                    bitmapImg= Bitmap.createScaledBitmap(bitmapImg, bitmapImg.getWidth()*cluster.getSize()/15,
-                            bitmapImg.getHeight()*cluster.getSize()/15, false);
+                    bitmapImg= Bitmap.createScaledBitmap(bitmapImg, (int) (bitmapImg.getWidth()*Math.log(cluster.getSize())/3),
+                            (int) (bitmapImg.getHeight()*Math.log(cluster.getSize()))/3, false);
                 }
 
             }
 
             BitmapDescriptor img = BitmapDescriptorFactory.fromBitmap(bitmapImg);
-            markerOptions.icon(img);
-            markerOptions.title(String.valueOf(cluster.getSize()));
+            marker.setIcon(img);
+            marker.setAnchor(0.5f, 0.5f);
+            marker.setTitle(String.valueOf(cluster.getSize()));
+            marker.setInfoWindowAnchor((float) 0.5, (float) 0.5);
+        }
 
+        @Override
+        protected boolean shouldRenderAsCluster(Cluster<ToDoDocuments> cluster) {
+
+            if(shouldCluster)
+            {
+                return cluster.getSize() > MIN_CLUSTER_SIZE;
+            }
+            else
+            {
+                return shouldCluster;
+            }
 
         }
 
-
-
     }
 
+    public void onClickAddNoteMaps(View view){
+        ToDoDocuments toDoDocuments = new ToDoDocuments();
+        showDocuments(toDoDocuments);
+    }
+
+    private void showDocuments(ToDoDocuments toDoDocuments){
+        imageButtonAddNoteMaps.setVisibility(View.GONE);
+        Intent myIntent = new Intent(this, Note.class);
+        myIntent.putExtra(TODO_DOCUMENT,toDoDocuments);
+        startActivityForResult(myIntent, TODO_NOTE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode ,Intent data){
+        imageButtonAddNoteMaps.setVisibility(View.VISIBLE);
+        if (requestCode == TODO_NOTE_REQUEST){
+            switch(resultCode){
+                case RESULT_CANCELED: {
+                    break;
+                }
+                case Note.RESULT_SAVE: {
+                    final ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
+                    addDocument(toDoDocuments);
+                    if (toDoDocuments.getId().equals("-1")){
+
+                        userApi.getSizeOfNotes("1").enqueue(new Callback<SizeOfAccounts>() {
+                            @Override
+                            public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
+                                accounts=response.body();
+                                accounts.setSize(String.valueOf(Integer.parseInt(accounts.getSize())+1));
+                                userApi.deleteSizeOfNotes("1").enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        userApi.pushSizeOfNotes(accounts).enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                toDoDocuments.setId(accounts.getSize());
+                                                DBNotes.insertNote(toDoDocuments);
+                                            }
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                Toast.makeText(MapsActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Toast.makeText(MapsActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                            @Override
+                            public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+                                Toast.makeText(MapsActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                    else {
+                        DBNotes.updateNote(toDoDocuments);
+                    }
+                    break;
+                }
+                case Note.RESULT_DELETE: {
+                    ToDoDocuments toDoDocuments = data.getParcelableExtra("ToDoDocuments");
+                    DBNotes.deleteNote(toDoDocuments);
+                    deleteDocument(toDoDocuments);
+                    break;
+                }
+
+                default:
+                    break;
+
+            }
+        }
+    }
+
+    private void addDocument(ToDoDocuments toDoDocuments){
+        if (toDoDocuments.getNumber()==-1) {
+            toDoDocuments.setNumber(listDocuments.size());
+            listDocuments.add(toDoDocuments);
+
+        }   else {
+            listDocuments.set(toDoDocuments.getNumber(), toDoDocuments);
+        }
+        mClusterManager.addItem(toDoDocuments);
+    }
+
+    public void deleteDocument(ToDoDocuments toDoDocuments){
+        listDocuments.remove(toDoDocuments);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        listDocuments.clear();
+    }
 
 
 }

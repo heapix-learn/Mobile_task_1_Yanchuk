@@ -14,6 +14,8 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,11 +32,11 @@ public class PicAdapter extends BaseAdapter {
 
     //array to store bitmaps to display
     private List<String> image;
-    private static String types;
+    private List<String> video;
 
-    public PicAdapter(Context c, List<String> image_info, String types) {
 
-        this.types=types;
+    public PicAdapter(Context c, List<String> image_info) {
+
         //instantiate context
         galleryContext = c;
 
@@ -69,22 +71,20 @@ public class PicAdapter extends BaseAdapter {
     //get view specifies layout and display options for each thumbnail in the gallery
     public View getView(int position, View convertView, ViewGroup parent) {
         View ret = null;
-        switch (checkType(position)) {
-            case '0':
-                //create the view
-                ImageView imageView = new ImageView(galleryContext);
-                //specify the bitmap at this position in the array
-                imageView.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(image.get(position)));
-                //set layout options
-                imageView.setLayoutParams(new Gallery.LayoutParams(300, 200));
-                //scale type within view area
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                //set default gallery item background
-                imageView.setBackgroundResource(defaultItemBackground);
-                //return the view
-                ret = imageView;
-                break;
-            case '1':
+        if (position<image.size()) {
+            //create the view
+            ImageView imageView = new ImageView(galleryContext);
+            //specify the bitmap at this position in the array
+            Picasso.with(galleryContext).load(image.get(position)).centerCrop().into(imageView);
+            //set layout options
+            imageView.setLayoutParams(new Gallery.LayoutParams(300, 200));
+            //scale type within view area
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            //set default gallery item background
+            imageView.setBackgroundResource(defaultItemBackground);
+            //return the view
+            ret = imageView;
+        } else {
                 //create the view
                 VideoView videoView = new VideoView(galleryContext);
                 //specify the bitmap at this position in the array
@@ -100,13 +100,9 @@ public class PicAdapter extends BaseAdapter {
                 videoView.setBackgroundResource(defaultItemBackground);
                 //return the view
                 ret = videoView;
-                break;
         }
         return ret;
     }
 
-    public static char checkType(int position){
-        return types.charAt(position);
-    }
 
 }

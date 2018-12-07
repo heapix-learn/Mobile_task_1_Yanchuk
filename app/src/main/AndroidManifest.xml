@@ -23,20 +23,22 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
-
-        </activity>
+            android:label="@string/title_activity_login"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".Note" />
+        <activity android:name=".Note"
+            android:theme="@style/AppTheme.MyTransparent"
+            >
+
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -44,18 +46,20 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".ViewActivity"></activity>
-        <activity android:name=".StartActivity"></activity>
+        <activity android:name=".ViewActivity" />
+        <activity android:name=".StartActivity" />
         <activity
             android:name=".HelpActivity"
-            android:label="@string/title_activity_help"></activity>
+            android:label="@string/title_activity_help" />
     </application>
 
 </manifest>
