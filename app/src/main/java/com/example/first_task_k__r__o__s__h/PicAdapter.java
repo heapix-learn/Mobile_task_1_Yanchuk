@@ -85,21 +85,20 @@ public class PicAdapter extends BaseAdapter {
             //return the view
             ret = imageView;
         } else {
-                //create the view
-                VideoView videoView = new VideoView(galleryContext);
-                //specify the bitmap at this position in the array
-//                videoView.setVideoURI(imageURI.get(position));
-                File file = ToDoDocuments.ConvertBase64ToFile(galleryContext, image.get(position));
-
-                videoView.setVideoPath(file.getPath());
-                //set layout options
-                videoView.setLayoutParams(new Gallery.LayoutParams(300, 200));
-                //scale type within view area
-            //    videoView.setScaleType(ViView.ScaleType.FIT_CENTER);
-                //set default gallery item background
-                videoView.setBackgroundResource(defaultItemBackground);
-                //return the view
-                ret = videoView;
+//                //create the view
+//                VideoView videoView = new VideoView(galleryContext);
+//                //specify the bitmap at this position in the array
+////                videoView.setVideoURI(imageURI.get(position));
+//
+//
+//                //set layout options
+//                videoView.setLayoutParams(new Gallery.LayoutParams(300, 200));
+//                //scale type within view area
+//            //    videoView.setScaleType(ViView.ScaleType.FIT_CENTER);
+//                //set default gallery item background
+//                videoView.setBackgroundResource(defaultItemBackground);
+//                //return the view
+//                ret = videoView;
         }
         return ret;
     }

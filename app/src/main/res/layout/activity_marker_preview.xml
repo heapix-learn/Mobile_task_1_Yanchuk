@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MarkerPreview"
+
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/customshare_marker_preview"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+         <TableLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:stretchColumns="1"
+             android:layout_marginTop="5dp"
+             android:layout_marginRight="14dp"
+             android:layout_marginLeft="10dp">
+             <TableRow>
+                 <TextView
+                     android:id="@+id/titleMarkerPreview"
+                     android:layout_width="fill_parent"
+                     android:layout_height="fill_parent"
+                     android:text="Mason St"
+                     android:textColor="@color/black"
+                     android:textSize="20dp"
+                     android:layout_span="2"
+                     android:gravity="center"
+                     android:layout_marginLeft="30dp"
+                     />
+                 <ImageButton
+                     android:layout_width="20dp"
+                     android:layout_height="fill_parent"
+                     android:src="@drawable/fullscreen"
+                     android:layout_gravity="end"
+                     android:background="@color/white" />
+             </TableRow>
+
+             <TableRow
+                 android:layout_marginTop="10dp">
+
+                 <de.hdodenhof.circleimageview.CircleImageView
+                     android:id="@+id/avatarMarkerPreview"
+                     android:layout_width="40dp"
+                     android:layout_height="40dp"
+                     android:visibility="visible"
+                     android:src="@drawable/screen_content"
+                     android:layout_marginRight="30dp"
+
+                     />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:orientation="vertical"
+                     android:layout_gravity="start"
+                     android:layout_marginLeft="-30dp">
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Vasili Pupkin"
+                         android:textSize="15dp"
+                         android:textColor="@color/black"/>
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="136 followers"
+                         android:textSize="10dp"/>
+                 </LinearLayout>
+                 <ImageButton
+                     android:id="@+id/subscription"
+                     android:onClick="onClickSubscription"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="7dp"
+                     android:src="@drawable/subscription_false"
+
+
+                     android:background="@color/white"/>
+             </TableRow>
+             <TableRow
+                 android:layout_marginTop="10dp"
+                 android:layout_marginBottom="3dp">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Media"
+                     android:textSize="13dp"
+                     android:textColor="@color/black"
+                     />
+             </TableRow>
+            <TableRow>
+                <Gallery
+                    android:id="@+id/gallery_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:visibility="visible"
+                    android:background="@color/gray"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/like"
+                        android:onClick="onClickLike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/like_false"
+                        android:background="@color/white"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"
+                        android:text="135 likes"/>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/comment"
+                        android:background="@color/white"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"
+                        android:text="26 comments"/>
+                </LinearLayout>
+            </TableRow>
+             <TableRow
+                 android:layout_marginTop="10dp"
+                 android:layout_marginBottom="20dp">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textColor="@color/black"
+                     android:layout_marginLeft="10dp"
+                     android:text="Open in maps"/>
+             </TableRow>
+         </TableLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

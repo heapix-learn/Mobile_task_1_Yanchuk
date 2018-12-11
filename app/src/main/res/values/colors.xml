@@ -8,4 +8,6 @@
     <color name="white">#ffffff</color>
     <color name="windowBackground">#9F000000</color>
     <color name="chartreuse">#8CE676</color>
+    <color name="black">#000000</color>
+
 </resources>

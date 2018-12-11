@@ -282,43 +282,10 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public String getSnippet() {
-        return ""+"%#"+getTextNote()+"%##"+ImagePathToString();
+        return getId();
     }
 
-    public static Bitmap ConvertBase64ToBitmap(String encodedImage){
-        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    }
 
-    public static File ConvertBase64ToFile(Context Cont, String encodedVideo) {
-        byte[] byteVideo= Base64.decode(encodedVideo, Base64.DEFAULT);
-        FileOutputStream out = null;
-        File directory = Cont.getFilesDir(); //or getExternalFilesDir(null); for external storage
-        File file = new File(directory, "file.mp4");
-        if (file.exists()){
-            file.delete();
-        }
-        if (!file.exists()) {
-
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        try {
-            out = new FileOutputStream(file);
-
-            out.write(byteVideo);
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    return file;
-    }
 
 
 }
