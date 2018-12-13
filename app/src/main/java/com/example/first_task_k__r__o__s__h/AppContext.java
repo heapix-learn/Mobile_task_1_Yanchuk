@@ -4,14 +4,7 @@ import android.app.Application;
 
 public class AppContext extends Application {
 
-    public static final String FIELD_TITLE="title";
-    public static final String FIELD_NUMBER="number";
-    public static final String FIELD_TEXT_NOTE="textNote";
-    public static final String FIELD_CREATE_DATE="createDate";
-    public static final String FIELD_LOGIN="login";
-    public static final String FIELD_CONTEXT="context";
-    public static final String FIELD_IMAGE_PATH="imagePath";
-    public static final String FIELD_LOCATION_LATITUDE="locationLatitude";
-    public static final String FIELD_LOCATION_LONGITUDE="locationLongitude";
+    public static final String TODO_DOCUMENT="ToDoDocument";
+    public static final int TODO_NOTE_REQUEST=1;
 
 }

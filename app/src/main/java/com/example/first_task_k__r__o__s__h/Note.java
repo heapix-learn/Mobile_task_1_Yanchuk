@@ -76,7 +76,7 @@ public class Note extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         setContentView(R.layout.activity_note);
-        todoDocuments = getIntent().getParcelableExtra("ToDoDocuments");
+        todoDocuments = getIntent().getParcelableExtra(AppContext.TODO_DOCUMENT);
 
         textTitle = (EditText) findViewById(R.id.textTitle);
         textDescription=(EditText) findViewById(R.id.textDescription);
@@ -99,7 +99,7 @@ public class Note extends AppCompatActivity {
         if (todoDocuments.getImagePath().size()!=0){
                 textNumberOfPhoto.setVisibility(View.VISIBLE);
                 textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
-                todoDocuments.setImagePath(DEFAULT_PHOTO_URL);
+//                todoDocuments.setImagePath(DEFAULT_PHOTO_URL);
                 gridViewForPhoto.setVisibility(View.VISIBLE);
                 gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, todoDocuments.getImagePath()));
                 gridViewForPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {

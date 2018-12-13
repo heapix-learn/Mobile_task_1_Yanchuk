@@ -31,6 +31,8 @@ public interface UserApi {
     @POST("/size_of_accounts")
     Call<SizeOfAccounts> pushSize(@Body SizeOfAccounts size);
 
+    @GET("/notes/{id}")
+    Call<ConvertToDoDocuments> getNoteFromId(@Path("id") String id);
 
     @GET("/size_of_notes/{id}")
     Call<SizeOfAccounts> getSizeOfNotes(@Path("id") String id);

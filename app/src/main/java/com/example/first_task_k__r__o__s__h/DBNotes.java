@@ -132,7 +132,47 @@ public abstract class DBNotes{
         values.setVideoPath(queryValues.VideoPathToString());
         new ServerPushNoteBackground().execute(values);
     }
+    public static ToDoDocuments getOneNotesFromId(String id){
+        ConvertToDoDocuments convertRead= new ConvertToDoDocuments();
 
+
+        try {
+            convertRead=(new DownloadNoteId().execute(id)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+            ToDoDocuments add = new ToDoDocuments();
+            add.setTitle(convertRead.getTitle());
+            add.setImagePath (ToDoDocuments.FromStringToList(convertRead.getImagePath()));
+            add.setNumber(Integer.parseInt(convertRead.getNumber()));
+            add.setCreateDate(new Date(Long.parseLong(convertRead.getCreateDate())));
+            add.setLogin(convertRead.getLogin());
+            add.setId(convertRead.getId());
+            add.setTextNote(convertRead.getTextNote());
+            add.setLocation(convertRead.getLocation());
+            add.setAccess(Integer.parseInt(convertRead.getAccess()));
+        return add;
+    }
+
+
+    static class DownloadNoteId extends AsyncTask<String, Void, ConvertToDoDocuments> {
+        List<ConvertToDoDocuments> list = new ArrayList<>();
+        ConvertToDoDocuments ret;
+
+        @Override
+        protected ConvertToDoDocuments doInBackground(String... params) {
+            try {
+                ret = userApi.getNoteFromId(params[0]).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return ret;
+        }
+    }
 
     static class ServerPushNoteBackground extends AsyncTask<ConvertToDoDocuments, Void, Void> {
         @Override

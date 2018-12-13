@@ -1,8 +1,10 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -10,6 +12,9 @@ public class MarkerPreview extends AppCompatActivity {
     private ImageButton like;
     private ImageButton subscription;
     private TextView noteTitle;
+    private ToDoDocuments toDoDocuments;
+    private Gallery picGallery;
+    private PicAdapter imgAdapt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,9 +22,13 @@ public class MarkerPreview extends AppCompatActivity {
         like = (ImageButton) findViewById(R.id.like);
         subscription = (ImageButton) findViewById(R.id.subscription);
         noteTitle = (TextView) findViewById(R.id.titleMarkerPreview);
+        picGallery = (Gallery) findViewById(R.id.gallery_preview);
+        picGallery.setSpacing(10);
         String id = getIntent().getExtras().getString("markerId", "");
-
-        //noteTitle.setText(id);
+        toDoDocuments = DBNotes.getOneNotesFromId(id);
+        noteTitle.setText(toDoDocuments.getTitle());
+        imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath());
+        picGallery.setAdapter(imgAdapt);
     }
 
     public void onClickLike(View view){
@@ -28,5 +37,10 @@ public class MarkerPreview extends AppCompatActivity {
 
     public void onClickSubscription(View view){
         subscription.setImageResource(R.drawable.subscription_true);
+    }
+    public void onClickFullView(View v){
+        Intent myIntent = new Intent(this, Note.class);
+        myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
+        startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
     }
 }

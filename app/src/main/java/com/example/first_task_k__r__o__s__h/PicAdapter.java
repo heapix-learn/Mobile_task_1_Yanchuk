@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Base64;
@@ -40,7 +41,7 @@ public class PicAdapter extends BaseAdapter {
         //instantiate context
         galleryContext = c;
 
-        //create bitmap array
+        //create url array
         image=image_info;
 
         //get the styling attributes - use default Andorid system resources
@@ -54,37 +55,56 @@ public class PicAdapter extends BaseAdapter {
     }
 
     //return number of data items i.e. bitmap images
+    @Override
     public int getCount() {
         return image.size();
     }
 
     //return item at specified position
+    @Override
     public Object getItem(int position) {
         return position;
     }
 
     //return item ID at specified position
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
     //get view specifies layout and display options for each thumbnail in the gallery
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View ret = null;
-        if (position<image.size()) {
+
             //create the view
-            ImageView imageView = new ImageView(galleryContext);
+        RoundRectCornerImageView imageView = new RoundRectCornerImageView(galleryContext);
             //specify the bitmap at this position in the array
-            Picasso.with(galleryContext).load(image.get(position)).centerCrop().into(imageView);
+
+//            Picasso.with(galleryContext).load(image.get(position)).centerCrop().into(imageView);
             //set layout options
-            imageView.setLayoutParams(new Gallery.LayoutParams(300, 200));
+            imageView.setLayoutParams(new Gallery.LayoutParams(290, 290));
             //scale type within view area
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setScaleType(RoundRectCornerImageView.ScaleType.CENTER_CROP);
             //set default gallery item background
-            imageView.setBackgroundResource(defaultItemBackground);
+//
+//            imageView.setBackgroundColor(Color.WHITE);
+//            imageView.setBackgroundResource(R.drawable.customshare_marker_preview);
             //return the view
+
+
+            Picasso.with(galleryContext).load(image.get(position)).resize(290, 290).centerCrop().into(imageView);
+            imageView.setBackgroundResource(R.drawable.customshare_header);
+//            imageView.setImageResource(R.drawable.screen);
+//        imageView.setImageURI(Uri.parse(image.get(position)));
             ret = imageView;
-        } else {
+
+
+
+
+
+
+
 //                //create the view
 //                VideoView videoView = new VideoView(galleryContext);
 //                //specify the bitmap at this position in the array
@@ -99,7 +119,7 @@ public class PicAdapter extends BaseAdapter {
 //                videoView.setBackgroundResource(defaultItemBackground);
 //                //return the view
 //                ret = videoView;
-        }
+
         return ret;
     }
 
