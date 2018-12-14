@@ -83,7 +83,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ClusterManager<ToDoDocuments> mClusterManager;
     private Cluster<ToDoDocuments> chosenCluster;
     private ImageButton imageButtonAddNoteMaps;
-    public static String TODO_DOCUMENT = "ToDoDocuments";
     public static int TODO_NOTE_REQUEST=1;
     public static List<ToDoDocuments> listDocuments = new ArrayList<ToDoDocuments>();
     public int size=0;
@@ -647,7 +646,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void showDocuments(ToDoDocuments toDoDocuments){
         imageButtonAddNoteMaps.setVisibility(View.GONE);
         Intent myIntent = new Intent(this, Note.class);
-        myIntent.putExtra(TODO_DOCUMENT,toDoDocuments);
+        myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
         startActivityForResult(myIntent, TODO_NOTE_REQUEST);
     }
 
@@ -660,7 +659,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     break;
                 }
                 case Note.RESULT_SAVE: {
-                    final ToDoDocuments toDoDocuments =  data.getParcelableExtra("ToDoDocuments");
+                    final ToDoDocuments toDoDocuments =  data.getParcelableExtra(AppContext.TODO_DOCUMENT);
 
                     if (toDoDocuments.getId().equals("-1")){
 

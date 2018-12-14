@@ -29,7 +29,7 @@
             android:label="@string/title_activity_main" />
         <activity
             android:name=".Note"
-            android:theme="@style/AppTheme.MyTransparent"></activity>
+            android:theme="@style/AppTheme.MyTransparent" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -56,8 +56,10 @@
         <activity
             android:name=".HelpActivity"
             android:label="@string/title_activity_help" />
-        <activity   android:name=".MarkerPreview"
-                    android:theme="@style/AppTheme.MyTransparent"></activity>
+        <activity
+            android:name=".MarkerPreview"
+            android:theme="@style/AppTheme.MyTransparent" />
+        <activity android:name=".FullViewOfThePostActivity"></activity>
     </application>
 
 </manifest>

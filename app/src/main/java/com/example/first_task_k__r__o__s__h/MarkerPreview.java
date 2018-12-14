@@ -39,8 +39,9 @@ public class MarkerPreview extends AppCompatActivity {
         subscription.setImageResource(R.drawable.subscription_true);
     }
     public void onClickFullView(View v){
-        Intent myIntent = new Intent(this, Note.class);
+        Intent myIntent = new Intent(this, FullViewOfThePostActivity.class);
         myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
         startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
+        finish();
     }
 }

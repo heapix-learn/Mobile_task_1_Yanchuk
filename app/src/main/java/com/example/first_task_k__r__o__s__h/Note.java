@@ -64,11 +64,6 @@ public class Note extends AppCompatActivity {
     private GridView gridViewForPhoto;
     private GridView gridViewForVideo;
 
-    private static final int NAME_LENGTH=20;
-    private boolean update=false;
-    private PicAdapter imgAdapt;
-    private boolean imgKey = false;
-    private int keyPosition=0;
     public boolean finish=false;
 
     @Override
@@ -198,7 +193,6 @@ public class Note extends AppCompatActivity {
         todoDocuments.setTitle(textTitle.getText().toString());
         todoDocuments.setTextNote(textDescription.getText().toString());
         todoDocuments.setCreateDate(new Date());
-        finish=true;
         setResult(RESULT_SAVE, getIntent());
     }
 
