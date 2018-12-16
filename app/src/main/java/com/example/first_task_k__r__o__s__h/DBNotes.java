@@ -153,6 +153,7 @@ public abstract class DBNotes{
             add.setId(convertRead.getId());
             add.setTextNote(convertRead.getTextNote());
             add.setLocation(convertRead.getLocation());
+            add.setVideoPath(ToDoDocuments.FromStringToList(convertRead.getVideoPath()));
             add.setAccess(Integer.parseInt(convertRead.getAccess()));
         return add;
     }

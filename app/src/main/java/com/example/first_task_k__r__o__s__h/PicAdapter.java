@@ -5,14 +5,20 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
@@ -22,6 +28,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class PicAdapter extends BaseAdapter {
@@ -36,13 +43,14 @@ public class PicAdapter extends BaseAdapter {
     private List<String> video;
 
 
-    public PicAdapter(Context c, List<String> image_info) {
+    public PicAdapter(Context c, List<String> image_info, List<String> video_info) {
 
         //instantiate context
         galleryContext = c;
 
         //create url array
         image=image_info;
+        video=video_info;
 
         //get the styling attributes - use default Andorid system resources
         TypedArray styleAttrs = galleryContext.obtainStyledAttributes(R.styleable.PicGallery);
@@ -57,7 +65,7 @@ public class PicAdapter extends BaseAdapter {
     //return number of data items i.e. bitmap images
     @Override
     public int getCount() {
-        return image.size();
+        return image.size()+video.size();
     }
 
     //return item at specified position
@@ -75,52 +83,52 @@ public class PicAdapter extends BaseAdapter {
     //get view specifies layout and display options for each thumbnail in the gallery
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View ret = null;
+        if (position<image.size()) {
+            View grid;
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) galleryContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            //create the view
-        RoundRectCornerImageView imageView = new RoundRectCornerImageView(galleryContext);
-            //specify the bitmap at this position in the array
+                grid = inflater.inflate(R.layout.mygrid_layout, parent, false);
+            } else grid = convertView;
 
-//            Picasso.with(galleryContext).load(image.get(position)).centerCrop().into(imageView);
-            //set layout options
-            imageView.setLayoutParams(new Gallery.LayoutParams(290, 290));
-            //scale type within view area
-            imageView.setScaleType(RoundRectCornerImageView.ScaleType.CENTER_CROP);
-            //set default gallery item background
-//
-//            imageView.setBackgroundColor(Color.WHITE);
-//            imageView.setBackgroundResource(R.drawable.customshare_marker_preview);
-            //return the view
+            ImageView imageView1 = (ImageView) grid.findViewById(R.id.img_photo);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageView1.setClipToOutline(true);
+            }
+            Picasso.with(galleryContext).load(image.get(position)).resize(300, 300).centerCrop().into(imageView1);
 
+            ImageButton imageButton = (ImageButton) grid.findViewById(R.id.btn_close);
+            imageButton.setVisibility(View.GONE);
+            return grid;
+        }else {
+            View grid;
+            TextView videoTime;
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) galleryContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            Picasso.with(galleryContext).load(image.get(position)).resize(290, 290).centerCrop().into(imageView);
-            imageView.setBackgroundResource(R.drawable.customshare_header);
-//            imageView.setImageResource(R.drawable.screen);
-//        imageView.setImageURI(Uri.parse(image.get(position)));
-            ret = imageView;
-
-
-
-
+                grid = inflater.inflate(R.layout.mygrid_layout, parent, false);
+            } else grid = convertView;
 
 
+            ImageView imageView1 = (ImageView) grid.findViewById(R.id.img_photo);
+            imageView1.setScaleType(RoundRectCornerImageView.ScaleType.CENTER_CROP);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageView1.setClipToOutline(true);
+            }
 
-//                //create the view
-//                VideoView videoView = new VideoView(galleryContext);
-//                //specify the bitmap at this position in the array
-////                videoView.setVideoURI(imageURI.get(position));
-//
-//
-//                //set layout options
-//                videoView.setLayoutParams(new Gallery.LayoutParams(300, 200));
-//                //scale type within view area
-//            //    videoView.setScaleType(ViView.ScaleType.FIT_CENTER);
-//                //set default gallery item background
-//                videoView.setBackgroundResource(defaultItemBackground);
-//                //return the view
-//                ret = videoView;
+            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(video.get(position-image.size()),new HashMap<String, String>());
+            Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime();
 
-        return ret;
+            imageView1.setImageBitmap(bitmap);
+
+            ImageButton imageButton = (ImageButton) grid.findViewById(R.id.btn_close);
+            videoTime = (TextView) grid.findViewById(R.id.textTime);
+            imageButton.setVisibility(View.GONE);
+            videoTime.setVisibility(View.VISIBLE);
+            return grid;
+        }
+
     }
 
 

@@ -3,29 +3,45 @@ package com.example.first_task_k__r__o__s__h;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 public class VideoAdapterGrid extends BaseAdapter {
     private Context context;
     private List<String> video;
-    VideoView videoView;
+    private TextView textView;
+    private GridView gridViewForVideo;
+    private boolean edit;
 
-    public VideoAdapterGrid(Context context, List<String> video){
+
+    public VideoAdapterGrid(Context context, List<String> video, TextView textView, GridView gridViewForVideo, boolean edit){
         this.context=context;
         this.video = video;
+        this.textView = textView;
+        this.gridViewForVideo=gridViewForVideo;
+        this.edit=edit;
     }
 
     @Override
@@ -35,29 +51,72 @@ public class VideoAdapterGrid extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return video.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView==null){
-            videoView = new VideoView(context);
-            videoView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
-            videoView.setPadding(8,8,8,8);
-        } else{
-            videoView = (VideoView) convertView;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        View grid;
+        TextView videoTime;
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            grid = inflater.inflate(R.layout.mygrid_layout, parent, false);
+        } else grid = convertView;
+        int t=0;
+        if (getCount()%3==0) t=1;
+        if (gridViewForVideo.getWidth()!=0) {
+            gridViewForVideo.setLayoutParams(new LinearLayout.LayoutParams(gridViewForVideo.getWidth(), ((getCount() / 3) + 1) * 310));
         }
-        MediaController mediaController = new MediaController(context);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
-        videoView.requestFocus();
-        videoView.setVideoURI(Uri.parse(video.get(position)));
-        return videoView;
+        videoTime = grid.findViewById(R.id.textTime);
+        videoTime.setVisibility(View.VISIBLE);
+        if (getCount()==0){
+            gridViewForVideo.setVisibility(View.GONE);
+        }
+        ImageView imageView1 = (ImageView) grid.findViewById(R.id.img_photo);
+        imageView1.setScaleType(RoundRectCornerImageView.ScaleType.CENTER_CROP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            imageView1.setClipToOutline(true);
+        }
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(video.get(position),new HashMap<String, String>());
+        Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime();
+        imageView1.setImageBitmap(bitmap);
+        ImageButton imageButton = (ImageButton) grid.findViewById(R.id.btn_close);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItem(position);
+                if (getCount()!=0) textView.setVisibility(View.VISIBLE);
+                else textView.setVisibility(View.GONE);
+                textView.setText(getCount()+ " Videos");
+            }
+        });
+        if (!edit) imageButton.setVisibility(View.GONE);
+        return grid;
     }
+
+    public void removeItem(int position){
+        video.remove(position);
+        notifyDataSetChanged();
+        int t=0;
+        if (getCount()%3==0) t=1;
+        gridViewForVideo.setLayoutParams(new LinearLayout.LayoutParams(gridViewForVideo.getWidth(),((getCount()/3)+1-t)*310));
+        if (getCount()==0){
+            gridViewForVideo.setVisibility(View.GONE);
+        }
+
+    }
+//        MediaController mediaController = new MediaController(context);
+//        mediaController.setAnchorView(videoView);
+//        videoView.setMediaController(mediaController);
+//        videoView.requestFocus();
+//        videoView.setVideoURI(Uri.parse(video.get(position)));
+//        return videoView;
+//    }
 
 }

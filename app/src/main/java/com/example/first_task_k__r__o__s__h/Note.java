@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -53,7 +54,7 @@ public class Note extends AppCompatActivity {
     private ToDoDocuments todoDocuments;
 
     private ImageButton lock;
-    private String DEFAULT_PHOTO_URL="http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png";
+    private String DEFAULT_PHOTO_URL="http://i.imgur.com/DvpvklR.png";
     private String DEFAULT_VIDEO_URL="http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4";
 
     private Gallery picGallery;
@@ -64,7 +65,6 @@ public class Note extends AppCompatActivity {
     private GridView gridViewForPhoto;
     private GridView gridViewForVideo;
 
-    public boolean finish=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,19 +96,13 @@ public class Note extends AppCompatActivity {
                 textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
 //                todoDocuments.setImagePath(DEFAULT_PHOTO_URL);
                 gridViewForPhoto.setVisibility(View.VISIBLE);
-                gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, todoDocuments.getImagePath()));
-                gridViewForPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(Note.this, ""+position,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto, true));
         }
         if (todoDocuments.getVideoPath().size()!=0){
             textNumberOfVideo.setVisibility(View.VISIBLE);
             textNumberOfVideo.setText(todoDocuments.getVideoPath().size() + " Videos");
             gridViewForVideo.setVisibility(View.VISIBLE);
-            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, todoDocuments.getVideoPath()));
+            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, todoDocuments.getVideoPath(), textNumberOfVideo, gridViewForVideo, true));
             gridViewForVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -147,31 +141,15 @@ public class Note extends AppCompatActivity {
                     if (checkType(selectedImage.toString())==0){
                         todoDocuments.setImagePath(DEFAULT_PHOTO_URL);
                         textNumberOfPhoto.setVisibility(View.VISIBLE);
-                        textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
                         gridViewForPhoto.setVisibility(View.VISIBLE);
-                        gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, todoDocuments.getImagePath()));
-                        gridViewForPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Toast.makeText(Note.this, ""+position,Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    }
-                    else {
+                        gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto,true));
+                        textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
+                    } else {
                         todoDocuments.setVideoPath(DEFAULT_VIDEO_URL);
                         textNumberOfVideo.setVisibility(View.VISIBLE);
                         textNumberOfVideo.setText(todoDocuments.getVideoPath().size() + " Videos");
                         gridViewForVideo.setVisibility(View.VISIBLE);
-                        gridViewForVideo.setAdapter(new VideoAdapterGrid(this, todoDocuments.getVideoPath()));
-                        gridViewForVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                VideoView mView = (VideoView) view;
-                                mView.start();
-
-                            }
-                        });
+                        gridViewForVideo.setAdapter(new VideoAdapterGrid(this, todoDocuments.getVideoPath(), textNumberOfVideo, gridViewForVideo,true));
                     }
                 }
         }

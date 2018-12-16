@@ -27,7 +27,7 @@ public class MarkerPreview extends AppCompatActivity {
         String id = getIntent().getExtras().getString("markerId", "");
         toDoDocuments = DBNotes.getOneNotesFromId(id);
         noteTitle.setText(toDoDocuments.getTitle());
-        imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath());
+        imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath(), toDoDocuments.getVideoPath());
         picGallery.setAdapter(imgAdapt);
     }
 

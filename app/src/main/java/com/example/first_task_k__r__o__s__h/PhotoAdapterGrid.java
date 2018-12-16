@@ -1,16 +1,17 @@
 package com.example.first_task_k__r__o__s__h;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 
 import com.squareup.picasso.Picasso;
 import java.util.List;
@@ -18,11 +19,16 @@ import java.util.List;
 public class PhotoAdapterGrid extends BaseAdapter {
     private Context context;
     private List<String> photo;
-    ImageView imageView;
+    private TextView textView;
+    private GridView gridViewForPhoto;
+    private boolean edit;
 
-    public PhotoAdapterGrid(Context context, List<String> photo){
+    public PhotoAdapterGrid(Context context, List<String> photo, TextView textView, GridView gridViewForPhoto, boolean edit){
         this.context=context;
         this.photo = photo;
+        this.textView = textView;
+        this.gridViewForPhoto=gridViewForPhoto;
+        this.edit=edit;
     }
 
     @Override
@@ -32,45 +38,51 @@ public class PhotoAdapterGrid extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return position;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
-    @SuppressLint("ViewHolder")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (convertView==null){
-            imageView = new ImageView(context);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
-            imageView.setBackgroundResource(R.drawable.customshare_header);
-
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8,8,8,8);
-        } else{
-            imageView = (ImageView) convertView;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        View grid;
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            grid = inflater.inflate(R.layout.mygrid_layout, parent, false);
+        } else grid = convertView;
+        int t=0;
+        if (getCount()%3==0) t=1;
+        if (gridViewForPhoto.getWidth()!=0) {
+            gridViewForPhoto.setLayoutParams(new LinearLayout.LayoutParams(gridViewForPhoto.getWidth(), ((getCount() / 3) + 1) * 310));
         }
-        Picasso.with(context).load(photo.get(position)).resize(300, 300).centerCrop().into(imageView);
-        return imageView;
-//        View grid = new View(context);
- //       View grid = LayoutInflater.from(parent.getContext()).inflate(R.layout.mygrid_layout, parent);
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-//
-//         grid = inflater.inflate(R.layout.mygrid_layout, parent, false);
-//        ImageView imageView1 = (ImageView) grid.findViewById(R.id.img_photo);
-//        imageView1.setImageDrawable(imageView.getDrawable());
-//            final CustomView customView1 = new CustomView(context);
-//            final CustomView customView2 = new CustomView(context);
-//
-//            final LinearLayout container = (LinearLayout) grid.findViewById(R.id.container);
-//            container.addView(customView1);
-//            container.addView(customView2);
+        ImageView imageView1 = (ImageView) grid.findViewById(R.id.img_photo);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            imageView1.setClipToOutline(true);
+        }
+        Picasso.with(context).load(photo.get(position)).resize(300, 300).centerCrop().into(imageView1);
+        ImageButton imageButton = (ImageButton) grid.findViewById(R.id.btn_close);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItem(position);
+                if (getCount()!=0) textView.setVisibility(View.VISIBLE);
+                else textView.setVisibility(View.GONE);
+                textView.setText(getCount()+ " Photos");
+            }
+        });
+        if (!edit) imageButton.setVisibility(View.GONE);
+        return grid;
+    }
 
-//        return (View) grid;
+    public void removeItem(int position){
+        photo.remove(position);
+        notifyDataSetChanged();
+        int t=0;
+        if (getCount()%3==0) t=1;
+        gridViewForPhoto.setLayoutParams(new LinearLayout.LayoutParams(gridViewForPhoto.getWidth(),((getCount()/3)+1)*310));
     }
 
 }
