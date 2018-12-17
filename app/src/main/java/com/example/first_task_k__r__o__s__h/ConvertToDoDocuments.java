@@ -47,6 +47,9 @@ public class ConvertToDoDocuments {
     @SerializedName("videoPath")
     @Expose
     private String videoPath;
+    @SerializedName("videoScreen")
+    @Expose
+    private String videoScreen;
 
     public void setId(String id) {
         this.id = id;
@@ -126,5 +129,13 @@ public class ConvertToDoDocuments {
 
     public String getVideoPath() {
         return videoPath;
+    }
+
+    public String getVideoScreen() {
+        return videoScreen;
+    }
+
+    public void setVideoScreen(String videoScreen) {
+        this.videoScreen = videoScreen;
     }
 }

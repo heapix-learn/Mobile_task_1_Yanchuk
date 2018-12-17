@@ -1,7 +1,10 @@
 package com.example.first_task_k__r__o__s__h;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +25,15 @@ public class PhotoAdapterGrid extends BaseAdapter {
     private TextView textView;
     private GridView gridViewForPhoto;
     private boolean edit;
+    private Bundle bundle;
 
-    public PhotoAdapterGrid(Context context, List<String> photo, TextView textView, GridView gridViewForPhoto, boolean edit){
+    public PhotoAdapterGrid(Context context, Bundle bundle, List<String> photo, TextView textView, GridView gridViewForPhoto, boolean edit){
         this.context=context;
         this.photo = photo;
         this.textView = textView;
         this.gridViewForPhoto=gridViewForPhoto;
         this.edit=edit;
+        this.bundle=bundle;
     }
 
     @Override
@@ -63,6 +68,17 @@ public class PhotoAdapterGrid extends BaseAdapter {
             imageView1.setClipToOutline(true);
         }
         Picasso.with(context).load(photo.get(position)).resize(300, 300).centerCrop().into(imageView1);
+
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, FullScreenPhoto.class);
+                myIntent.putExtra(AppContext.PHOTO_URL, photo.get(position));
+                ActivityCompat.startActivity(context, myIntent, bundle);
+            }
+        });
+
+
         ImageButton imageButton = (ImageButton) grid.findViewById(R.id.btn_close);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

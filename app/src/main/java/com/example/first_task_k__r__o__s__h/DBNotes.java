@@ -1,29 +1,13 @@
 package com.example.first_task_k__r__o__s__h;
 
-import android.app.ProgressDialog;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
-import android.widget.Toast;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +29,7 @@ public abstract class DBNotes{
         values.setLocation(queryValues.getLocation());
         values.setAccess(String.valueOf(queryValues.getAccess()));
         values.setVideoPath(queryValues.VideoPathToString());
+        values.setVideoScreen(queryValues.VideoScreenToString());
         userApi.pushNote(values).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -81,6 +66,7 @@ public abstract class DBNotes{
             add.setLocation(convertRead.get(i).getLocation());
             add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
             add.setVideoPath(convertRead.get(i).getVideoPath());
+            add.setVideoScreen(convertRead.get(i).getVideoScreen());
             read.add(add);
         }
         return read;
@@ -110,6 +96,7 @@ public abstract class DBNotes{
             add.setLocation(convertRead.get(i).getLocation());
             add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
             add.setVideoPath(ToDoDocuments.FromStringToList(convertRead.get(i).getVideoPath()));
+            add.setVideoScreen(ToDoDocuments.FromStringToList(convertRead.get(i).getVideoScreen()));
             read.add(add);
         }
         return read;
@@ -130,11 +117,11 @@ public abstract class DBNotes{
         values.setLocation(queryValues.getLocation());
         values.setAccess(String.valueOf(queryValues.getAccess()));
         values.setVideoPath(queryValues.VideoPathToString());
+        values.setVideoScreen(queryValues.VideoScreenToString());
         new ServerPushNoteBackground().execute(values);
     }
     public static ToDoDocuments getOneNotesFromId(String id){
         ConvertToDoDocuments convertRead= new ConvertToDoDocuments();
-
 
         try {
             convertRead=(new DownloadNoteId().execute(id)).get();
@@ -154,6 +141,7 @@ public abstract class DBNotes{
             add.setTextNote(convertRead.getTextNote());
             add.setLocation(convertRead.getLocation());
             add.setVideoPath(ToDoDocuments.FromStringToList(convertRead.getVideoPath()));
+            add.setVideoScreen(ToDoDocuments.FromStringToList(convertRead.getVideoScreen()));
             add.setAccess(Integer.parseInt(convertRead.getAccess()));
         return add;
     }

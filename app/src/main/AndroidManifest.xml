@@ -59,11 +59,14 @@
         <activity
             android:name=".MarkerPreview"
             android:theme="@style/AppTheme.MyTransparent" />
-        <activity android:name=".FullViewOfThePostActivity"
-            android:theme="@style/AppTheme.MyTransparent"/>
-        <activity android:name=".SettingMenuForFullView"
-            android:theme="@style/AppTheme.MyTransparent">
-        </activity>
+        <activity
+            android:name=".FullViewOfThePostActivity"
+            android:theme="@style/AppTheme.MyTransparent" />
+        <activity
+            android:name=".SettingMenuForFullView"
+            android:theme="@style/AppTheme.MyTransparent" />
+        <activity android:name=".FullScreenPhoto" />
+        <activity android:name=".FullScreenVideo" />
     </application>
 
 </manifest>

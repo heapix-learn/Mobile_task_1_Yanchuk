@@ -1,6 +1,7 @@
 package com.example.first_task_k__r__o__s__h;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
@@ -8,7 +9,9 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,17 +34,21 @@ import java.util.List;
 public class VideoAdapterGrid extends BaseAdapter {
     private Context context;
     private List<String> video;
+    private List<String> videoScreen;
     private TextView textView;
     private GridView gridViewForVideo;
     private boolean edit;
+    private Bundle bundle;
 
 
-    public VideoAdapterGrid(Context context, List<String> video, TextView textView, GridView gridViewForVideo, boolean edit){
+    public VideoAdapterGrid(Context context, Bundle bundle, List<String> video, List<String> videoScreen, TextView textView, GridView gridViewForVideo, boolean edit){
         this.context=context;
         this.video = video;
+        this.videoScreen=videoScreen;
         this.textView = textView;
         this.gridViewForVideo=gridViewForVideo;
         this.edit=edit;
+        this.bundle=bundle;
     }
 
     @Override
@@ -82,10 +89,24 @@ public class VideoAdapterGrid extends BaseAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             imageView1.setClipToOutline(true);
         }
-        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(video.get(position),new HashMap<String, String>());
-        Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime();
-        imageView1.setImageBitmap(bitmap);
+
+
+
+//        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+//        mediaMetadataRetriever.setDataSource(video.get(position),new HashMap<String, String>());
+//        Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime();
+//        imageView1.setImageBitmap(bitmap);
+
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, FullScreenVideo.class);
+                myIntent.putExtra(AppContext.VIDEO_URL, video.get(position));
+                ActivityCompat.startActivity(context, myIntent, bundle);
+            }
+        });
+
+        Picasso.with(context).load(videoScreen.get(position)).resize(300, 300).centerCrop().into(imageView1);
         ImageButton imageButton = (ImageButton) grid.findViewById(R.id.btn_close);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -56,6 +56,7 @@ public class Note extends AppCompatActivity {
     private ImageButton lock;
     private String DEFAULT_PHOTO_URL="http://i.imgur.com/DvpvklR.png";
     private String DEFAULT_VIDEO_URL="http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4";
+    private String DEFAULT_VIDEO_SCREEN_URL="http://i.imgur.com/DvpvklR.png";
 
     private Gallery picGallery;
     private VideoView videoView;
@@ -64,6 +65,7 @@ public class Note extends AppCompatActivity {
     static final int GALLERY_REQUEST = 1;
     private GridView gridViewForPhoto;
     private GridView gridViewForVideo;
+    private Bundle bundle;
 
 
     @Override
@@ -72,7 +74,7 @@ public class Note extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         setContentView(R.layout.activity_note);
         todoDocuments = getIntent().getParcelableExtra(AppContext.TODO_DOCUMENT);
-
+        bundle = savedInstanceState;
         textTitle = (EditText) findViewById(R.id.textTitle);
         textDescription=(EditText) findViewById(R.id.textDescription);
         textLocation=(EditText) findViewById(R.id.textLocation);
@@ -96,13 +98,13 @@ public class Note extends AppCompatActivity {
                 textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
 //                todoDocuments.setImagePath(DEFAULT_PHOTO_URL);
                 gridViewForPhoto.setVisibility(View.VISIBLE);
-                gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto, true));
+                gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto, true));
         }
         if (todoDocuments.getVideoPath().size()!=0){
             textNumberOfVideo.setVisibility(View.VISIBLE);
             textNumberOfVideo.setText(todoDocuments.getVideoPath().size() + " Videos");
             gridViewForVideo.setVisibility(View.VISIBLE);
-            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, todoDocuments.getVideoPath(), textNumberOfVideo, gridViewForVideo, true));
+            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, gridViewForVideo, true));
             gridViewForVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -142,14 +144,15 @@ public class Note extends AppCompatActivity {
                         todoDocuments.setImagePath(DEFAULT_PHOTO_URL);
                         textNumberOfPhoto.setVisibility(View.VISIBLE);
                         gridViewForPhoto.setVisibility(View.VISIBLE);
-                        gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto,true));
+                        gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto,true));
                         textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
                     } else {
                         todoDocuments.setVideoPath(DEFAULT_VIDEO_URL);
+                        todoDocuments.setVideoScreen(DEFAULT_VIDEO_SCREEN_URL);
                         textNumberOfVideo.setVisibility(View.VISIBLE);
                         textNumberOfVideo.setText(todoDocuments.getVideoPath().size() + " Videos");
                         gridViewForVideo.setVisibility(View.VISIBLE);
-                        gridViewForVideo.setAdapter(new VideoAdapterGrid(this, todoDocuments.getVideoPath(), textNumberOfVideo, gridViewForVideo,true));
+                        gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, gridViewForVideo,true));
                     }
                 }
         }
@@ -350,21 +353,5 @@ public class Note extends AppCompatActivity {
 //        return this.getFilesDir();
 //    }
 
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels){
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        final int color =0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0,0,bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-        final float roundPx = pixels;
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0,0,0,0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
-    }
 
 }

@@ -41,17 +41,19 @@ public class PicAdapter extends BaseAdapter {
     //array to store bitmaps to display
     private List<String> image;
     private List<String> video;
+    private List<String> videoScreen;
 
 
-    public PicAdapter(Context c, List<String> image_info, List<String> video_info) {
+
+    public PicAdapter(Context c, List<String> imageInfo, List<String> videoInfo, List<String> videoScreenInfo) {
 
         //instantiate context
         galleryContext = c;
 
         //create url array
-        image=image_info;
-        video=video_info;
-
+        image=imageInfo;
+        video=videoInfo;
+        videoScreen=videoScreenInfo;
         //get the styling attributes - use default Andorid system resources
         TypedArray styleAttrs = galleryContext.obtainStyledAttributes(R.styleable.PicGallery);
 
@@ -109,18 +111,18 @@ public class PicAdapter extends BaseAdapter {
                 grid = inflater.inflate(R.layout.mygrid_layout, parent, false);
             } else grid = convertView;
 
-
             ImageView imageView1 = (ImageView) grid.findViewById(R.id.img_photo);
             imageView1.setScaleType(RoundRectCornerImageView.ScaleType.CENTER_CROP);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 imageView1.setClipToOutline(true);
             }
 
-            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(video.get(position-image.size()),new HashMap<String, String>());
-            Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime();
+//            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+//            mediaMetadataRetriever.setDataSource(video.get(position-image.size()),new HashMap<String, String>());
+//            Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime();
+//            imageView1.setImageBitmap(bitmap);
 
-            imageView1.setImageBitmap(bitmap);
+            Picasso.with(galleryContext).load(videoScreen.get(position-image.size())).resize(300, 300).centerCrop().into(imageView1);
 
             ImageButton imageButton = (ImageButton) grid.findViewById(R.id.btn_close);
             videoTime = (TextView) grid.findViewById(R.id.textTime);

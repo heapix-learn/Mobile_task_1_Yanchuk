@@ -62,6 +62,10 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     @SerializedName("videoPath")
     @Expose
     private List<String> videoPath;
+    @SerializedName("videoScreen")
+    @Expose
+    private List<String> videoScreen;
+
 
 
 
@@ -75,10 +79,11 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         imagePath = new ArrayList<>();
         id="-1";
         videoPath = new ArrayList<>();
+        videoScreen = new ArrayList<>();
     }
 
     public ToDoDocuments(Parcel in){
-        String[] data = new String[10];
+        String[] data = new String[11];
         in.readStringArray(data);
         title=data[0];
         number=Integer.parseInt(data[1]);
@@ -91,6 +96,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         location = data[7];
         access = Integer.parseInt(data[8]);
         videoPath= FromStringToList(data[9]);
+        videoScreen= FromStringToList(data[10]);
     }
 
     public String ImagePathToString(){
@@ -109,6 +115,16 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         for (int i=0; i<videoPath.size(); i++){
 
             ans.append(videoPath.get(i)).append("&&");
+        }
+        return ans.toString();
+    }
+
+    public String VideoScreenToString(){
+        if (videoScreen.size()==0) return "";
+        StringBuilder ans= new StringBuilder();
+        for (int i=0; i<videoScreen.size(); i++){
+
+            ans.append(videoScreen.get(i)).append("&&");
         }
         return ans.toString();
     }
@@ -234,6 +250,17 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         this.videoPath.addAll(videoPath);
     }
 
+    public List<String> getVideoScreen() {
+        return videoScreen;
+    }
+
+    public void setVideoScreen(String videoScreen) {
+        this.videoScreen.add(videoScreen);
+    }
+
+    public void setVideoScreen(List<String> videoScreen) {
+        this.videoScreen.addAll(videoScreen);
+    }
 
     @Override
     public int describeContents(){
@@ -242,7 +269,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, VideoPathToString()});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, VideoPathToString(), VideoScreenToString()});
     }
 
     @NonNull

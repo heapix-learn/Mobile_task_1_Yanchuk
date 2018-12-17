@@ -23,10 +23,12 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
     private GridView gridViewForPhoto;
     private GridView gridViewForVideo;
     private PhotoAdapterGrid photoAdapterGrid;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bundle = savedInstanceState;
         setContentView(R.layout.activity_full_view_of_the_post);
         todoDocument = getIntent().getParcelableExtra(AppContext.TODO_DOCUMENT);
 
@@ -42,14 +44,14 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
             textNumberOfPhoto.setVisibility(View.VISIBLE);
             textNumberOfPhoto.setText(todoDocument.getImagePath().size() + " Photos");
             gridViewForPhoto.setVisibility(View.VISIBLE);
-            photoAdapterGrid = new PhotoAdapterGrid(this, todoDocument.getImagePath(), textNumberOfPhoto, gridViewForPhoto, false);
+            photoAdapterGrid = new PhotoAdapterGrid(this, bundle, todoDocument.getImagePath(), textNumberOfPhoto, gridViewForPhoto, false);
             gridViewForPhoto.setAdapter(photoAdapterGrid);
         }
         if (todoDocument.getVideoPath().size()!=0){
             textNumberOfVideo.setVisibility(View.VISIBLE);
             textNumberOfVideo.setText(todoDocument.getVideoPath().size() + " Videos");
             gridViewForVideo.setVisibility(View.VISIBLE);
-            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, todoDocument.getVideoPath(), textNumberOfVideo, gridViewForVideo, false));
+            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocument.getVideoPath(), todoDocument.getVideoScreen(), textNumberOfVideo, gridViewForVideo, false));
         }
     }
 

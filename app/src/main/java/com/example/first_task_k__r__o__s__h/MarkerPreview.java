@@ -15,9 +15,12 @@ public class MarkerPreview extends AppCompatActivity {
     private ToDoDocuments toDoDocuments;
     private Gallery picGallery;
     private PicAdapter imgAdapt;
+    private Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_marker_preview);
         like = (ImageButton) findViewById(R.id.like);
         subscription = (ImageButton) findViewById(R.id.subscription);
@@ -27,7 +30,7 @@ public class MarkerPreview extends AppCompatActivity {
         String id = getIntent().getExtras().getString("markerId", "");
         toDoDocuments = DBNotes.getOneNotesFromId(id);
         noteTitle.setText(toDoDocuments.getTitle());
-        imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath(), toDoDocuments.getVideoPath());
+        imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath(), toDoDocuments.getVideoPath(), toDoDocuments.getVideoScreen());
         picGallery.setAdapter(imgAdapt);
     }
 
