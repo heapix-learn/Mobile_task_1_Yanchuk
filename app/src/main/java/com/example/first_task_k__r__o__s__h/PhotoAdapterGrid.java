@@ -73,7 +73,8 @@ public class PhotoAdapterGrid extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, FullScreenPhoto.class);
-                myIntent.putExtra(AppContext.PHOTO_URL, photo.get(position));
+                myIntent.putExtra(AppContext.PHOTOS_URL, AppContext.ListPathToString(photo));
+                myIntent.putExtra(AppContext.POSITION, position);
                 ActivityCompat.startActivity(context, myIntent, bundle);
             }
         });

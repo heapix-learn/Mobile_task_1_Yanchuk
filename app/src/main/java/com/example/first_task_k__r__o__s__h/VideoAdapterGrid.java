@@ -101,7 +101,8 @@ public class VideoAdapterGrid extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, FullScreenVideo.class);
-                myIntent.putExtra(AppContext.VIDEO_URL, video.get(position));
+                myIntent.putExtra(AppContext.VIDEO_URL, AppContext.ListPathToString(video));
+                myIntent.putExtra(AppContext.POSITION, position);
                 ActivityCompat.startActivity(context, myIntent, bundle);
             }
         });
@@ -132,12 +133,4 @@ public class VideoAdapterGrid extends BaseAdapter {
         }
 
     }
-//        MediaController mediaController = new MediaController(context);
-//        mediaController.setAnchorView(videoView);
-//        videoView.setMediaController(mediaController);
-//        videoView.requestFocus();
-//        videoView.setVideoURI(Uri.parse(video.get(position)));
-//        return videoView;
-//    }
-
 }
