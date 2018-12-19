@@ -57,7 +57,25 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
 
     public void onClickSettingsPost(View v){
         Intent myIntent = new Intent(this, SettingMenuForFullView.class);
-        startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
+        startActivityForResult(myIntent, AppContext.TODO_NOTE_SETTING_REQUEST);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AppContext.TODO_NOTE_SETTING_REQUEST) {
+            switch (resultCode) {
+                case AppContext.DELETE_POST_REQUEST:
+                    setResult(AppContext.DELETE_POST_REQUEST, getIntent());
+                    finish();
+                    break;
+                case AppContext.EDIT_POST_REQUEST:
+                    setResult(AppContext.EDIT_POST_REQUEST, getIntent());
+                    finish();
+                    break;
+            }
+        }
     }
 
 

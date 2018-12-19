@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case Note.RESULT_DELETE: {
                     ToDoDocuments toDoDocuments = data.getParcelableExtra("ToDoDocuments");
-                    DBNotes.deleteNote(toDoDocuments);
+                    DBNotes.deleteNote(toDoDocuments.getId());
                     deleteDocument(toDoDocuments);
                     break;
                 }

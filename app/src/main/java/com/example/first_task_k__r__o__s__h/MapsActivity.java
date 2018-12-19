@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -256,7 +258,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (int i=0; i<listDocuments.size(); i++) {
             ToDoDocuments toDoDocuments = listDocuments.get(i);
-
             mClusterManager.addItem(toDoDocuments);
         }
 
@@ -320,7 +321,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             this.mColoredCircleBackground = new ShapeDrawable(new OvalShape());
             ShapeDrawable outline = new ShapeDrawable(new OvalShape());
 
+//            float[] cmData = new float[]{
+//                    1,0,0,0,0,
+//                    0,1,0,0,0,
+//                    0,0,0,0,0,
+//                    0,0,0,1,0};
+//
             outline.getPaint().setColor(Color.argb(50, 176, 179, 20));
+//
+//            ColorMatrix cm = new ColorMatrix(cmData);
+//            ColorFilter filter = new ColorMatrixColorFilter(cm);
+//            outline.setColorFilter(filter);
+
             LayerDrawable background = new LayerDrawable(new Drawable[]{outline, this.mColoredCircleBackground});
             int strokeWidth = (int)(this.mDensity * 5.0F);
             background.setLayerInset(1, strokeWidth, strokeWidth, strokeWidth, strokeWidth);
@@ -703,10 +715,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     break;
                 }
-                case Note.RESULT_DELETE: {
-                    ToDoDocuments toDoDocuments = data.getParcelableExtra("ToDoDocuments");
-                    DBNotes.deleteNote(toDoDocuments);
+                case AppContext.DELETE_POST_REQUEST: {
+                    ToDoDocuments toDoDocuments = data.getParcelableExtra(AppContext.TODO_DOCUMENT);
+                    String id =  data.getExtras().getString(AppContext.GET_POST_ID);
+                    DBNotes.deleteNote(id);
                     deleteDocument(toDoDocuments);
+                    break;
+                }
+
+                case AppContext.EDIT_POST_REQUEST: {
+                    ToDoDocuments toDoDocuments = data.getParcelableExtra(AppContext.TODO_DOCUMENT);
+                    String id =  data.getExtras().getString(AppContext.GET_POST_ID);
+                    imageButtonAddNoteMaps.setVisibility(View.GONE);
+                    Intent myIntent = new Intent(this, EditPost.class);
+                    myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
+                    startActivityForResult(myIntent, TODO_NOTE_REQUEST);
                     break;
                 }
 
@@ -730,6 +753,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void deleteDocument(ToDoDocuments toDoDocuments){
         listDocuments.remove(toDoDocuments);
+        mClusterManager.removeItem(toDoDocuments);
     }
 
     @Override

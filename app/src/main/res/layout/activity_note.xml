@@ -32,7 +32,6 @@
                     android:id="@+id/new_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="@string/new_post"
                     android:textAppearance="@style/new_post" />
 
@@ -49,11 +48,21 @@
 
                         <ImageButton
 
+                            android:id="@+id/garbage"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="end|center"
+                            android:visibility="gone"
+                            android:layout_marginRight="15dp"
+                            android:background="#0000"
+                            android:src="@drawable/garbage" />
+
+                        <ImageButton
                             android:id="@+id/lock"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="5dp"
+                            android:layout_gravity="end|center"
+
                             android:layout_marginRight="15dp"
                             android:background="#0000"
                             android:onClick="onClickLock"
@@ -63,8 +72,8 @@
                             android:id="@+id/add_note"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="5dp"
+                            android:layout_gravity="end|center"
+
                             android:layout_marginRight="15dp"
                             android:background="#0000"
                             android:onClick="onClickAddNote"

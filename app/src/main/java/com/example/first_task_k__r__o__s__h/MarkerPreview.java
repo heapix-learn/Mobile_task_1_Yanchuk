@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationSet;
 import android.widget.Gallery;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MarkerPreview extends AppCompatActivity {
@@ -45,6 +47,44 @@ public class MarkerPreview extends AppCompatActivity {
         Intent myIntent = new Intent(this, FullViewOfThePostActivity.class);
         myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
         startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
-        finish();
+
+//        finish();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LinearLayout screen = (LinearLayout) findViewById(R.id.screenPreview);
+        screen.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LinearLayout screen = (LinearLayout) findViewById(R.id.screenPreview);
+        screen.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AppContext.TODO_NOTE_REQUEST) {
+            switch (resultCode) {
+                case AppContext.DELETE_POST_REQUEST:
+                    getIntent().putExtra(AppContext.GET_POST_ID, toDoDocuments.getId());
+                    getIntent().putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
+                    setResult(AppContext.DELETE_POST_REQUEST, getIntent());
+                    finish();
+                    break;
+                case AppContext.EDIT_POST_REQUEST:
+                    getIntent().putExtra(AppContext.GET_POST_ID, toDoDocuments.getId());
+                    getIntent().putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
+                    setResult(AppContext.EDIT_POST_REQUEST, getIntent());
+                    finish();
+                    break;
+
+            }
+        }
     }
 }

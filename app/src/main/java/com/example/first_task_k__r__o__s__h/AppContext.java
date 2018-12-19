@@ -11,6 +11,11 @@ public class AppContext extends Application {
     public static final String PHOTOS_URL="photoSURL";
     public static final String VIDEO_URL="videoURL";
     public static final String POSITION="position";
+    public static final int DELETE_POST_REQUEST=2;
+    public static final String GET_POST_ID="getPostId";
+    public static final int TODO_NOTE_SETTING_REQUEST=3;
+    public static final int EDIT_POST_REQUEST=4;
+
 
     public static String ListPathToString(List<String> list){
         if (list.size()==0) return "";

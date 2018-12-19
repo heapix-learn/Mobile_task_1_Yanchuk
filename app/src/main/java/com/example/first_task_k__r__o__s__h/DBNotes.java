@@ -101,11 +101,11 @@ public abstract class DBNotes{
         }
         return read;
     }
-    public static void deleteNote(ToDoDocuments doc){
-        new ServerDeleteBackground().execute(doc.getId());
+    public static void deleteNote(String id){
+        new ServerDeleteBackground().execute(id);
     }
     public static void updateNote(ToDoDocuments queryValues){
-        deleteNote(queryValues);
+        deleteNote(queryValues.getId());
         ConvertToDoDocuments values = new ConvertToDoDocuments();
         values.setTitle(queryValues.getTitle());
         values.setNumber(String.valueOf(queryValues.getNumber()));

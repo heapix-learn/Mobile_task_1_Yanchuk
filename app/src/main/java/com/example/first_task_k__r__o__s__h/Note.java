@@ -114,7 +114,10 @@ public class Note extends AppCompatActivity {
                 }
             });
         }
+        AddGarbage();
+    }
 
+    protected void AddGarbage(){
     }
 
     public void onClickLock(View view){
@@ -176,6 +179,7 @@ public class Note extends AppCompatActivity {
         todoDocuments.setCreateDate(new Date());
         setResult(RESULT_SAVE, getIntent());
     }
+
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item){
