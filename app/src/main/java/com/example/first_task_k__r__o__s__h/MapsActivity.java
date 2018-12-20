@@ -8,17 +8,20 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter;
+
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
+
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -326,12 +329,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             outline.getPaint().setColor(Color.argb(10, 255, 255, 0));
             LayerDrawable background = new LayerDrawable(new Drawable[]{outline, this.mColoredCircleBackground});
             int strokeWidth = (int)(this.mDensity * 8.0F);
+
             background.setLayerInset(1, strokeWidth, strokeWidth, strokeWidth, strokeWidth);
             return background;
         }
 
         protected void onBeforeClusterRendered(Cluster<ToDoDocuments> cluster, MarkerOptions markerOptions) {
             int bucket = this.getBucket(cluster);
+
 
             BitmapDescriptor descriptor = (BitmapDescriptor)this.mIcons.get(bucket);
             if (descriptor == null) {
@@ -440,6 +445,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     this.mTextView.setTextColor(R.color.black);
                     this.mTextView.setText(text);
                     this.mTextView.setTextSize(15);
+
                 }
 
                 return this.makeIcon();
@@ -601,16 +607,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
 
-
-
                 public void draw(Canvas canvas) {
                     this.mMask.draw(canvas);
                     canvas.drawColor(this.mColor, PorterDuff.Mode.SRC_IN);
                     this.mShadow.draw(canvas);
                 }
-
-
-
 
                 public void setAlpha(int alpha) {
                     throw new UnsupportedOperationException();

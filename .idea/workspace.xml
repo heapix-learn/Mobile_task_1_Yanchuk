@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" line="439" />
+    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" line="444" />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -15,6 +15,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c666043-18fe-4d0e-b0c3-586a6439e296" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Discover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Title.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,19 +60,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MapsActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MapsActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="359" column="43" selection-start-line="359" selection-start-column="43" selection-end-line="359" selection-end-column="43" />
+            <state relative-caret-position="1771">
+              <caret line="338" selection-start-line="338" selection-end-line="338" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#7780#7781#0" expanded="true" />
-                <element signature="e#7823#7824#0" expanded="true" />
-                <element signature="e#7903#7904#0" expanded="true" />
-                <element signature="e#7946#7947#0" expanded="true" />
-                <element signature="e#7998#8809#0" expanded="true" />
-                <element signature="e#8808#8809#0" expanded="true" />
+                <element signature="e#3585#3600#0" expanded="true" />
+                <element signature="e#8133#8134#0" expanded="true" />
+                <element signature="e#8176#8177#0" expanded="true" />
+                <element signature="e#8256#8257#0" expanded="true" />
+                <element signature="e#8299#8300#0" expanded="true" />
+                <element signature="e#8351#9162#0" expanded="true" />
+                <element signature="e#9161#9162#0" expanded="true" />
+                <element signature="e#9640#9655#0" expanded="true" />
+                <element signature="e#22208#22209#0" expanded="true" />
+                <element signature="e#22283#22284#0" expanded="true" />
+                <element signature="e#22324#22325#0" expanded="true" />
+                <element signature="e#22410#22411#0" expanded="true" />
+                <element signature="e#22451#22452#0" expanded="true" />
+                <element signature="e#22537#22538#0" expanded="true" />
+                <element signature="e#25961#25962#0" expanded="true" />
+                <element signature="e#26020#26021#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,11 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="google_maps_api.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="google_maps_api.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="22" column="137" selection-start-line="22" selection-start-column="137" selection-end-line="22" selection-end-column="137" />
+              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
@@ -2392,6 +2408,7 @@
       <list>
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" />
       </list>
     </option>
   </component>
@@ -2574,6 +2591,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1535" height="904" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" weight="0.32988358" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -2583,7 +2601,7 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32988358" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32988358" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32988358" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Logcat" order="7" />
       <window_info id="Captures" order="2" weight="0.25" />
@@ -2614,7 +2632,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
-          <line>339</line>
+          <line>354</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
@@ -2642,13 +2660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="137" selection-start-line="22" selection-start-column="137" selection-end-line="22" selection-end-column="137" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="123">
@@ -2668,17 +2679,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="359" column="43" selection-start-line="359" selection-start-column="43" selection-end-line="359" selection-end-column="43" />
+        <state relative-caret-position="1771">
+          <caret line="338" selection-start-line="338" selection-end-line="338" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7780#7781#0" expanded="true" />
-            <element signature="e#7823#7824#0" expanded="true" />
-            <element signature="e#7903#7904#0" expanded="true" />
-            <element signature="e#7946#7947#0" expanded="true" />
-            <element signature="e#7998#8809#0" expanded="true" />
-            <element signature="e#8808#8809#0" expanded="true" />
+            <element signature="e#3585#3600#0" expanded="true" />
+            <element signature="e#8133#8134#0" expanded="true" />
+            <element signature="e#8176#8177#0" expanded="true" />
+            <element signature="e#8256#8257#0" expanded="true" />
+            <element signature="e#8299#8300#0" expanded="true" />
+            <element signature="e#8351#9162#0" expanded="true" />
+            <element signature="e#9161#9162#0" expanded="true" />
+            <element signature="e#9640#9655#0" expanded="true" />
+            <element signature="e#22208#22209#0" expanded="true" />
+            <element signature="e#22283#22284#0" expanded="true" />
+            <element signature="e#22324#22325#0" expanded="true" />
+            <element signature="e#22410#22411#0" expanded="true" />
+            <element signature="e#22451#22452#0" expanded="true" />
+            <element signature="e#22537#22538#0" expanded="true" />
+            <element signature="e#25961#25962#0" expanded="true" />
+            <element signature="e#26020#26021#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>
