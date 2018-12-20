@@ -8,14 +8,17 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -271,8 +274,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double lng = -0.1270060;
 
         // Add ten cluster items in close proximity, for purposes of this example.
-        for (int i = 0; i < 200; i++) {
-            double offset = 0.0005;
+        for (int i = 0; i < 2000; i++) {
+            double offset = 0.00005;
             lat = lat + offset;
             lng = lng + offset;
             ToDoDocuments offsetItem = new ToDoDocuments();
@@ -320,36 +323,89 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         private LayerDrawable makeClusterBackground() {
             this.mColoredCircleBackground = new ShapeDrawable(new OvalShape());
             ShapeDrawable outline = new ShapeDrawable(new OvalShape());
-
-//            float[] cmData = new float[]{
-//                    1,0,0,0,0,
-//                    0,1,0,0,0,
-//                    0,0,0,0,0,
-//                    0,0,0,1,0};
-//
-            outline.getPaint().setColor(Color.argb(50, 176, 179, 20));
-//
-//            ColorMatrix cm = new ColorMatrix(cmData);
-//            ColorFilter filter = new ColorMatrixColorFilter(cm);
-//            outline.setColorFilter(filter);
-
+            outline.getPaint().setColor(Color.argb(10, 255, 255, 0));
             LayerDrawable background = new LayerDrawable(new Drawable[]{outline, this.mColoredCircleBackground});
-            int strokeWidth = (int)(this.mDensity * 5.0F);
+            int strokeWidth = (int)(this.mDensity * 8.0F);
             background.setLayerInset(1, strokeWidth, strokeWidth, strokeWidth, strokeWidth);
             return background;
         }
 
         protected void onBeforeClusterRendered(Cluster<ToDoDocuments> cluster, MarkerOptions markerOptions) {
             int bucket = this.getBucket(cluster);
+
             BitmapDescriptor descriptor = (BitmapDescriptor)this.mIcons.get(bucket);
             if (descriptor == null) {
-                this.mColoredCircleBackground.getPaint().setColor(Color.rgb(255, 255, 100));
-                descriptor = BitmapDescriptorFactory.fromBitmap(this.mIconGenerator.makeIcon(this.getClusterText(bucket)));
+
+                this.mColoredCircleBackground.getPaint().setColor(Color.rgb(  255, 255, 255));
+                Bitmap bitmap =this.mIconGenerator.makeIcon(this.getClusterText(bucket));
+                Canvas canvas = new Canvas(bitmap);
+                Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(10);
+                paint.setColor(Color.argb(10,255, 255, 0));
+                RectF oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+                paint.setStyle(Paint.Style.FILL);
+                paint.setColor(Color.argb(20,255, 255, 0));
+                oval2 = new RectF(0,0, bitmap.getWidth(), bitmap.getHeight());
+                canvas.drawOval(oval2, paint);
+
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(14);
+                paint.setColor(Color.argb(10,255, 255, 0));
+                oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(18);
+                paint.setColor(Color.argb(10,255, 255, 0));
+                oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(22);
+                paint.setColor(Color.argb(10,255, 255, 0));
+                oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(26);
+                paint.setColor(Color.argb(10,255, 255, 0));
+                oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(30);
+                paint.setColor(Color.argb(5,255, 255, 0));
+                oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(34);
+                paint.setColor(Color.argb(5,255, 255, 0));
+                oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(42);
+                paint.setColor(Color.argb(5,255, 255, 0));
+                oval2 = new RectF(16,16, bitmap.getWidth()-16, bitmap.getHeight()-16);
+                canvas.drawOval(oval2, paint);
+
+                descriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
                 this.mIcons.put(bucket, descriptor);
+
             }
 
             markerOptions.icon(descriptor);
         }
+
+
         public class myIconGenerator{
 
             private Context mContext;
@@ -381,8 +437,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             public Bitmap makeIcon(CharSequence text) {
                 if (this.mTextView != null) {
-                    mTextView.setTextColor(R.color.colorPrimaryDark);
+                    this.mTextView.setTextColor(R.color.black);
                     this.mTextView.setText(text);
+                    this.mTextView.setTextSize(15);
                 }
 
                 return this.makeIcon();
@@ -399,18 +456,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     measuredWidth = this.mContainer.getMeasuredHeight();
                 }
 
-                Bitmap r1 = BitmapFactory.decodeResource(getResources(), R.drawable.ellipse);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-                    r1= Bitmap.createScaledBitmap(r1, measuredWidth,
-                            measuredHeight, false);
-
-
-            }
 
                 Bitmap r = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888);
-
-                r.eraseColor(0);
+                
 
                 Canvas canvas = new Canvas(r);
                 if (this.mRotation != 0) {
@@ -552,11 +600,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     this.mColor = color;
                 }
 
+
+
+
                 public void draw(Canvas canvas) {
                     this.mMask.draw(canvas);
                     canvas.drawColor(this.mColor, PorterDuff.Mode.SRC_IN);
                     this.mShadow.draw(canvas);
                 }
+
+
+
 
                 public void setAlpha(int alpha) {
                     throw new UnsupportedOperationException();
