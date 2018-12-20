@@ -458,7 +458,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                 Bitmap r = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888);
-                
+
 
                 Canvas canvas = new Canvas(r);
                 if (this.mRotation != 0) {
