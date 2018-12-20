@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add_task"
+        android:title="@string/add_task">
+    </item>
+    <item
+        android:id="@+id/geolocation_global"
+        android:title="@string/geolocation_global">
+    </item>
+    <item
+        android:id="@+id/geolocation_local"
+        android:title="@string/geolocation_local">
+    </item>
+    <item
+        android:id="@+id/exit"
+        android:title="@string/exit"></item>
+</menu>
+
