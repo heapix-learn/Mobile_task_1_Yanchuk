@@ -13,10 +13,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ImageAdapter extends PagerAdapter {
-    Context context;
-    List<String> GalImages;
-
-    LayoutInflater mLayoutInflater;
+    private Context context;
+    private List<String> GalImages;
+    private LayoutInflater mLayoutInflater;
 
     ImageAdapter(Context context, List<String> GalImages){
         this.context=context;

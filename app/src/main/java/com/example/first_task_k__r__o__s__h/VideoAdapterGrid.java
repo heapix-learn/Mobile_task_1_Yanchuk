@@ -2,17 +2,9 @@ package com.example.first_task_k__r__o__s__h;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +13,10 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 
 public class VideoAdapterGrid extends BaseAdapter {
@@ -90,12 +78,6 @@ public class VideoAdapterGrid extends BaseAdapter {
             imageView1.setClipToOutline(true);
         }
 
-
-
-//        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-//        mediaMetadataRetriever.setDataSource(video.get(position),new HashMap<String, String>());
-//        Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime();
-//        imageView1.setImageBitmap(bitmap);
 
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override

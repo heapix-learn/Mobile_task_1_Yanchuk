@@ -2,6 +2,7 @@ package com.example.first_task_k__r__o__s__h;
 
 import android.app.Application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppContext extends Application {
@@ -21,10 +22,23 @@ public class AppContext extends Application {
         if (list.size()==0) return "";
         StringBuilder ans= new StringBuilder();
         for (int i=0; i<list.size(); i++){
-
             ans.append(list.get(i)).append("&&");
         }
         return ans.toString();
+    }
+
+    public static List<String>FromStringToList(String str){
+        List<String> ans = new ArrayList<>();
+        StringBuilder help= new StringBuilder();
+        for (int i=0; i<str.length()-1; i++){
+            if (str.charAt(i)=='&' && str.charAt(i+1)=='&'){
+                ans.add(help.toString());
+                help = new StringBuilder();
+                i++;
+            }
+            else help.append(str.charAt(i));
+        }
+        return ans;
     }
 
 }

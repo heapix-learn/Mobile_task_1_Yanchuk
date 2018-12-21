@@ -30,7 +30,6 @@
         <activity
             android:name=".Note"
             android:theme="@style/AppTheme.MyTransparent" />
-
         <activity
             android:name=".EditPost"
             android:theme="@style/AppTheme.MyTransparent" />
@@ -71,6 +70,7 @@
             android:theme="@style/AppTheme.MyTransparent" />
         <activity android:name=".FullScreenPhoto" />
         <activity android:name=".FullScreenVideo" />
+        <activity android:name=".FullScreenGallery"></activity>
     </application>
 
 </manifest>

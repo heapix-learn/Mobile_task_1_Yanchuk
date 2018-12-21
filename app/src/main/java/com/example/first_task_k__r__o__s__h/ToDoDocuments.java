@@ -1,32 +1,15 @@
 package com.example.first_task_k__r__o__s__h;
 
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.util.Base64;
-import android.widget.VideoView;
-
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,11 +75,11 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         login=data[3];
         id = data[4];
         textNote=data[5];
-        imagePath= FromStringToList(data[6]);
+        imagePath= AppContext.FromStringToList(data[6]);
         location = data[7];
         access = Integer.parseInt(data[8]);
-        videoPath= FromStringToList(data[9]);
-        videoScreen= FromStringToList(data[10]);
+        videoPath= AppContext.FromStringToList(data[9]);
+        videoScreen= AppContext.FromStringToList(data[10]);
     }
 
     public String ImagePathToString(){
@@ -129,19 +112,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         return ans.toString();
     }
 
-    public static List<String>FromStringToList(String str){
-        List<String> ans = new ArrayList<>();
-        StringBuilder help= new StringBuilder();
-        for (int i=0; i<str.length()-1; i++){
-            if (str.charAt(i)=='&' && str.charAt(i+1)=='&'){
-                ans.add(help.toString());
-                help = new StringBuilder();
-                i++;
-            }
-            else help.append(str.charAt(i));
-        }
-        return ans;
-    }
+
 
     public String getLocation() {
         return location;

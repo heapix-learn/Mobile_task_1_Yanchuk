@@ -7,9 +7,11 @@
     android:background="@color/black"
     tools:context=".FullScreenVideo">
 
-    <android.support.v4.view.ViewPager
+    <com.example.first_task_k__r__o__s__h.CustomViewPager
         android:id="@+id/view_pager_video"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </com.example.first_task_k__r__o__s__h.CustomViewPager>
 
 </android.support.constraint.ConstraintLayout>

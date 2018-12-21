@@ -57,7 +57,7 @@ public abstract class DBNotes{
         for (int i=0; i<convertRead.size(); i++) {
             ToDoDocuments add = new ToDoDocuments();
             add.setTitle(convertRead.get(i).getTitle());
-            add.setImagePath(ToDoDocuments.FromStringToList(convertRead.get(i).getImagePath()));
+            add.setImagePath(AppContext.FromStringToList(convertRead.get(i).getImagePath()));
             add.setNumber(Integer.parseInt(convertRead.get(i).getNumber()));
             add.setCreateDate(new Date(Long.parseLong(convertRead.get(i).getCreateDate())));
             add.setLogin(convertRead.get(i).getLogin());
@@ -87,7 +87,7 @@ public abstract class DBNotes{
         for (int i=0; i<convertRead.size(); i++) {
             ToDoDocuments add = new ToDoDocuments();
             add.setTitle(convertRead.get(i).getTitle());
-            add.setImagePath (ToDoDocuments.FromStringToList(convertRead.get(i).getImagePath()));
+            add.setImagePath (AppContext.FromStringToList(convertRead.get(i).getImagePath()));
             add.setNumber(Integer.parseInt(convertRead.get(i).getNumber()));
             add.setCreateDate(new Date(Long.parseLong(convertRead.get(i).getCreateDate())));
             add.setLogin(convertRead.get(i).getLogin());
@@ -95,8 +95,8 @@ public abstract class DBNotes{
             add.setTextNote(convertRead.get(i).getTextNote());
             add.setLocation(convertRead.get(i).getLocation());
             add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
-            add.setVideoPath(ToDoDocuments.FromStringToList(convertRead.get(i).getVideoPath()));
-            add.setVideoScreen(ToDoDocuments.FromStringToList(convertRead.get(i).getVideoScreen()));
+            add.setVideoPath(AppContext.FromStringToList(convertRead.get(i).getVideoPath()));
+            add.setVideoScreen(AppContext.FromStringToList(convertRead.get(i).getVideoScreen()));
             read.add(add);
         }
         return read;
@@ -133,19 +133,18 @@ public abstract class DBNotes{
 
             ToDoDocuments add = new ToDoDocuments();
             add.setTitle(convertRead.getTitle());
-            add.setImagePath (ToDoDocuments.FromStringToList(convertRead.getImagePath()));
+            add.setImagePath (AppContext.FromStringToList(convertRead.getImagePath()));
             add.setNumber(Integer.parseInt(convertRead.getNumber()));
             add.setCreateDate(new Date(Long.parseLong(convertRead.getCreateDate())));
             add.setLogin(convertRead.getLogin());
             add.setId(convertRead.getId());
             add.setTextNote(convertRead.getTextNote());
             add.setLocation(convertRead.getLocation());
-            add.setVideoPath(ToDoDocuments.FromStringToList(convertRead.getVideoPath()));
-            add.setVideoScreen(ToDoDocuments.FromStringToList(convertRead.getVideoScreen()));
+            add.setVideoPath(AppContext.FromStringToList(convertRead.getVideoPath()));
+            add.setVideoScreen(AppContext.FromStringToList(convertRead.getVideoScreen()));
             add.setAccess(Integer.parseInt(convertRead.getAccess()));
         return add;
     }
-
 
     static class DownloadNoteId extends AsyncTask<String, Void, ConvertToDoDocuments> {
         List<ConvertToDoDocuments> list = new ArrayList<>();
