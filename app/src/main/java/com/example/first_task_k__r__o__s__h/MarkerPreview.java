@@ -11,11 +11,8 @@ import android.widget.TextView;
 public class MarkerPreview extends AppCompatActivity {
     private ImageButton like;
     private ImageButton subscription;
-    private TextView noteTitle;
     private ToDoDocuments toDoDocuments;
-    private LinearLayout picGallery;
-    private PicAdapter imgAdapt;
-    private Bundle bundle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +20,31 @@ public class MarkerPreview extends AppCompatActivity {
         setContentView(R.layout.activity_marker_preview);
         like = (ImageButton) findViewById(R.id.like);
         subscription = (ImageButton) findViewById(R.id.subscription);
-        noteTitle = (TextView) findViewById(R.id.titleMarkerPreview);
-        picGallery = (LinearLayout) findViewById(R.id.gallery_preview);
+        TextView noteTitle = (TextView) findViewById(R.id.titleMarkerPreview);
+        LinearLayout picGallery = (LinearLayout) findViewById(R.id.gallery_preview);
+        LinearLayout notContainerPreview = (LinearLayout) findViewById(R.id.screenPreview);
+        LinearLayout containerPreview = (LinearLayout) findViewById(R.id.containerPreview);
+
+        notContainerPreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        containerPreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         String id = getIntent().getExtras().getString("markerId", "");
         toDoDocuments = DBNotes.getOneNotesFromId(id);
         noteTitle.setText(toDoDocuments.getTitle());
-        imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath(), toDoDocuments.getVideoPath(), toDoDocuments.getVideoScreen());
+        PicAdapter imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath(), toDoDocuments.getVideoPath(), toDoDocuments.getVideoScreen());
         picGallery.setDividerPadding(5);
-        for (int i=0; i<imgAdapt.getCount(); i++) {
+        for (int i = 0; i< imgAdapt.getCount(); i++) {
             View add = imgAdapt.getView(i, null, null);
             add.setId(i);
             add.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +73,6 @@ public class MarkerPreview extends AppCompatActivity {
         Intent myIntent = new Intent(this, FullViewOfThePostActivity.class);
         myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
         startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
-
-//        finish();
-
     }
 
     @Override
