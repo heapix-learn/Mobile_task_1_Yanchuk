@@ -1,27 +1,23 @@
 package com.example.first_task_k__r__o__s__h;
 
-import android.accounts.AccountManager;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,20 +28,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import android.widget.Toast;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -213,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // updateUI(account);
             myUser = new UserModel();
             myUser.setUsername(account.getEmail());
-            myIntent = new Intent(LoginActivity.this,MainActivity.class);
+            myIntent = new Intent(LoginActivity.this,MapsActivity.class);
             LoginActivity.this.startActivity(myIntent);
             signOut();
         } catch (ApiException e) {
@@ -407,7 +395,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 if (!myUser.getId().equals("-1")){
-                    Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
+                    Intent myIntent = new Intent(LoginActivity.this,MapsActivity.class);
                     LoginActivity.this.startActivity(myIntent);
                     ///finish();
                 } else {
@@ -437,7 +425,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                                             userApi.pushSize(sizeOfAccounts).enqueue(new Callback<SizeOfAccounts>() {
                                                                 @Override
                                                                 public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
-                                                                    Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                                                    Intent myIntent = new Intent(LoginActivity.this, MapsActivity.class);
                                                                     LoginActivity.this.startActivity(myIntent);
                                                                 }
                                                                 @Override

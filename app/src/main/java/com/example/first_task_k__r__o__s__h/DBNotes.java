@@ -30,6 +30,7 @@ public abstract class DBNotes{
         values.setAccess(String.valueOf(queryValues.getAccess()));
         values.setVideoPath(queryValues.VideoPathToString());
         values.setVideoScreen(queryValues.VideoScreenToString());
+        values.setNameLocation(queryValues.getNameLocation());
         userApi.pushNote(values).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -67,6 +68,7 @@ public abstract class DBNotes{
             add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
             add.setVideoPath(convertRead.get(i).getVideoPath());
             add.setVideoScreen(convertRead.get(i).getVideoScreen());
+            add.setNameLocation(convertRead.get(i).getNameLocation());
             read.add(add);
         }
         return read;
@@ -97,6 +99,7 @@ public abstract class DBNotes{
             add.setAccess(Integer.parseInt(convertRead.get(i).getAccess()));
             add.setVideoPath(AppContext.FromStringToList(convertRead.get(i).getVideoPath()));
             add.setVideoScreen(AppContext.FromStringToList(convertRead.get(i).getVideoScreen()));
+            add.setNameLocation(convertRead.get(i).getNameLocation());
             read.add(add);
         }
         return read;
@@ -118,6 +121,7 @@ public abstract class DBNotes{
         values.setAccess(String.valueOf(queryValues.getAccess()));
         values.setVideoPath(queryValues.VideoPathToString());
         values.setVideoScreen(queryValues.VideoScreenToString());
+        values.setNameLocation(queryValues.getNameLocation());
         new ServerPushNoteBackground().execute(values);
     }
     public static ToDoDocuments getOneNotesFromId(String id){
@@ -143,6 +147,7 @@ public abstract class DBNotes{
             add.setVideoPath(AppContext.FromStringToList(convertRead.getVideoPath()));
             add.setVideoScreen(AppContext.FromStringToList(convertRead.getVideoScreen()));
             add.setAccess(Integer.parseInt(convertRead.getAccess()));
+            add.setNameLocation(convertRead.getNameLocation());
         return add;
     }
 

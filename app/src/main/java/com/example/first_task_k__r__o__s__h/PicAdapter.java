@@ -15,13 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class PicAdapter extends BaseAdapter {
-    //use the default gallery background image
-    int defaultItemBackground;
-
-    //gallery context
     private Context galleryContext;
-
-    //array to store bitmaps to display
     private List<String> image;
     private List<String> video;
     private List<String> videoScreen;
@@ -29,43 +23,28 @@ public class PicAdapter extends BaseAdapter {
 
 
     public PicAdapter(Context c, List<String> imageInfo, List<String> videoInfo, List<String> videoScreenInfo) {
-
-        //instantiate context
         galleryContext = c;
-
-        //create url array
         image=imageInfo;
         video=videoInfo;
         videoScreen=videoScreenInfo;
-        //get the styling attributes - use default Andorid system resources
-//        TypedArray styleAttrs = galleryContext.obtainStyledAttributes(R.styleable.PicGallery);
-//
-//        //get the background resource
-//        defaultItemBackground = styleAttrs.getResourceId(R.styleable.PicGallery_android_galleryItemBackground, 0);
-//
-//        //recycle attributes
-//        styleAttrs.recycle();
     }
 
-    //return number of data items i.e. bitmap images
+
     @Override
     public int getCount() {
         return image.size()+video.size();
     }
 
-    //return item at specified position
     @Override
     public Object getItem(int position) {
         return position;
     }
 
-    //return item ID at specified position
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    //get view specifies layout and display options for each thumbnail in the gallery
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (position>=video.size()) {

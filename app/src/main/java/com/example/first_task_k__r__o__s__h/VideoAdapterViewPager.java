@@ -49,8 +49,6 @@ public class VideoAdapterViewPager extends PagerAdapter {
         videoView.requestFocus();
 
         videoView.seekTo(25);
-//        videoView.start();
-//        container.getParent().clearChildFocus(itemView);
         container.addView(itemView);
 
 

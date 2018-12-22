@@ -48,6 +48,9 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     @SerializedName("videoScreen")
     @Expose
     private List<String> videoScreen;
+    @SerializedName("nameLocation")
+    @Expose
+    private String nameLocation;
 
 
 
@@ -63,10 +66,11 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         id="-1";
         videoPath = new ArrayList<>();
         videoScreen = new ArrayList<>();
+        nameLocation="";
     }
 
     public ToDoDocuments(Parcel in){
-        String[] data = new String[11];
+        String[] data = new String[12];
         in.readStringArray(data);
         title=data[0];
         number=Integer.parseInt(data[1]);
@@ -80,6 +84,15 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         access = Integer.parseInt(data[8]);
         videoPath= AppContext.FromStringToList(data[9]);
         videoScreen= AppContext.FromStringToList(data[10]);
+        nameLocation = data[11];
+    }
+
+    public String getNameLocation() {
+        return nameLocation;
+    }
+
+    public void setNameLocation(String nameLocation) {
+        this.nameLocation = nameLocation;
     }
 
     public String ImagePathToString(){
@@ -240,7 +253,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, VideoPathToString(), VideoScreenToString()});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, VideoPathToString(), VideoScreenToString(), nameLocation});
     }
 
     @NonNull
@@ -282,8 +295,6 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     public String getSnippet() {
         return getId();
     }
-
-
 
 
 }

@@ -52,9 +52,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
     private ClusterManager<ToDoDocuments> mClusterManager;
-    private Cluster<ToDoDocuments> chosenCluster;
     private ImageButton imageButtonAddNoteMaps;
-    public static int TODO_NOTE_REQUEST=1;
+
     public static List<ToDoDocuments> listDocuments = new ArrayList<ToDoDocuments>();
     public int size=0;
     private final static UserApi userApi=Controller.getApi();
@@ -64,10 +63,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
         imageButtonAddNoteMaps = (ImageButton) findViewById(R.id.add_button);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
 
 
@@ -97,70 +97,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-//        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-//
-//            // Use default InfoWindow frame
-//            @Override
-//            public View getInfoWindow(Marker arg0) {
-//                return null;
-//            }
-//
-//            // Defines the contents of the InfoWindow
-//            @Override
-//            public View getInfoContents(Marker arg0) {
-//
-//                // Getting view from the layout file info_window_layout
-//                View v = getLayoutInflater().inflate(R.layout.info_window, null);
-//
-//                // Getting the snippet from the marker
-//                final String snippet = arg0.getSnippet();
-//
-//                // Getting the snippet from the marker
-//                String titlestr = arg0.getTitle();
-//
-//                String cutchar1= "%#";
-//                String cutchar2= "%##";
-//                final String types = snippet.substring(0,snippet.indexOf(cutchar1));
-//                String vicinitystr = snippet.substring(snippet.indexOf(cutchar1)+2, snippet.indexOf(cutchar2));
-//                String base= snippet.substring(snippet.indexOf(cutchar2)+3);
-//
-//                // Getting reference to the TextView to set latitude
-//                final TextView title = (TextView) v.findViewById(R.id.place_title);
-//
-//                TextView vicinity = (TextView) v.findViewById(R.id.place_vicinity);
-//
-//                ImageView image = (ImageView) v.findViewById(R.id.place_icon);
-//
-//                // Setting the latitude
-//                title.setText(titlestr);
-//
-//                vicinity.setText(vicinitystr);
-////                String img=getImage(base, types);
-////                if (!img.equals("")) {
-////
-//////                       Picasso.with(MapsActivity.this).load(Uri.parse(img)).resize(250, 250).into(image);
-////                    byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
-//////
-//////                    File file=null;
-//////                    Picasso.with(MapsActivity.this).load(file).resize(250, 250).into(image);
-////                    image.setImageBitmap(ToDoDocuments.ConvertBase64ToBitmap(img));
-//                //}
-//
-//                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-//                    public void onInfoWindowClick(Marker marker) {
-//                        Intent intent = new Intent(getApplicationContext(), ViewActivity.class);
-//                        intent.putExtra("name", snippet);
-//                        intent.putExtra("title", title.getText());
-//                        startActivity(intent);
-//                    }
-//
-//                });
-//
-//                return v;
-//            }
-//
-//        });
-
         setUpClusterer();
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -188,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Intent myIntent = new Intent(MapsActivity.this, MarkerPreview.class);
                     myIntent.putExtra("markerId",id);
 
-                    startActivityForResult(myIntent, TODO_NOTE_REQUEST);
+                    startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
                     marker.showInfoWindow();
                     marker.setSnippet(id);
                     marker.setTitle(help);
@@ -677,13 +613,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         imageButtonAddNoteMaps.setVisibility(View.GONE);
         Intent myIntent = new Intent(this, Note.class);
         myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
-        startActivityForResult(myIntent, TODO_NOTE_REQUEST);
+        startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode ,Intent data){
         imageButtonAddNoteMaps.setVisibility(View.VISIBLE);
-        if (requestCode == TODO_NOTE_REQUEST){
+        if (requestCode == AppContext.TODO_NOTE_REQUEST){
             switch(resultCode){
                 case RESULT_CANCELED: {
                     break;
@@ -731,6 +667,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     else {
                         DBNotes.updateNote(toDoDocuments);
+                        mClusterManager.addItem(toDoDocuments);
                     }
                     break;
                 }
@@ -745,11 +682,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 case AppContext.EDIT_POST_REQUEST: {
                     ToDoDocuments toDoDocuments = data.getParcelableExtra(AppContext.TODO_DOCUMENT);
+                    mClusterManager.removeItem(toDoDocuments);
                     String id =  data.getExtras().getString(AppContext.GET_POST_ID);
                     imageButtonAddNoteMaps.setVisibility(View.GONE);
                     Intent myIntent = new Intent(this, EditPost.class);
                     myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
-                    startActivityForResult(myIntent, TODO_NOTE_REQUEST);
+                    startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
                     break;
                 }
 

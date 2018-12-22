@@ -50,11 +50,9 @@
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewActivity" />
         <activity android:name=".StartActivity" />
         <activity
             android:name=".HelpActivity"
@@ -70,7 +68,7 @@
             android:theme="@style/AppTheme.MyTransparent" />
         <activity android:name=".FullScreenPhoto" />
         <activity android:name=".FullScreenVideo" />
-        <activity android:name=".FullScreenGallery"></activity>
+        <activity android:name=".FullScreenGallery" />
     </application>
 
 </manifest>
