@@ -1,18 +1,11 @@
 package com.example.first_task_k__r__o__s__h;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 public class FullViewOfThePostActivity extends AppCompatActivity {
     private ToDoDocuments todoDocument;
@@ -24,6 +17,7 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
     private GridView gridViewForVideo;
     private PhotoAdapterGrid photoAdapterGrid;
     private Bundle bundle;
+    private View lineForAddMedia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +32,21 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
         gridViewForVideo = (GridView) findViewById(R.id.gridViewForVideoFullView);
         textNumberOfPhoto = (TextView) findViewById(R.id.number_of_photoFullView);
         textNumberOfVideo = (TextView) findViewById(R.id.number_of_videoFullView);
+        lineForAddMedia = (View) findViewById(R.id.lineForAddMedia_activity_note);
         textTitle.setText(todoDocument.getTitle());
         textDescription.setText(todoDocument.getTextNote());
         if (todoDocument.getImagePath().size()!=0) {
             textNumberOfPhoto.setVisibility(View.VISIBLE);
             textNumberOfPhoto.setText(todoDocument.getImagePath().size() + " Photos");
             gridViewForPhoto.setVisibility(View.VISIBLE);
-            photoAdapterGrid = new PhotoAdapterGrid(this, bundle, todoDocument.getImagePath(), textNumberOfPhoto, gridViewForPhoto, false);
+            photoAdapterGrid = new PhotoAdapterGrid(this, bundle, todoDocument.getImagePath(), textNumberOfPhoto, lineForAddMedia, todoDocument.getVideoPath().size(), gridViewForPhoto, false);
             gridViewForPhoto.setAdapter(photoAdapterGrid);
         }
         if (todoDocument.getVideoPath().size()!=0){
             textNumberOfVideo.setVisibility(View.VISIBLE);
             textNumberOfVideo.setText(todoDocument.getVideoPath().size() + " Videos");
             gridViewForVideo.setVisibility(View.VISIBLE);
-            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocument.getVideoPath(), todoDocument.getVideoScreen(), textNumberOfVideo, gridViewForVideo, false));
+            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocument.getVideoPath(), todoDocument.getVideoScreen(), textNumberOfVideo, lineForAddMedia, todoDocument.getImagePath().size(), gridViewForVideo, false));
         }
     }
 

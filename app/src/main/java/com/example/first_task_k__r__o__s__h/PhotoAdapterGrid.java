@@ -26,14 +26,18 @@ public class PhotoAdapterGrid extends BaseAdapter {
     private GridView gridViewForPhoto;
     private boolean edit;
     private Bundle bundle;
+    private View lineForAddMedia;
+    private int numberOfVideos;
 
-    public PhotoAdapterGrid(Context context, Bundle bundle, List<String> photo, TextView textView, GridView gridViewForPhoto, boolean edit){
+    public PhotoAdapterGrid(Context context, Bundle bundle, List<String> photo, TextView textView, View lineForAddMedia, int numberOfVideos, GridView gridViewForPhoto, boolean edit){
         this.context=context;
         this.photo = photo;
         this.textView = textView;
         this.gridViewForPhoto=gridViewForPhoto;
         this.edit=edit;
         this.bundle=bundle;
+        this.numberOfVideos=numberOfVideos;
+        this.lineForAddMedia=lineForAddMedia;
     }
 
     @Override
@@ -85,8 +89,7 @@ public class PhotoAdapterGrid extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 removeItem(position);
-                if (getCount()!=0) textView.setVisibility(View.VISIBLE);
-                else textView.setVisibility(View.GONE);
+
                 textView.setText(getCount()+ " Photos");
             }
         });
@@ -100,6 +103,16 @@ public class PhotoAdapterGrid extends BaseAdapter {
         int t=0;
         if (getCount()%3==0) t=1;
         gridViewForPhoto.setLayoutParams(new LinearLayout.LayoutParams(gridViewForPhoto.getWidth(),((getCount()/3)+1)*310));
+        if (getCount()!=0) {
+            textView.setVisibility(View.VISIBLE);
+            if (edit){
+                lineForAddMedia.setVisibility(View.VISIBLE);
+            }
+        }
+        else {
+            textView.setVisibility(View.GONE);
+            if (numberOfVideos==0) lineForAddMedia.setVisibility(View.GONE);
+        }
     }
 
 }

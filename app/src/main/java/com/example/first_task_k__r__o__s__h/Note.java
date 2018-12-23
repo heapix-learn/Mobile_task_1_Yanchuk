@@ -1,11 +1,14 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -14,7 +17,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,8 +43,11 @@ public class Note extends AppCompatActivity {
     private GridView gridViewForPhoto;
     private GridView gridViewForVideo;
     private Bundle bundle;
+    private View lineForAddMedia;
 
 
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +58,12 @@ public class Note extends AppCompatActivity {
         textTitle = (EditText) findViewById(R.id.textTitle);
         textDescription=(EditText) findViewById(R.id.textDescription);
         textLocation=(AutoCompleteTextView) findViewById(R.id.textLocation);
-
         lock = (ImageButton) findViewById(R.id.lock);
         gridViewForPhoto = (GridView) findViewById(R.id.gridViewForPhoto);
         gridViewForVideo = (GridView) findViewById(R.id.gridViewForVideo);
         textNumberOfPhoto = (TextView) findViewById(R.id.number_of_photo);
         textNumberOfVideo = (TextView) findViewById(R.id.number_of_video);
+        lineForAddMedia = (View) findViewById(R.id.lineForAddMedia_activity_note);
 
         if (todoDocuments.getLocationLatitude()<-999 && todoDocuments.getLocationLongitude()<-999) {
             MyLocationListener.SetUpLocationListener(this);
@@ -76,33 +81,48 @@ public class Note extends AppCompatActivity {
 
         textTitle.setText(todoDocuments.getTitle());
         textDescription.setText(todoDocuments.getTextNote());
+        textDescription.setMovementMethod(new ScrollingMovementMethod());
+
         textLocation.setText(todoDocuments.getNameLocation());
 
         if (todoDocuments.getImagePath().size()!=0){
                 textNumberOfPhoto.setVisibility(View.VISIBLE);
+                lineForAddMedia.setVisibility(View.VISIBLE);
                 textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
                 gridViewForPhoto.setVisibility(View.VISIBLE);
-                gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto, true));
+            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, lineForAddMedia, todoDocuments.getImagePath().size(), gridViewForVideo, true));
+                gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, lineForAddMedia, todoDocuments.getVideoPath().size(), gridViewForPhoto, true));
         }
         if (todoDocuments.getVideoPath().size()!=0){
             textNumberOfVideo.setVisibility(View.VISIBLE);
+            lineForAddMedia.setVisibility(View.VISIBLE);
             textNumberOfVideo.setText(todoDocuments.getVideoPath().size() + " Videos");
             gridViewForVideo.setVisibility(View.VISIBLE);
-            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, gridViewForVideo, true));
-            gridViewForVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    VideoView mView = (VideoView) view;
-                    mView.start();
-
-                }
-            });
+            gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, lineForAddMedia, todoDocuments.getVideoPath().size(), gridViewForPhoto, true));
+            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, lineForAddMedia, todoDocuments.getImagePath().size(), gridViewForVideo, true));
         }
 
 
         CustomAutoCompleteAdapter adapter = new CustomAutoCompleteAdapter(this);
         textLocation.setAdapter(adapter);
         textLocation.setOnItemClickListener(onItemClickListener);
+
+        textDescription.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.textDescription) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
+
 
         AddGarbage();
     }
@@ -153,17 +173,24 @@ public class Note extends AppCompatActivity {
                     if (checkType(selectedImage.toString())==0){
                         todoDocuments.setImagePath(DEFAULT_PHOTO_URL);
                         textNumberOfPhoto.setVisibility(View.VISIBLE);
+                        lineForAddMedia.setVisibility(View.VISIBLE);
                         gridViewForPhoto.setVisibility(View.VISIBLE);
-                        gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, gridViewForPhoto,true));
+                        gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, lineForAddMedia, todoDocuments.getVideoPath().size(), gridViewForPhoto,true));
+                        gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, lineForAddMedia, todoDocuments.getImagePath().size(), gridViewForVideo,true));
                         textNumberOfPhoto.setText(todoDocuments.getImagePath().size() + " Photos");
+                        lineForAddMedia.setVisibility(View.VISIBLE);
                     } else {
                         todoDocuments.setVideoPath(DEFAULT_VIDEO_URL);
                         todoDocuments.setVideoScreen(DEFAULT_VIDEO_SCREEN_URL);
                         textNumberOfVideo.setVisibility(View.VISIBLE);
+                        lineForAddMedia.setVisibility(View.VISIBLE);
                         textNumberOfVideo.setText(todoDocuments.getVideoPath().size() + " Videos");
                         gridViewForVideo.setVisibility(View.VISIBLE);
-                        gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, gridViewForVideo,true));
+                        gridViewForPhoto.setAdapter(new PhotoAdapterGrid(this, bundle,todoDocuments.getImagePath(), textNumberOfPhoto, lineForAddMedia, todoDocuments.getVideoPath().size(), gridViewForPhoto,true));
+                        lineForAddMedia.setVisibility(View.VISIBLE);
+                        gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocuments.getVideoPath(), todoDocuments.getVideoScreen(), textNumberOfVideo, lineForAddMedia, todoDocuments.getImagePath().size(), gridViewForVideo,true));
                     }
+
                 }
         }
     }
