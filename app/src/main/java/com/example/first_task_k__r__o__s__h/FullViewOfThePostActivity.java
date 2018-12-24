@@ -39,14 +39,14 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
             textNumberOfPhoto.setVisibility(View.VISIBLE);
             textNumberOfPhoto.setText(todoDocument.getImagePath().size() + " Photos");
             gridViewForPhoto.setVisibility(View.VISIBLE);
-            photoAdapterGrid = new PhotoAdapterGrid(this, bundle, todoDocument.getImagePath(), textNumberOfPhoto, lineForAddMedia, todoDocument.getVideoPath().size(), gridViewForPhoto, false);
+            photoAdapterGrid = new PhotoAdapterGrid(this, bundle, todoDocument.getImagePath(), textNumberOfPhoto, lineForAddMedia, null, gridViewForPhoto, false);
             gridViewForPhoto.setAdapter(photoAdapterGrid);
         }
         if (todoDocument.getVideoPath().size()!=0){
             textNumberOfVideo.setVisibility(View.VISIBLE);
             textNumberOfVideo.setText(todoDocument.getVideoPath().size() + " Videos");
             gridViewForVideo.setVisibility(View.VISIBLE);
-            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocument.getVideoPath(), todoDocument.getVideoScreen(), textNumberOfVideo, lineForAddMedia, todoDocument.getImagePath().size(), gridViewForVideo, false));
+            gridViewForVideo.setAdapter(new VideoAdapterGrid(this, bundle, todoDocument.getVideoPath(), todoDocument.getVideoScreen(), textNumberOfVideo, lineForAddMedia, null, gridViewForVideo, false));
         }
     }
 

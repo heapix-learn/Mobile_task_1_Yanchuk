@@ -27,16 +27,16 @@ public class PhotoAdapterGrid extends BaseAdapter {
     private boolean edit;
     private Bundle bundle;
     private View lineForAddMedia;
-    private int numberOfVideos;
+    private VideoAdapterGrid videoAdapterGrid;
 
-    public PhotoAdapterGrid(Context context, Bundle bundle, List<String> photo, TextView textView, View lineForAddMedia, int numberOfVideos, GridView gridViewForPhoto, boolean edit){
+    public PhotoAdapterGrid(Context context, Bundle bundle, List<String> photo, TextView textView, View lineForAddMedia, VideoAdapterGrid videoAdapterGrid, GridView gridViewForPhoto, boolean edit){
         this.context=context;
         this.photo = photo;
         this.textView = textView;
         this.gridViewForPhoto=gridViewForPhoto;
         this.edit=edit;
         this.bundle=bundle;
-        this.numberOfVideos=numberOfVideos;
+        this.videoAdapterGrid=videoAdapterGrid;
         this.lineForAddMedia=lineForAddMedia;
     }
 
@@ -65,7 +65,7 @@ public class PhotoAdapterGrid extends BaseAdapter {
         int t=0;
         if (getCount()%3==0) t=1;
         if (gridViewForPhoto.getWidth()!=0) {
-            gridViewForPhoto.setLayoutParams(new LinearLayout.LayoutParams(gridViewForPhoto.getWidth(), ((getCount() / 3) + 1) * 310));
+            gridViewForPhoto.setLayoutParams(new LinearLayout.LayoutParams(gridViewForPhoto.getWidth(), ((getCount() / 3) + 1-t) * 310));
         }
         ImageView imageView1 = (ImageView) grid.findViewById(R.id.img_photo);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -102,7 +102,7 @@ public class PhotoAdapterGrid extends BaseAdapter {
         notifyDataSetChanged();
         int t=0;
         if (getCount()%3==0) t=1;
-        gridViewForPhoto.setLayoutParams(new LinearLayout.LayoutParams(gridViewForPhoto.getWidth(),((getCount()/3)+1)*310));
+        gridViewForPhoto.setLayoutParams(new LinearLayout.LayoutParams(gridViewForPhoto.getWidth(),((getCount()/3)+1-t)*310));
         if (getCount()!=0) {
             textView.setVisibility(View.VISIBLE);
             if (edit){
@@ -111,7 +111,11 @@ public class PhotoAdapterGrid extends BaseAdapter {
         }
         else {
             textView.setVisibility(View.GONE);
-            if (numberOfVideos==0) lineForAddMedia.setVisibility(View.GONE);
+            if (videoAdapterGrid==null){
+                lineForAddMedia.setVisibility(View.GONE);
+            } else if (videoAdapterGrid.getCount()==0){
+                lineForAddMedia.setVisibility(View.GONE);
+            }
         }
     }
 

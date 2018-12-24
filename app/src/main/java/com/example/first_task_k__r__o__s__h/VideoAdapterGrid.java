@@ -28,9 +28,9 @@ public class VideoAdapterGrid extends BaseAdapter {
     private boolean edit;
     private Bundle bundle;
     private View lineForAddMedia;
-    private int numberOfPhotos;
+    private PhotoAdapterGrid photoAdapterGrid;
 
-    public VideoAdapterGrid(Context context, Bundle bundle, List<String> video, List<String> videoScreen, TextView textView, View lineForAddMedia, int numberOfPhotos, GridView gridViewForVideo, boolean edit){
+    public VideoAdapterGrid(Context context, Bundle bundle, List<String> video, List<String> videoScreen, TextView textView, View lineForAddMedia, PhotoAdapterGrid photoAdapterGrid, GridView gridViewForVideo, boolean edit){
         this.context=context;
         this.video = video;
         this.videoScreen = videoScreen;
@@ -39,7 +39,7 @@ public class VideoAdapterGrid extends BaseAdapter {
         this.edit = edit;
         this.bundle = bundle;
         this.lineForAddMedia = lineForAddMedia;
-        this.numberOfPhotos = numberOfPhotos;
+        this.photoAdapterGrid=photoAdapterGrid;
     }
 
     @Override
@@ -68,13 +68,15 @@ public class VideoAdapterGrid extends BaseAdapter {
         int t=0;
         if (getCount()%3==0) t=1;
         if (gridViewForVideo.getWidth()!=0) {
-            gridViewForVideo.setLayoutParams(new LinearLayout.LayoutParams(gridViewForVideo.getWidth(), ((getCount() / 3) + 1) * 310));
+            gridViewForVideo.setLayoutParams(new LinearLayout.LayoutParams(gridViewForVideo.getWidth(), ((getCount() / 3) + 1-t) * 310));
         }
         videoTime = grid.findViewById(R.id.textTime);
         videoTime.setVisibility(View.VISIBLE);
         if (getCount()==0){
             gridViewForVideo.setVisibility(View.GONE);
-            if (numberOfPhotos==0){
+            if (photoAdapterGrid==null){
+                lineForAddMedia.setVisibility(View.GONE);
+            } else if (photoAdapterGrid.getCount()==0){
                 lineForAddMedia.setVisibility(View.GONE);
             }
         }
@@ -107,7 +109,9 @@ public class VideoAdapterGrid extends BaseAdapter {
                 }
                 else {
                     textView.setVisibility(View.GONE);
-                    if (numberOfPhotos==0){
+                    if (photoAdapterGrid==null){
+                        lineForAddMedia.setVisibility(View.GONE);
+                    } else if (photoAdapterGrid.getCount()==0){
                         lineForAddMedia.setVisibility(View.GONE);
                     }
 
@@ -125,10 +129,12 @@ public class VideoAdapterGrid extends BaseAdapter {
         notifyDataSetChanged();
         int t=0;
         if (getCount()%3==0) t=1;
-        gridViewForVideo.setLayoutParams(new LinearLayout.LayoutParams(gridViewForVideo.getWidth(),((getCount()/3)+1)*310));
+        gridViewForVideo.setLayoutParams(new LinearLayout.LayoutParams(gridViewForVideo.getWidth(),((getCount()/3)+1-t)*310));
         if (getCount()==0){
             gridViewForVideo.setVisibility(View.GONE);
-            if (numberOfPhotos==0) {
+            if (photoAdapterGrid==null){
+                lineForAddMedia.setVisibility(View.GONE);
+            } else if (photoAdapterGrid.getCount()==0){
                 lineForAddMedia.setVisibility(View.GONE);
             }
         }
