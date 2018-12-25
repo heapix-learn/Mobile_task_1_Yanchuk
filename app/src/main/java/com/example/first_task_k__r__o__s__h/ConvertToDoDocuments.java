@@ -16,9 +16,9 @@ public class ConvertToDoDocuments {
     @SerializedName("CreateDate")
     @Expose
     private String CreateDate;
-    @SerializedName("login")
+    @SerializedName("accountId")
     @Expose
-    private String login;
+    private String accountId;
     @SerializedName("textNote")
     @Expose
     private String textNote;
@@ -61,10 +61,6 @@ public class ConvertToDoDocuments {
         this.number = number;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -105,9 +101,6 @@ public class ConvertToDoDocuments {
         return title;
     }
 
-    public String getLogin() {
-        return login;
-    }
 
     public String getTextNote() {
         return textNote;
@@ -135,5 +128,13 @@ public class ConvertToDoDocuments {
 
     public void setVideoScreen(String videoScreen) {
         this.videoScreen = videoScreen;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getAccountId() {
+        return accountId;
     }
 }

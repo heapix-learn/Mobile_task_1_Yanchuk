@@ -16,6 +16,7 @@ public class AppContext extends Application {
     public static final String GET_POST_ID="getPostId";
     public static final int TODO_NOTE_SETTING_REQUEST=3;
     public static final int EDIT_POST_REQUEST=4;
+    public static final String OWN_MARKER="OwnMarker";
 
 
     public static String ListPathToString(List<String> list){

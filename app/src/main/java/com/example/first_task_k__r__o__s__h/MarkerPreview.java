@@ -12,6 +12,7 @@ public class MarkerPreview extends AppCompatActivity {
     private ImageButton like;
     private ImageButton subscription;
     private ToDoDocuments toDoDocuments;
+    private OwnMarker ownMarker;
 
 
     @Override
@@ -40,7 +41,8 @@ public class MarkerPreview extends AppCompatActivity {
         });
 
         String id = getIntent().getExtras().getString("markerId", "");
-        toDoDocuments = DBNotes.getOneNotesFromId(id);
+        toDoDocuments = DBPosts.getOnePostFromId(id);
+        ownMarker = DBPosts.getOneMarkerFromPostId(id);
         noteTitle.setText(toDoDocuments.getTitle());
         PicAdapter imgAdapt = new PicAdapter(this, toDoDocuments.getImagePath(), toDoDocuments.getVideoPath(), toDoDocuments.getVideoScreen());
         picGallery.setDividerPadding(5);
@@ -95,14 +97,14 @@ public class MarkerPreview extends AppCompatActivity {
         if (requestCode == AppContext.TODO_NOTE_REQUEST) {
             switch (resultCode) {
                 case AppContext.DELETE_POST_REQUEST:
-                    getIntent().putExtra(AppContext.GET_POST_ID, toDoDocuments.getId());
                     getIntent().putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
+                    getIntent().putExtra(AppContext.OWN_MARKER,ownMarker);
                     setResult(AppContext.DELETE_POST_REQUEST, getIntent());
                     finish();
                     break;
                 case AppContext.EDIT_POST_REQUEST:
-                    getIntent().putExtra(AppContext.GET_POST_ID, toDoDocuments.getId());
                     getIntent().putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
+                    getIntent().putExtra(AppContext.OWN_MARKER,ownMarker);
                     setResult(AppContext.EDIT_POST_REQUEST, getIntent());
                     finish();
                     break;

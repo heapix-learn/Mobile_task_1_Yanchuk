@@ -265,13 +265,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-  //          showProgress(true);
             mAuthTask = new UserLoginTask(email, password, this);
             mAuthTask.execute((Void) null);
         }
@@ -404,32 +399,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    userApi.getSize("1").enqueue(new Callback<SizeOfAccounts>() {
+                                    userApi.getLastAccountNumber("1").enqueue(new Callback<NumberOfAccounts>() {
                                         @Override
-                                        public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
+                                        public void onResponse(Call<NumberOfAccounts> call, Response<NumberOfAccounts> response) {
                                             index=Integer.parseInt(response.body().getSize());
                                             myUser.setId(String.valueOf(index + 1));
 
-                                            Controller.pushLogin(myUser, new Callback<UserModel>() {
+                                            Controller.pushNewUser(myUser, new Callback<UserModel>() {
                                                 @Override
                                                 public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                                                     Toast myToast = Toast.makeText(mContext, R.string.updatingReport, Toast.LENGTH_SHORT);
                                                     myToast.show();
 
-                                                    userApi.deleteSize("1").enqueue(new Callback<ResponseBody>() {
+                                                    userApi.deleteLastAccountNumber("1").enqueue(new Callback<ResponseBody>() {
                                                         @Override
                                                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                            SizeOfAccounts sizeOfAccounts=new SizeOfAccounts();
-                                                            sizeOfAccounts.setId("1");
-                                                            sizeOfAccounts.setSize(String.valueOf(index+1));
-                                                            userApi.pushSize(sizeOfAccounts).enqueue(new Callback<SizeOfAccounts>() {
+                                                            NumberOfAccounts numberOfAccounts=new NumberOfAccounts();
+                                                            numberOfAccounts.setId("1");
+                                                            numberOfAccounts.setSize(String.valueOf(index+1));
+                                                            userApi.pushLastAccountNumber(numberOfAccounts).enqueue(new Callback<NumberOfAccounts>() {
                                                                 @Override
-                                                                public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
+                                                                public void onResponse(Call<NumberOfAccounts> call, Response<NumberOfAccounts> response) {
                                                                     Intent myIntent = new Intent(LoginActivity.this, MapsActivity.class);
                                                                     LoginActivity.this.startActivity(myIntent);
                                                                 }
                                                                 @Override
-                                                                public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+                                                                public void onFailure(Call<NumberOfAccounts> call, Throwable t) {
                                                                     Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
@@ -450,7 +445,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                             });
                                         }
                                         @Override
-                                        public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+                                        public void onFailure(Call<NumberOfAccounts> call, Throwable t) {
                                             Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
                                         }
                                     });

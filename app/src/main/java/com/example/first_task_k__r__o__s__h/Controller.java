@@ -3,7 +3,6 @@ package com.example.first_task_k__r__o__s__h;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -29,8 +28,8 @@ public class Controller {
         return service;
 
     }
-    public static void pushLogin(UserModel user, Callback<UserModel> callback) {
-        Call<UserModel> userCall = service.pushLogin(user);
+    public static void pushNewUser(UserModel user, Callback<UserModel> callback) {
+        Call<UserModel> userCall = service.pushNewUser(user);
         userCall.enqueue(callback);
     }
 }

@@ -27,9 +27,9 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     @SerializedName("CreateDate")
     @Expose
     private Date CreateDate;
-    @SerializedName("login")
+    @SerializedName("accountId")
     @Expose
-    private String login;
+    private String accountId;
     @SerializedName("textNote")
     @Expose
     private String textNote;
@@ -58,8 +58,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
     public ToDoDocuments(){
         CreateDate=new Date();
         number=-1;
-//        login=LoginActivity.myUser.getUsername();
-        login="";
+        accountId="";
         location="-1000/-1000";
         access=0;
         imagePath = new ArrayList<>();
@@ -76,7 +75,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         number=Integer.parseInt(data[1]);
         long tmpDate=Long.parseLong(data[2]);
         CreateDate=new Date(tmpDate);
-        login=data[3];
+        accountId=data[3];
         id = data[4];
         textNote=data[5];
         imagePath= AppContext.FromStringToList(data[6]);
@@ -182,12 +181,12 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         this.textNote = textNote;
     }
 
-    public String getLogin() {
-        return login;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public void setCreateDate(Date CreateDate){
@@ -253,7 +252,7 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
 
     @Override
     public void writeToParcel(Parcel dest, int flags){
-        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), login, id, textNote, ImagePathToString(), location, ""+access, VideoPathToString(), VideoScreenToString(), nameLocation});
+        dest.writeStringArray(new String[] {title, ""+number, ""+CreateDate.getTime(), accountId, id, textNote, ImagePathToString(), location, ""+access, VideoPathToString(), VideoScreenToString(), nameLocation});
     }
 
     @NonNull

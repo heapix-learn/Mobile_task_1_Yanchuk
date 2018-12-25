@@ -25,13 +25,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
@@ -50,14 +50,14 @@ import retrofit2.Response;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
-    private ClusterManager<ToDoDocuments> mClusterManager;
+    private ClusterManager<OwnMarker> mClusterManager;
     private ImageButton imageButtonAddNoteMaps;
+    private OwnMarker myMarker;
 
-    public static List<ToDoDocuments> listDocuments = new ArrayList<ToDoDocuments>();
+    public static List<OwnMarker> listDocuments = new ArrayList<OwnMarker>();
     public int size=0;
     private final static UserApi userApi=Controller.getApi();
-    private SizeOfAccounts accounts;
+    private NumberOfPosts numberOfPosts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,60 +78,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Resources.NotFoundException e) {
 
         }
-
-
         setUpClusterer();
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-                return null;
-            }
-        });
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-
-                if (marker.getId()!= null && marker.getSnippet() != null) {
-                    String help=marker.getTitle();
-
-                    String id = marker.getSnippet();
-
-                    marker.setSnippet(null);
-                    marker.setTitle(null);
-                    Intent myIntent = new Intent(MapsActivity.this, MarkerPreview.class);
-                    myIntent.putExtra("markerId",id);
-
-                    startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
-                    marker.showInfoWindow();
-                    marker.setSnippet(id);
-                    marker.setTitle(help);
-                }
-                return true;
-            }
-        });
-
     }
 
 
 
     private void setUpClusterer() {
-        mClusterManager = new ClusterManager<ToDoDocuments>(this, mMap);
+        mClusterManager = new ClusterManager<OwnMarker>(this, mMap);
         mMap.setOnCameraIdleListener(mClusterManager);
         mClusterManager.setRenderer(new OwnIconRendered(getApplicationContext(), mMap, mClusterManager));
-        mMap.setOnMarkerClickListener(mClusterManager);
+        mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<OwnMarker>() {
+            @Override
+            public boolean onClusterItemClick(OwnMarker ownMarker) {
+                Intent myIntent = new Intent(MapsActivity.this, MarkerPreview.class);
+                myIntent.putExtra("markerId",ownMarker.getPostId());
+                startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
 
-        addItems_help();
+                return false;
+            }
+        });
+        mMap.setOnMarkerClickListener(mClusterManager);
         addItems();
     }
 
     private void addItems() {
-        List<ToDoDocuments> listDocuments= new ArrayList<ToDoDocuments>();
 
         // Set some lat/lng coordinates to start with.
 //        int info = getIntent().getExtras().getInt("global", 0);
@@ -142,39 +112,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        }else{
 //            listDocuments = DBNotes.getNotesAllPublic();
 //        }
-        listDocuments = DBNotes.getNotesAllMy("");
+        listDocuments = DBPosts.getMarkersAllMy("");
 
         for (int i=0; i<listDocuments.size(); i++) {
-            ToDoDocuments toDoDocuments = listDocuments.get(i);
-            mClusterManager.addItem(toDoDocuments);
+            OwnMarker ownMarker = listDocuments.get(i);
+            mClusterManager.addItem(ownMarker);
         }
 
     }
 
-
-    private void addItems_help() {
-
-        // Set some lat/lng coordinates to start with.
-        double lat = 51.5145160;
-        double lng = -0.1270060;
-
-        // Add ten cluster items in close proximity, for purposes of this example.
-        for (int i = 0; i < 2000; i++) {
-            double offset = 0.00005;
-            lat = lat + offset;
-            lng = lng + offset;
-            ToDoDocuments offsetItem = new ToDoDocuments();
-            offsetItem.setLocation(lat+"/"+lng);
-//            mClusterManager.setRenderer(new OwnIconRendered(getApplicationContext(), mMap, mClusterManager));
-
-            mClusterManager.addItem(offsetItem);
-
-        }
-    }
-
-
-
-    public class OwnIconRendered extends DefaultClusterRenderer<ToDoDocuments>{
+    public class OwnIconRendered extends DefaultClusterRenderer<OwnMarker>{
 
         private final myIconGenerator mIconGenerator;
         private boolean shouldCluster = true;
@@ -184,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         private SparseArray<BitmapDescriptor> mIcons = new SparseArray();
 
 
-        public OwnIconRendered(Context context, GoogleMap map, ClusterManager<ToDoDocuments> clusterManager) {
+        public OwnIconRendered(Context context, GoogleMap map, ClusterManager<OwnMarker> clusterManager) {
             super(context, map, clusterManager);
             shouldCluster=true;
 
@@ -216,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return background;
         }
 
-        protected void onBeforeClusterRendered(Cluster<ToDoDocuments> cluster, MarkerOptions markerOptions) {
+        protected void onBeforeClusterRendered(Cluster<OwnMarker> cluster, MarkerOptions markerOptions) {
             int bucket = this.getBucket(cluster);
 
 
@@ -549,26 +496,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 //        @Override
-//        protected void onClusterRendered(Cluster<ToDoDocuments> cluster, Marker marker) {
+//        protected void onClusterRendered(Cluster<OwnMarker> cluster, Marker marker) {
 //
-//            Bitmap bitmapImg = BitmapFactory.decodeResource(getResources(), R.drawable.ellipse);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                if (cluster.getSize()!=0) {
-//                    bitmapImg= Bitmap.createScaledBitmap(bitmapImg, (int) (bitmapImg.getWidth()*Math.log(cluster.getSize())/3),
-//                            (int) (bitmapImg.getHeight()*Math.log(cluster.getSize()))/3, false);
-//                }
 //
-//            }
-//
-//            BitmapDescriptor img = BitmapDescriptorFactory.fromBitmap(bitmapImg);
-//            marker.setIcon(img);
-//            marker.setAnchor(0.5f, 0.5f);
-//            marker.setTitle(String.valueOf(cluster.getSize()));
-//            marker.setInfoWindowAnchor((float) 0.5, (float) 0.5);
 //        }
 
         @Override
-        protected boolean shouldRenderAsCluster(Cluster<ToDoDocuments> cluster) {
+        protected boolean shouldRenderAsCluster(Cluster<OwnMarker> cluster) {
 
             if(shouldCluster)
             {
@@ -609,24 +543,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 case Note.RESULT_SAVE: {
                     final ToDoDocuments toDoDocuments =  data.getParcelableExtra(AppContext.TODO_DOCUMENT);
+                    final OwnMarker ownMarker = new OwnMarker();
+                    ownMarker.setNumber(""+toDoDocuments.getNumber());
+                    ownMarker.setPostId(toDoDocuments.getId());
+                    ownMarker.setLocation(toDoDocuments.getLocation());
+                    ownMarker.setAccountId(toDoDocuments.getAccountId());
+                    ownMarker.setAccess(toDoDocuments.getAccess()+"");
+                    ownMarker.setId(ownMarker.getPostId());
 
                     if (toDoDocuments.getId().equals("-1")){
-
-                        userApi.getSizeOfNotes("1").enqueue(new Callback<SizeOfAccounts>() {
+                        userApi.getNumberOfPosts("1").enqueue(new Callback<NumberOfPosts>() {
                             @Override
-                            public void onResponse(Call<SizeOfAccounts> call, Response<SizeOfAccounts> response) {
-                                addDocument(toDoDocuments);
-                                accounts=response.body();
-                                accounts.setSize(String.valueOf(Integer.parseInt(accounts.getSize())+1));
-                                userApi.deleteSizeOfNotes("1").enqueue(new Callback<ResponseBody>() {
+                            public void onResponse(Call<NumberOfPosts> call, Response<NumberOfPosts> response) {
+                                numberOfPosts=response.body();
+                                numberOfPosts.setSize(String.valueOf(Integer.parseInt(numberOfPosts.getSize())+1));
+                                userApi.deleteNumberOfPosts("1").enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        userApi.pushSizeOfNotes(accounts).enqueue(new Callback<ResponseBody>() {
+                                        userApi.pushNumberOfPosts(numberOfPosts).enqueue(new Callback<ResponseBody>() {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                toDoDocuments.setId(accounts.getSize());
+                                                toDoDocuments.setId(numberOfPosts.getSize());
+                                                ownMarker.setPostId(toDoDocuments.getId());
+                                                ownMarker.setId(ownMarker.getPostId());
+                                                addDocument(ownMarker);
 
-                                                DBNotes.insertNote(toDoDocuments);
+                                                DBPosts.addMarker(ownMarker);
+                                                DBPosts.addPost(toDoDocuments);
+
+                                                mMap.animateCamera(CameraUpdateFactory.zoomIn());
+
                                             }
                                             @Override
                                             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -642,35 +588,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             }
                             @Override
-                            public void onFailure(Call<SizeOfAccounts> call, Throwable t) {
+                            public void onFailure(Call<NumberOfPosts> call, Throwable t) {
                                 Toast.makeText(MapsActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
                             }
                         });
 
                     }
                     else {
-                        DBNotes.updateNote(toDoDocuments);
-                        mClusterManager.addItem(toDoDocuments);
+                        mClusterManager.removeItem(ownMarker);
+                        DBPosts.updatePost(toDoDocuments);
+                        DBPosts.updateMarker(ownMarker);
+                        mClusterManager.addItem(ownMarker);
+                        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+
                     }
                     break;
                 }
                 case AppContext.DELETE_POST_REQUEST: {
                     ToDoDocuments toDoDocuments = data.getParcelableExtra(AppContext.TODO_DOCUMENT);
-                    String id =  data.getExtras().getString(AppContext.GET_POST_ID);
-                    DBNotes.deleteNote(id);
-                    deleteDocument(toDoDocuments);
-
+                    OwnMarker ownMarker = data.getParcelableExtra(AppContext.OWN_MARKER);
+                    deleteDocument(ownMarker);
+                    DBPosts.deletePost(toDoDocuments.getId());
+                    DBPosts.deleteMarker(ownMarker.getPostId());
+                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
                     break;
                 }
 
                 case AppContext.EDIT_POST_REQUEST: {
                     ToDoDocuments toDoDocuments = data.getParcelableExtra(AppContext.TODO_DOCUMENT);
-                    mClusterManager.removeItem(toDoDocuments);
+                    OwnMarker ownMarker = data.getParcelableExtra(AppContext.OWN_MARKER);
                     String id =  data.getExtras().getString(AppContext.GET_POST_ID);
+
                     imageButtonAddNoteMaps.setVisibility(View.GONE);
                     Intent myIntent = new Intent(this, EditPost.class);
                     myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
                     startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
+                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
                     break;
                 }
 
@@ -681,20 +634,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void addDocument(ToDoDocuments toDoDocuments){
-        if (toDoDocuments.getNumber()==-1) {
-            toDoDocuments.setNumber(listDocuments.size());
-            listDocuments.add(toDoDocuments);
+    private void addDocument(OwnMarker ownMarker){
+        if (Integer.parseInt(ownMarker.getNumber())==-1) {
+            ownMarker.setNumber(listDocuments.size()+"");
+            listDocuments.add(ownMarker);
 
         }   else {
-            listDocuments.set(toDoDocuments.getNumber(), toDoDocuments);
+            listDocuments.set(Integer.parseInt(ownMarker.getNumber()), ownMarker);
         }
-        mClusterManager.addItem(toDoDocuments);
+        mClusterManager.addItem(ownMarker);
     }
 
-    public void deleteDocument(ToDoDocuments toDoDocuments){
-        listDocuments.remove(toDoDocuments);
-        mClusterManager.removeItem(toDoDocuments);
+    public void deleteDocument(OwnMarker ownMarker){
+        boolean f =listDocuments.remove(ownMarker);
+        mClusterManager.removeItem(ownMarker);
     }
 
     @Override

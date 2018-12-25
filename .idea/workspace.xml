@@ -15,8 +15,11 @@
       </config>
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+  </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" line="326" />
+    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" line="273" />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -25,6 +28,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c666043-18fe-4d0e-b0c3-586a6439e296" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBPosts.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/NumberOfPosts.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/OwnMarker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -33,11 +39,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullViewOfThePostActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullViewOfThePostActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/AppContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/AppContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ConvertToDoDocuments.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ConvertToDoDocuments.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBNotes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MarkerPreview.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MarkerPreview.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PhotoAdapterGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PhotoAdapterGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/SizeOfAccounts.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/NumberOfAccounts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ToDoDocuments.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ToDoDocuments.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/UserApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/UserApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -79,54 +94,91 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Note.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java">
+      <file leaf-file-name="MapsActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-205">
-              <caret line="174" column="39" selection-start-line="174" selection-start-column="39" selection-end-line="174" selection-end-column="39" />
+            <state relative-caret-position="240">
+              <caret line="601" column="42" selection-start-line="601" selection-start-column="42" selection-end-line="601" selection-end-column="42" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#6262#6850#0" expanded="true" />
-                <element signature="e#6849#6850#0" expanded="true" />
-                <element signature="e#6949#7764#0" expanded="true" />
-                <element signature="e#7763#7764#0" expanded="true" />
+                <element signature="e#2090#2101#0" expanded="true" />
+                <element signature="e#4496#4710#0" expanded="true" />
+                <element signature="e#4709#4710#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhotoAdapterGrid.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PhotoAdapterGrid.java">
+      <file leaf-file-name="DBPosts.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBPosts.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1170">
-              <caret line="107" column="22" selection-start-line="107" selection-start-column="22" selection-end-line="107" selection-end-column="22" />
+            <state relative-caret-position="337">
+              <caret line="154" column="71" selection-start-line="154" selection-start-column="71" selection-end-line="154" selection-end-column="71" />
+              <folding>
+                <element signature="method#getMarkersAllMy#0;class#DBPosts#0" />
+                <element signature="method#getMarkersAllPublic#0;class#DBPosts#0" />
+                <element signature="method#deletePost#0;class#DBPosts#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VideoAdapterGrid.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterGrid.java">
+      <file leaf-file-name="NumberOfPosts.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/NumberOfPosts.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="138" column="13" selection-start-line="134" selection-start-column="11" selection-end-line="138" selection-end-column="13" />
+            <state relative-caret-position="60">
+              <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VideoAdapterViewPager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterViewPager.java">
+      <file leaf-file-name="OwnMarker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/OwnMarker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
+            <state relative-caret-position="247">
+              <caret line="155" selection-start-line="155" selection-end-line="155" />
+              <folding>
+                <element signature="e#809#810#0" expanded="true" />
+                <element signature="e#834#835#0" expanded="true" />
+                <element signature="e#870#871#0" expanded="true" />
+                <element signature="e#898#899#0" expanded="true" />
+                <element signature="e#3564#3565#0" expanded="true" />
+                <element signature="e#3588#3589#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FullViewOfThePostActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullViewOfThePostActivity.java">
+      <file leaf-file-name="ToDoDocuments.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ToDoDocuments.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="39" column="86" selection-start-line="39" selection-start-column="86" selection-end-line="39" selection-end-column="86" />
+            <state relative-caret-position="228">
+              <caret line="285" column="5" selection-start-line="285" selection-start-column="5" selection-end-line="285" selection-end-column="5" />
+              <folding>
+                <element signature="e#6391#6392#0" expanded="true" />
+                <element signature="e#6419#6420#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MarkerPreview.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MarkerPreview.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="572">
+              <caret line="100" column="68" selection-start-line="100" selection-start-column="68" selection-end-line="100" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Note.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2970">
+              <caret line="246" selection-start-line="246" selection-end-line="246" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#onActivityResult#0;class#Note#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -161,6 +213,13 @@
       <find>getC</find>
       <find>lineForAddMedia</find>
       <find>textView</find>
+      <find>MarkerP</find>
+      <find>ToDoDocument</find>
+      <find>marker</find>
+      <find>mClusterManager</find>
+      <find>dele</find>
+      <find>listDocuments</find>
+      <find>upd</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -247,10 +306,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="processDebugResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformNativeLibsWithStripDebugSymbolForRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Runs lint on all variants." />
@@ -944,10 +999,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformNativeLibsWithStripDebugSymbolForDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="compileDebugNdk" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -1118,10 +1169,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="processDebugResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="transformNativeLibsWithStripDebugSymbolForRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Runs lint on all variants." />
@@ -1805,10 +1852,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="transformNativeLibsWithStripDebugSymbolForDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="compileDebugNdk" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -2449,7 +2492,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomViewPager.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_full_screen_video.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/pager_item.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/AppContext.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullScreenPhoto.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/RoundRectCornerImageView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/mygrid_layout.xml" />
@@ -2460,7 +2502,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullScreenGallery.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_setting_menu_for_full_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/SettingMenuForFullView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MarkerPreview.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_maps2.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomPlaceAutocompleteFragment.java" />
@@ -2470,24 +2511,34 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Place.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomAutoCompleteAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ConvertToDoDocuments.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBNotes.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ToDoDocuments.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/HelpActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/EditPost.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PicAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterViewPager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_full_view_of_the_post.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_marker_preview.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_note.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterGrid.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PhotoAdapterGrid.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullViewOfThePostActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/SizeOfAccounts.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/SizeOfPosts.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/NumberOfPosts.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/NumberOfAccounts.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ConvertToDoDocuments.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ToDoDocuments.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBNotes.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Controller.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/AppContext.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MarkerPreview.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/UserApi.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/OwnMarker.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBPosts.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java" />
       </list>
     </option>
   </component>
@@ -2503,9 +2554,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2524,21 +2572,13 @@
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="first_task_k__r__o__s__h" type="cbb59c9e:AndroidPsiDirectoryNode" />
             </path>
-            <path>
-              <item name="MyAndroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="MyAndroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2689,30 +2729,30 @@
     <frame x="64" y="-11" width="1537" height="912" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="Android Profiler" order="7" weight="0.32988358" />
+      <window_info anchor="bottom" id="Android Profiler" order="12" weight="0.32988358" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Build Variants" order="2" side_tool="true" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info id="Image Layers" order="7" />
+      <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Preview" order="4" weight="0.32975152" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32988358" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32988358" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32988358" />
-      <window_info anchor="bottom" id="Logcat" order="7" />
-      <window_info id="Captures" order="2" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32988358" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32858992" />
+      <window_info anchor="bottom" id="Logcat" order="10" weight="0.32988358" />
+      <window_info id="Captures" order="4" weight="0.25" />
+      <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13969107" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21222296" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32858992" />
-      <window_info anchor="right" id="Gradle" order="3" weight="0.11215581" />
+      <window_info anchor="right" id="Gradle" order="5" weight="0.11215581" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Device File Explorer" order="4" side_tool="true" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39974126" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Preview" order="7" weight="0.32975152" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -2724,33 +2764,33 @@
       <window_info anchor="bottom" id="Build" order="7" weight="0.32858992" />
       <window_info id="Designer" order="2" />
       <window_info id="Build Variants" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
+      <window_info id="Image Layers" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32988358" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.32988358" />
+      <window_info anchor="bottom" id="Android Profiler" order="12" weight="0.32988358" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info id="Captures" order="6" weight="0.25" />
-      <window_info id="Capture Tool" order="7" />
+      <window_info id="Captures" order="4" weight="0.25" />
+      <window_info id="Capture Tool" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="right" id="Preview" order="8" weight="0.32975152" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="right" id="Preview" order="7" weight="0.32975152" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Logcat" order="10" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.32988358" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="12" visible="true" weight="0.32988358" />
+      <window_info anchor="bottom" id="Logcat" order="10" weight="0.32988358" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32988358" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32858992" />
       <window_info anchor="right" id="Gradle" order="5" weight="0.11215581" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.26863667" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21222296" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32988358" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39974126" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39974126" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -2801,12 +2841,108 @@
           <properties />
           <option name="timeStamp" value="49" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>598</line>
+          <properties />
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>595</line>
+          <properties />
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>607</line>
+          <properties />
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>617</line>
+          <properties />
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>608</line>
+          <properties />
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>610</line>
+          <properties />
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>611</line>
+          <properties />
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>612</line>
+          <properties />
+          <option name="timeStamp" value="96" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>613</line>
+          <properties />
+          <option name="timeStamp" value="97" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>649</line>
+          <properties />
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java</url>
+          <line>648</line>
+          <properties />
+          <option name="timeStamp" value="105" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="51" />
+      <option name="time" value="106" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>listDocuments</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>ownMarker</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>mClusterManager.getMarkerCollection().getMarkers().size()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>mClusterManager</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>marker.getSnippet()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>marker.getId()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>query</expression-string>
         <language-id>JAVA</language-id>
@@ -2822,36 +2958,6 @@
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>autocompleteFragment.onCreateView(null, null, null)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>autocompleteFragment.setText(textLocation.getText());</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>textLocation.getText()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>startActivity(myIntent);</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>myIntent</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>ActivityCompat.startActivity(MarkerPreview.this, myIntent, bundle)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
@@ -2862,81 +2968,123 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Android/Sdk/platforms/android-28/data/res/layout/simple_spinner_item.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="17" column="2" selection-start-line="17" selection-start-column="2" selection-end-line="17" selection-end-column="2" />
-        </state>
-      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_auto_complete.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ViewActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_screen_gallery.xml">
+      <provider selected="true" editor-type-id="text-editor">
         <state />
       </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_screen_photo.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="52" selection-start-line="52" selection-end-line="52" />
+        <state />
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_screen_video.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_view_of_the_post.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="114" column="34" selection-start-line="114" selection-start-column="34" selection-end-line="114" selection-end-column="34" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_maps2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_marker_preview.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="84" column="49" selection-start-line="84" selection-start-column="49" selection-end-line="84" selection-end-column="49" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomView.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_note.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="222" column="35" selection-start-line="222" selection-start-column="35" selection-end-line="222" selection-end-column="35" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MyLocationListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/placeTypeValue.xml" />
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/widget/AdapterView.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/SizeOfAccounts.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/SizeOfPosts.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBNotes.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomAutoCompleteAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="168" selection-start-line="168" selection-end-line="168" />
+        <state relative-caret-position="248">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2105#2106#0" expanded="true" />
-            <element signature="e#2143#2144#0" expanded="true" />
-            <element signature="e#2199#2200#0" expanded="true" />
-            <element signature="e#2244#2245#0" expanded="true" />
-            <element signature="e#2773#2774#0" expanded="true" />
-            <element signature="e#2806#2807#0" expanded="true" />
-            <element signature="e#3747#5191#0" expanded="true" />
-            <element signature="e#5190#5191#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ConvertToDoDocuments.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomViewPager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="48" column="8" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="28" />
-          <folding>
-            <element signature="e#1098#1099#0" expanded="true" />
-            <element signature="e#1146#1147#0" expanded="true" />
-            <element signature="e#1185#1186#0" expanded="true" />
-            <element signature="e#1220#1221#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="90">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ToDoDocuments.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/EditPost.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="153" column="36" selection-start-line="153" selection-start-column="36" selection-end-line="153" selection-end-column="36" />
-          <folding>
-            <element signature="e#2413#2414#0" expanded="true" />
-            <element signature="e#2448#2449#0" expanded="true" />
-            <element signature="e#2504#2505#0" expanded="true" />
-            <element signature="e#2552#2553#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/HelpActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MainActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_help.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/AutoCompleteActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBNotes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2040">
-          <caret line="149" column="61" selection-start-line="149" selection-start-column="61" selection-end-line="149" selection-end-column="61" />
+        <state relative-caret-position="105">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -2961,6 +3109,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullViewOfThePostActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/GalleryAdapterViewPager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
@@ -2977,32 +3132,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="716">
-          <caret line="417" selection-start-line="417" selection-end-line="417" />
+        <state relative-caret-position="5445">
+          <caret line="412" selection-start-line="412" selection-end-line="412" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/content/ContextWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
+          <folding>
+            <element signature="e#3365#3366#0" expanded="true" />
+            <element signature="e#3417#3418#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/e8d229c68abe9ecdbfeff870d2a59e08/jars/classes.jar!/com/google/maps/android/clustering/ClusterManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/AppContext.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MarkerPreview.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="8" />
-          <folding>
-            <element signature="e#1142#1284#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="225">
+          <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PicAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-238">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+        <state relative-caret-position="15">
+          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PhotoAdapterGrid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="716">
+          <caret line="107" column="22" selection-start-line="107" selection-start-column="22" selection-end-line="107" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -3010,12 +3180,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
-          <folding>
-            <element signature="e#233#234#0" expanded="true" />
-            <element signature="e#271#272#0" expanded="true" />
-            <element signature="e#463#464#0" expanded="true" />
-            <element signature="e#495#496#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3033,10 +3197,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/SizeOfAccounts.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/UserModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterGrid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="716">
+          <caret line="138" column="13" selection-start-line="134" selection-start-column="11" selection-end-line="138" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterViewPager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="64" column="1" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/NumberOfAccounts.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/UserApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ConvertToDoDocuments.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ToDoDocuments.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="285" column="5" selection-start-line="285" selection-start-column="5" selection-end-line="285" selection-end-column="5" />
+          <folding>
+            <element signature="e#6391#6392#0" expanded="true" />
+            <element signature="e#6419#6420#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/OwnMarker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
+          <folding>
+            <element signature="e#809#810#0" expanded="true" />
+            <element signature="e#834#835#0" expanded="true" />
+            <element signature="e#870#871#0" expanded="true" />
+            <element signature="e#898#899#0" expanded="true" />
+            <element signature="e#3564#3565#0" expanded="true" />
+            <element signature="e#3588#3589#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/NumberOfPosts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -3047,183 +3286,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/TodoAdapter.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/UserModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/ViewActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_screen_gallery.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_screen_photo.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_screen_video.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_full_view_of_the_post.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="114" column="34" selection-start-line="114" selection-start-column="34" selection-end-line="114" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        <state relative-caret-position="2970">
+          <caret line="246" selection-start-line="246" selection-end-line="246" />
           <folding>
-            <element signature="e#1851#1869#0" expanded="true" />
-            <element signature="e#2320#2338#0" expanded="true" />
-            <element signature="e#2892#2917#0" expanded="true" />
-            <element signature="e#3005#3035#0" expanded="true" />
-            <element signature="e#6733#6754#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#onActivityResult#0;class#Note#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_maps2.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MarkerPreview.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="572">
+          <caret line="100" column="68" selection-start-line="100" selection-start-column="68" selection-end-line="100" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/7a7efbd39475dc82e56cef1946412d56/jars/classes.jar!/android/support/v4/app/FragmentActivity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="431" column="16" selection-start-line="431" selection-start-column="16" selection-end-line="431" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/DBPosts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="154" column="71" selection-start-line="154" selection-start-column="71" selection-end-line="154" selection-end-column="71" />
+          <folding>
+            <element signature="method#getMarkersAllMy#0;class#DBPosts#0" />
+            <element signature="method#getMarkersAllPublic#0;class#DBPosts#0" />
+            <element signature="method#deletePost#0;class#DBPosts#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MapsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="78" selection-start-line="78" selection-end-line="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_marker_preview.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="84" column="49" selection-start-line="84" selection-start-column="49" selection-end-line="84" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomView.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/EditPost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/CustomViewPager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+        <state relative-caret-position="240">
+          <caret line="601" column="42" selection-start-line="601" selection-start-column="42" selection-end-line="601" selection-end-column="42" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2090#2101#0" expanded="true" />
+            <element signature="e#4496#4710#0" expanded="true" />
+            <element signature="e#4709#4710#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_note.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="222" column="35" selection-start-line="222" selection-start-column="35" selection-end-line="222" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/MyLocationListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/widget/AdapterView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5327">
-          <caret line="52" column="22" selection-start-line="52" selection-start-column="22" selection-end-line="52" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterViewPager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/VideoAdapterGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="138" column="13" selection-start-line="134" selection-start-column="11" selection-end-line="138" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/PhotoAdapterGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="107" column="22" selection-start-line="107" selection-start-column="22" selection-end-line="107" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/Note.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-205">
-          <caret line="174" column="39" selection-start-line="174" selection-start-column="39" selection-end-line="174" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6262#6850#0" expanded="true" />
-            <element signature="e#6849#6850#0" expanded="true" />
-            <element signature="e#6949#7764#0" expanded="true" />
-            <element signature="e#7763#7764#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/first_task_k__r__o__s__h/FullViewOfThePostActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="39" column="86" selection-start-line="39" selection-start-column="86" selection-end-line="39" selection-end-column="86" />
         </state>
       </provider>
     </entry>

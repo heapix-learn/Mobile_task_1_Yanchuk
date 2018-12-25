@@ -2,56 +2,68 @@ package com.example.first_task_k__r__o__s__h;
 
 import java.util.List;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserApi {
-    @GET("/accounts")
+    @GET("/Accounts")
     Call<List<UserModel>> checkLogin(@Query("username") String resourceName);
 
-    @POST("/accounts")
-    Call<UserModel> pushLogin(@Body UserModel user);
+    @POST("/Accounts")
+    Call<UserModel> pushNewUser(@Body UserModel user);
 
-    @GET("/size_of_accounts/{id}")
-    Call<SizeOfAccounts> getSize(@Path("id") String id);
+    @GET("/Number_of_accounts/{id}")
+    Call<NumberOfAccounts> getLastAccountNumber(@Path("id") String id);
 
-    @DELETE("/size_of_accounts/{id}")
-    Call<ResponseBody> deleteSize(@Path("id") String id);
+    @DELETE("/Number_of_accounts/{id}")
+    Call<ResponseBody> deleteLastAccountNumber(@Path("id") String id);
 
-    @POST("/size_of_accounts")
-    Call<SizeOfAccounts> pushSize(@Body SizeOfAccounts size);
+    @POST("/Number_of_accounts")
+    Call<NumberOfAccounts> pushLastAccountNumber(@Body NumberOfAccounts numberOfAccounts);
 
-    @GET("/notes/{id}")
-    Call<ConvertToDoDocuments> getNoteFromId(@Path("id") String id);
+    @GET("/Posts/{id}")
+    Call<ConvertToDoDocuments> getPostFromId(@Path("id") String id);
 
-    @GET("/size_of_notes/{id}")
-    Call<SizeOfAccounts> getSizeOfNotes(@Path("id") String id);
+    @GET("/Number_of_posts/{id}")
+    Call<NumberOfPosts> getNumberOfPosts(@Path("id") String id);
 
-    @DELETE("/size_of_notes/{id}")
-    Call<ResponseBody> deleteSizeOfNotes(@Path("id") String id);
 
-    @POST("/size_of_notes")
-    Call<ResponseBody> pushSizeOfNotes(@Body SizeOfAccounts size);
 
-    @GET("/notes")
-    Call<List<ConvertToDoDocuments>> getNotesLogin(@Query("login") String resourceName);
+    @POST("/Number_of_posts")
+    Call<ResponseBody> pushNumberOfPosts(@Body NumberOfPosts size);
 
-    @GET("/notes")
-    Call<List<ConvertToDoDocuments>> getNotesAccess(@Query("access") String resourceName);
 
-    @DELETE("/notes/{id}")
-    Call<ResponseBody> deleteNote(@Path("id") String id);
 
-    @POST("/notes")
-    Call<ResponseBody> pushNote(@Body ConvertToDoDocuments user);
+    @GET("/Markers")
+    Call<List<OwnMarker>> getMarkersFromAccountId(@Query("accountId") String resourceName);
+
+    @GET("/Markers")
+    Call<List<OwnMarker>> getMarkersFromAccess(@Query("access") String resourceName);
+
+
+
+    @DELETE("/Posts/{id}")
+    Call<ResponseBody> deletePost(@Path("id") String id);
+
+    @POST("/Posts/")
+    Call<ResponseBody> pushPost(@Body ConvertToDoDocuments convertToDoDocuments);
+
+    @DELETE("/Markers/{postId}")
+    Call<ResponseBody> deleteMarker(@Path("postId") String id);
+
+    @POST("/Markers/")
+    Call<ResponseBody> pushMarker(@Body OwnMarker ownMarker);
+
+    @GET("/Markers/{postId}")
+    Call<OwnMarker> getMarkerFromPostId(@Path("postId") String id);
+
+
+    @DELETE("/Number_of_posts/{id}/")
+    Call<ResponseBody> deleteNumberOfPosts(@Path("id") String id);
 }

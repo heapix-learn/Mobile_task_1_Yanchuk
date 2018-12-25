@@ -244,6 +244,7 @@ public class Note extends AppCompatActivity {
         todoDocuments.setTitle(textTitle.getText().toString());
         todoDocuments.setTextNote(textDescription.getText().toString());
         todoDocuments.setCreateDate(new Date());
+
         setResult(RESULT_SAVE, getIntent());
     }
 
