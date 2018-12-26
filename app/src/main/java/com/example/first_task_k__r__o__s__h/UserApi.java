@@ -13,7 +13,14 @@ import retrofit2.http.Query;
 
 public interface UserApi {
     @GET("/Accounts")
-    Call<List<UserModel>> checkLogin(@Query("username") String resourceName);
+    Call<List<UserModel>> checkLoginUserName(@Query("userName") String resourceName);
+
+    @GET("/Accounts")
+    Call<List<UserModel>> checkLoginPhone(@Query("phone") String resourceName);
+
+    @GET("/Accounts")
+    Call<List<UserModel>> checkLoginEmail(@Query("email") String resourceName);
+
 
     @POST("/Accounts")
     Call<UserModel> pushNewUser(@Body UserModel user);

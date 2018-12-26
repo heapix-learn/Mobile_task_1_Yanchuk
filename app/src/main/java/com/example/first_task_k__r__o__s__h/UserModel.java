@@ -7,12 +7,25 @@ import com.google.gson.annotations.SerializedName;
         @SerializedName("id")
         @Expose
         private String id;
-        @SerializedName("username")
+        @SerializedName("userName")
         @Expose
-        public String username;
+        public String userName;
         @SerializedName("password")
         @Expose
         private String password;
+
+        @SerializedName("email")
+        @Expose
+        private String email;
+
+        @SerializedName("fullName")
+        @Expose
+        private String fullName;
+
+        @SerializedName("phone")
+        @Expose
+        private String phone;
+
 
         public UserModel(){}
 
@@ -24,12 +37,12 @@ import com.google.gson.annotations.SerializedName;
             this.id = userId;
         }
 
-        public String getUsername() {
-            return username;
+        public String getUserName() {
+            return userName;
         }
 
-        public void setUsername(String username) {
-            this.username = username;
+        public void setUserName(String username) {
+            this.userName = username;
         }
 
         public String getPassword() {
@@ -38,6 +51,30 @@ import com.google.gson.annotations.SerializedName;
 
         public void setPassword(String password) {
             this.password = password;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getFullName() {
+            return fullName;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
     }
 

@@ -25,7 +25,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -52,7 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ClusterManager<OwnMarker> mClusterManager;
     private ImageButton imageButtonAddNoteMaps;
-    private OwnMarker myMarker;
 
     public static List<OwnMarker> listDocuments = new ArrayList<OwnMarker>();
     public int size=0;
@@ -571,7 +569,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 DBPosts.addMarker(ownMarker);
                                                 DBPosts.addPost(toDoDocuments);
 
-                                                mMap.animateCamera(CameraUpdateFactory.zoomIn());
 
                                             }
                                             @Override
@@ -599,7 +596,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         DBPosts.updatePost(toDoDocuments);
                         DBPosts.updateMarker(ownMarker);
                         mClusterManager.addItem(ownMarker);
-                        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                        mClusterManager.cluster();
 
                     }
                     break;
@@ -610,7 +607,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     deleteDocument(ownMarker);
                     DBPosts.deletePost(toDoDocuments.getId());
                     DBPosts.deleteMarker(ownMarker.getPostId());
-                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
+
+
                     break;
                 }
 
@@ -623,7 +621,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Intent myIntent = new Intent(this, EditPost.class);
                     myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
                     startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
-                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
+
                     break;
                 }
 
@@ -643,11 +641,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             listDocuments.set(Integer.parseInt(ownMarker.getNumber()), ownMarker);
         }
         mClusterManager.addItem(ownMarker);
+        mClusterManager.cluster();
     }
 
     public void deleteDocument(OwnMarker ownMarker){
         boolean f =listDocuments.remove(ownMarker);
         mClusterManager.removeItem(ownMarker);
+        mClusterManager.cluster();
     }
 
     @Override

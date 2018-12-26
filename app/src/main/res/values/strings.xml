@@ -8,11 +8,11 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_user_name">UserName</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_user_name">This user name is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
@@ -50,7 +50,7 @@
     <string name="show_intro">Press a thumbnail to display at larger size</string>
     <string name="create_acco">Create account</string>
     <string name="discover">Discover</string>
-    <string name="username">Username</string>
+    <string name="username">UserName</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="title_user">User</string>
     <string name="title_map">Map</string>
@@ -61,4 +61,5 @@
     <string name="add_media">Add media </string>
     <string name="number_of_video">Number of video </string>
     <string name="number_of_photo">Number of photo </string>
+    <string name="error_incorrect_user_name">This user name/phone/email is incorrect</string>
 </resources>

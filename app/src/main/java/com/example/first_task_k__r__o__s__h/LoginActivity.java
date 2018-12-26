@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private int index;
 
 
-    private List<UserModel> posts;
+    private List<UserModel> accounts;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
 
     public GoogleSignInOptions gso;
@@ -94,8 +94,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        posts = new ArrayList<>();
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.username);
+        accounts = new ArrayList<>();
+        mUserNameView = (AutoCompleteTextView) findViewById(R.id.username);
         populateAutoComplete();
          gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(mUserNameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -193,6 +193,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             handleSignInResult(task);
         }
     }
+
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         Intent myIntent;
         try {
@@ -200,7 +202,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Signed in successfully, show authenticated UI.
             // updateUI(account);
             myUser = new UserModel();
-            myUser.setUsername(account.getEmail());
+            myUser.setEmail(account.getEmail());
+//            myUser.setUserName(account.getDisplayName());
+//            myUser.setFullName(account.ge);
             myIntent = new Intent(LoginActivity.this,MapsActivity.class);
             LoginActivity.this.startActivity(myIntent);
             signOut();
@@ -211,6 +215,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // updateUI(null);
         }
     }
+
+
+
     /**
      * Callback received when a permissions request has been completed.
      */
@@ -236,11 +243,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        mUserNameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String userName = mUserNameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -254,29 +261,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        if (TextUtils.isEmpty(userName)) {
+            mUserNameView.setError(getString(R.string.error_field_required));
+            focusView = mUserNameView;
             cancel = true;
         }
+//        } else if (!isEmailValid(userName)) {
+//            mUserNameView.setError(getString(R.string.error_invalid_user_name));
+//            focusView = mUserNameView;
+//            cancel = true;
+//        }
 
         if (cancel) {
             focusView.requestFocus();
         } else {
-            mAuthTask = new UserLoginTask(email, password, this);
+            mAuthTask = new UserLoginTask(userName, password, this);
             mAuthTask.execute((Void) null);
         }
 
 
     }
 
-    private boolean isEmailValid(String email) {
+    private boolean isEmailValid(String userName) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -324,7 +332,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        mUserNameView.setAdapter(adapter);
     }
 
 
@@ -342,53 +350,91 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
-        private final String mEmail;
+        private final String mUserName;
         private final String mPassword;
+        private final String mPhone;
+        private final String mEmail;
+
         private final Context mContext;
 
-        UserLoginTask(String email, String password, Context context) {
-            mEmail = email;
+        UserLoginTask(String info, String password, Context context) {
+            mUserName = info;
             mPassword = password;
+            mPhone = info;
+            mEmail = info;
             mContext= context;
         }
 
 
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
+            int ans;
             try {
-                posts.addAll(userApi.checkLogin(mEmail).execute().body());
+                accounts.addAll(userApi.checkLoginUserName(mUserName).execute().body());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            if (posts.size()==0) {
-                myUser=new UserModel();
-                myUser.setUsername(mEmail);
-                myUser.setPassword(mPassword);
-                myUser.setId("-1");
-
-                return true;
+            if (accounts.size()!=0) {
+                try {
+                    myUser = accounts.get(0);
+                    if ((myUser.getPassword().equals(mPassword)) && (myUser.getUserName().equals(mUserName) || myUser.getEmail().equals(mUserName)) || myUser.getPhone().equals(mUserName))
+                        return AppContext.SUCCESS_LOGIN;
+                    else if (myUser.getUserName().equals(mUserName))
+                        return AppContext.PASSWORD_ERROR;
+                } finally {
+                    accounts.clear();
+                }
             }
-            try{
-                myUser=posts.get(0);
-                if (myUser.getPassword().equals(mPassword))
-                    return true;
-                else
-                    return false;
-            } finally{
-               posts.clear();
+
+
+
+            try {
+                accounts.addAll(userApi.checkLoginPhone(mPhone).execute().body());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            if (accounts.size()!=0) {
+                try {
+                    myUser = accounts.get(0);
+                    if ((myUser.getPassword().equals(mPassword)) && (myUser.getPhone().equals(mPhone)))
+                        return AppContext.SUCCESS_LOGIN;
+                    else if (myUser.getPhone().equals(mPhone)) return AppContext.PASSWORD_ERROR;
+                } finally {
+                    accounts.clear();
+                }
+            }
+
+
+
+            try {
+                accounts.addAll(userApi.checkLoginEmail(mEmail).execute().body());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (accounts.size()!=0) {
+                try {
+                    myUser = accounts.get(0);
+                    if ((myUser.getPassword().equals(mPassword)) && (myUser.getEmail().equals(mEmail)))
+                        return AppContext.SUCCESS_LOGIN;
+                    else if (myUser.getEmail().equals(mEmail)) return AppContext.PASSWORD_ERROR;
+                } finally {
+                    accounts.clear();
+                }
+            }
+
+
+            return AppContext.USER_NAME_ERROR;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Integer success) {
             mAuthTask = null;
      //       showProgress(false);
 
-            if (success) {
+            if (success==AppContext.SUCCESS_LOGIN) {
                 if (!myUser.getId().equals("-1")){
                     Intent myIntent = new Intent(LoginActivity.this,MapsActivity.class);
                     LoginActivity.this.startActivity(myIntent);
@@ -465,8 +511,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             .setNegativeButton(R.string.no, dialogClickListener).show();
                 }
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if (success==AppContext.PASSWORD_ERROR) {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+                else {
+                    mUserNameView.setError(getString(R.string.error_incorrect_user_name));
+                    mUserNameView.requestFocus();
+                }
             }
         }
 

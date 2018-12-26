@@ -17,6 +17,10 @@ public class AppContext extends Application {
     public static final int TODO_NOTE_SETTING_REQUEST=3;
     public static final int EDIT_POST_REQUEST=4;
     public static final String OWN_MARKER="OwnMarker";
+    public static final int USER_NAME_ERROR=5;
+    public static final int PASSWORD_ERROR=6;
+    public static final int SUCCESS_LOGIN=7;
+
 
 
     public static String ListPathToString(List<String> list){
