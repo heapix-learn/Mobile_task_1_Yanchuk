@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.first_task_k__r__o__s__h.Adapters.PicAdapter;
+import com.example.first_task_k__r__o__s__h.AppContext;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.DBPosts;
+import com.example.first_task_k__r__o__s__h.FullScreenMediaDisplay.FullScreenGallery;
+import com.example.first_task_k__r__o__s__h.OwnMarker;
+import com.example.first_task_k__r__o__s__h.R;
+import com.example.first_task_k__r__o__s__h.ToDoDocuments;
 
 public class MarkerPreview extends AppCompatActivity {
     private ImageButton like;

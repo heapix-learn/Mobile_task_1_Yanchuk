@@ -11,12 +11,12 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
-class MyLocationListener implements LocationListener {
+public class MyLocationListener implements LocationListener {
 
-    static Location imHere;
+    public static Location imHere;
 
 
-    static void SetUpLocationListener(Context context)
+    public static void SetUpLocationListener(Context context)
     {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 

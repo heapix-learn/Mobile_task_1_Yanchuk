@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.example.first_task_k__r__o__s__h.Place;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.AutocompletePredictionBufferResponse;

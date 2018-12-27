@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".FullScreenVideo">
+    tools:context=".FullScreenMediaDisplay.FullScreenVideo">
 
     <com.example.first_task_k__r__o__s__h.CustomViewPager
         android:id="@+id/view_pager_video"

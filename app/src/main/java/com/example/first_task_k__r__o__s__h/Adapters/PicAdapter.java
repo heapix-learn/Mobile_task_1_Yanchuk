@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Adapters;
 
 import android.content.Context;
 import android.os.Build;
@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.first_task_k__r__o__s__h.R;
+import com.example.first_task_k__r__o__s__h.RoundRectCornerImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

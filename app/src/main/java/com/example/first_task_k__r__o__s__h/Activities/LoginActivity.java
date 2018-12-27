@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -30,6 +30,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.first_task_k__r__o__s__h.AppContext;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
+import com.example.first_task_k__r__o__s__h.NumberOfAccounts;
+import com.example.first_task_k__r__o__s__h.R;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
+import com.example.first_task_k__r__o__s__h.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

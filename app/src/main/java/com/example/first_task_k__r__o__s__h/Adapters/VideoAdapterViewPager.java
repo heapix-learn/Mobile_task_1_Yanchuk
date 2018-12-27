@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import com.example.first_task_k__r__o__s__h.R;
+
 import java.util.List;
 
 public class VideoAdapterViewPager extends PagerAdapter {
@@ -18,7 +20,7 @@ public class VideoAdapterViewPager extends PagerAdapter {
     private VideoView videoView;
     private LayoutInflater mLayoutInflater;
 
-    VideoAdapterViewPager(Context context, List<String> GalVideos){
+    public VideoAdapterViewPager(Context context, List<String> GalVideos){
         this.context=context;
         this.GalVideos=GalVideos;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

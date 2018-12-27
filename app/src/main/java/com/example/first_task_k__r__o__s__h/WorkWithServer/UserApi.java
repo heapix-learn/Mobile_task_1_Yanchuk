@@ -1,4 +1,10 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.WorkWithServer;
+
+import com.example.first_task_k__r__o__s__h.ConvertToDoDocuments;
+import com.example.first_task_k__r__o__s__h.NumberOfAccounts;
+import com.example.first_task_k__r__o__s__h.NumberOfPosts;
+import com.example.first_task_k__r__o__s__h.OwnMarker;
+import com.example.first_task_k__r__o__s__h.UserModel;
 
 import java.util.List;
 

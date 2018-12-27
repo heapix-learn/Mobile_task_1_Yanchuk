@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import com.example.first_task_k__r__o__s__h.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class GalleryAdapterViewPager extends PagerAdapter {
     private List<String> GalPhotos;
     private LayoutInflater mLayoutInflater;
 
-    GalleryAdapterViewPager(Context context, List<String> GalVideos, List<String> GalPhotos){
+    public GalleryAdapterViewPager(Context context, List<String> GalVideos, List<String> GalPhotos){
         this.context=context;
         this.GalVideos=GalVideos;
         this.GalPhotos=GalPhotos;

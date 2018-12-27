@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -18,6 +18,14 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.first_task_k__r__o__s__h.Adapters.CustomAutoCompleteAdapter;
+import com.example.first_task_k__r__o__s__h.Adapters.VideoAdapterGrid;
+import com.example.first_task_k__r__o__s__h.AppContext;
+import com.example.first_task_k__r__o__s__h.MyLocationListener;
+import com.example.first_task_k__r__o__s__h.Adapters.PhotoAdapterGrid;
+import com.example.first_task_k__r__o__s__h.R;
+import com.example.first_task_k__r__o__s__h.ToDoDocuments;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import com.example.first_task_k__r__o__s__h.Adapters.VideoAdapterGrid;
+import com.example.first_task_k__r__o__s__h.AppContext;
+import com.example.first_task_k__r__o__s__h.Adapters.PhotoAdapterGrid;
+import com.example.first_task_k__r__o__s__h.R;
+import com.example.first_task_k__r__o__s__h.ToDoDocuments;
 
 public class FullViewOfThePostActivity extends AppCompatActivity {
     private ToDoDocuments todoDocument;

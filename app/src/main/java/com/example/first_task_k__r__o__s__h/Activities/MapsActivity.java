@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +25,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.first_task_k__r__o__s__h.AppContext;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.DBPosts;
+import com.example.first_task_k__r__o__s__h.NumberOfPosts;
+import com.example.first_task_k__r__o__s__h.OwnMarker;
+import com.example.first_task_k__r__o__s__h.R;
+import com.example.first_task_k__r__o__s__h.ToDoDocuments;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;

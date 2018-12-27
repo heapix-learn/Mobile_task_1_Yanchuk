@@ -1,5 +1,6 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.WorkWithServer;
 
+import com.example.first_task_k__r__o__s__h.UserModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

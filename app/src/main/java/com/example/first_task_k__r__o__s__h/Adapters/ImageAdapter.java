@@ -1,4 +1,4 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.Adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.first_task_k__r__o__s__h.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ImageAdapter extends PagerAdapter {
     private List<String> GalImages;
     private LayoutInflater mLayoutInflater;
 
-    ImageAdapter(Context context, List<String> GalImages){
+    public ImageAdapter(Context context, List<String> GalImages){
         this.context=context;
         this.GalImages=GalImages;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

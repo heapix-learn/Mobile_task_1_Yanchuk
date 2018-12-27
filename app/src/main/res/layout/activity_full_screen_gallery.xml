@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FullScreenGallery"
+    tools:context=".FullScreenMediaDisplay.FullScreenGallery"
     android:background="@color/black">
 
     <com.example.first_task_k__r__o__s__h.CustomViewPager

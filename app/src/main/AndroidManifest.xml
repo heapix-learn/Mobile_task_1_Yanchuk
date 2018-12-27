@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +31,10 @@
         </activity>
 
         <activity
-            android:name=".Note"
+            android:name=".Activities.Note"
             android:theme="@style/AppTheme.MyTransparent" />
         <activity
-            android:name=".EditPost"
+            android:name=".Activities.EditPost"
             android:theme="@style/AppTheme.MyTransparent" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -49,25 +49,25 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".Activities.MapsActivity"
             android:label="@string/title_activity_maps">
 
         </activity>
 
         <activity
 
-            android:name=".MarkerPreview"
+            android:name=".Activities.MarkerPreview"
             android:theme="@style/AppTheme.MyTransparent" />
 
         <activity
-            android:name=".FullViewOfThePostActivity"
+            android:name=".Activities.FullViewOfThePostActivity"
             android:theme="@style/AppTheme.MyTransparent" />
         <activity
-            android:name=".SettingMenuForFullView"
+            android:name=".Activities.SettingMenuForFullView"
             android:theme="@style/AppTheme.MyTransparent" />
-        <activity android:name=".FullScreenPhoto" />
-        <activity android:name=".FullScreenVideo" />
-        <activity android:name=".FullScreenGallery" />
+        <activity android:name=".FullScreenMediaDisplay.FullScreenPhoto" />
+        <activity android:name=".FullScreenMediaDisplay.FullScreenVideo" />
+        <activity android:name=".FullScreenMediaDisplay.FullScreenGallery" />
     </application>
 
 </manifest>

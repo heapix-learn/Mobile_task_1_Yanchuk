@@ -1,8 +1,12 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.FullScreenMediaDisplay;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.first_task_k__r__o__s__h.AppContext;
+import com.example.first_task_k__r__o__s__h.Adapters.ImageAdapter;
+import com.example.first_task_k__r__o__s__h.R;
 
 import java.util.List;
 

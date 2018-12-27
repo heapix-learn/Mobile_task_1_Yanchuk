@@ -1,6 +1,11 @@
-package com.example.first_task_k__r__o__s__h;
+package com.example.first_task_k__r__o__s__h.WorkWithServer;
 
 import android.os.AsyncTask;
+
+import com.example.first_task_k__r__o__s__h.AppContext;
+import com.example.first_task_k__r__o__s__h.ConvertToDoDocuments;
+import com.example.first_task_k__r__o__s__h.OwnMarker;
+import com.example.first_task_k__r__o__s__h.ToDoDocuments;
 
 import java.io.IOException;
 import java.util.ArrayList;
