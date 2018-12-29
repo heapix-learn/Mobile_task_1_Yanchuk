@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,13 +24,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activities.LoginActivity"
-            android:label="@string/title_activity_login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_activity_login">
 
+        </activity>
         <activity
             android:name=".Activities.Note"
             android:theme="@style/AppTheme.MyTransparent" />
@@ -50,15 +47,10 @@
 
         <activity
             android:name=".Activities.MapsActivity"
-            android:label="@string/title_activity_maps">
-
-        </activity>
-
+            android:label="@string/title_activity_maps"></activity>
         <activity
-
             android:name=".Activities.MarkerPreview"
             android:theme="@style/AppTheme.MyTransparent" />
-
         <activity
             android:name=".Activities.FullViewOfThePostActivity"
             android:theme="@style/AppTheme.MyTransparent" />
@@ -68,6 +60,13 @@
         <activity android:name=".FullScreenMediaDisplay.FullScreenPhoto" />
         <activity android:name=".FullScreenMediaDisplay.FullScreenVideo" />
         <activity android:name=".FullScreenMediaDisplay.FullScreenGallery" />
+        <activity android:name=".PhoneAuthorization">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
