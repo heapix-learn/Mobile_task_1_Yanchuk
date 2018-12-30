@@ -20,24 +20,28 @@
                     android:hint="Enter email"
                     android:inputType="textEmailAddress" />
 
-                <Button
-                    android:id="@+id/getVerificationCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Get Verification Code" />
-
                 <EditText
-                    android:id="@+id/code"
+                    android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Enter code receive"/>
+                    android:ems="10"
+
+                    android:hint="Enter password"
+                    android:inputType="textPassword" />
+
                 <Button
-                    android:id="@+id/signIn"
+                    android:id="@+id/getVerificationLinkEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Verification" />
+
+
+                <Button
+                    android:id="@+id/signInEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="SignIn" />
-    
+
             </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

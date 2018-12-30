@@ -39,7 +39,7 @@ public class PhoneAuthorization extends AppCompatActivity {
         getVerificationCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendVerificationCode();
+                sentVerificationCode();
             }
         });
 
@@ -63,7 +63,9 @@ public class PhoneAuthorization extends AppCompatActivity {
     private void  verifySignInCode(){
         String code = editTextVerificationCode.getText().toString();
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, code);
-        signInWithPhoneAuthCredential(credential);
+        if (credential!=null) {
+            signInWithPhoneAuthCredential(credential);
+        }
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -73,8 +75,6 @@ public class PhoneAuthorization extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(PhoneAuthorization.this, "Success", Toast.LENGTH_SHORT).show();
-
-                            mAuth.signOut();
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(PhoneAuthorization.this, "Error", Toast.LENGTH_SHORT).show();
@@ -87,7 +87,7 @@ public class PhoneAuthorization extends AppCompatActivity {
     }
 
 
-    private void sendVerificationCode(){
+    private void sentVerificationCode(){
 
         String phoneNumber = editTextPhone.getText().toString();
 
@@ -109,7 +109,10 @@ public class PhoneAuthorization extends AppCompatActivity {
                 TimeUnit.SECONDS,   // Unit of timeout
                 this,               // Activity (for callback binding)
                 mCallbacks);
+
+
     }
+
 
 
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -129,5 +132,6 @@ public class PhoneAuthorization extends AppCompatActivity {
             codeSent=s;
         }
     };
+
 
 }
