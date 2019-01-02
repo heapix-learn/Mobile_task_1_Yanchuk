@@ -31,11 +31,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.first_task_k__r__o__s__h.AppContext;
-import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
 import com.example.first_task_k__r__o__s__h.NumberOfAccounts;
 import com.example.first_task_k__r__o__s__h.R;
-import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
 import com.example.first_task_k__r__o__s__h.UserModel;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -89,16 +96,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public int  RC_SIGN_IN = 119;
 
 
-    // UI references.
     private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
 
-    public GoogleSignInOptions gso;
-    public GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient mGoogleSignInClient;
+
+    private CallbackManager callbackManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
         // Set up the login form.
         accounts = new ArrayList<>();
         mUserNameView = (AutoCompleteTextView) findViewById(R.id.username);
@@ -135,6 +148,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+
+
+
+        callbackManager = CallbackManager.Factory.create();
+
+        LoginButton facebookSignIn = (LoginButton) findViewById(R.id.facebook_sign_in);
+
+        facebookSignIn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+//                LoginManager.getInstance().logOut();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(LoginActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -189,15 +226,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
+//        if (requestCode == RC_SIGN_IN) {
+//            // The Task returned from this call is always completed, no need to attach
+//            // a listener.
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            handleSignInResult(task);
+//        } else {
+
+;
+
+//        }
     }
 
 

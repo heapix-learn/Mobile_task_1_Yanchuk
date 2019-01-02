@@ -62,4 +62,8 @@
     <string name="number_of_video">Number of video </string>
     <string name="number_of_photo">Number of photo </string>
     <string name="error_incorrect_user_name">This user name/phone/email is incorrect</string>
+
+    <string name="facebook_application_id">2016835455060975</string>
+    <string name="fb_login_protocol_scheme">fb2016835455060975</string>
+
 </resources>

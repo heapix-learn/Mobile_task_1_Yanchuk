@@ -19,6 +19,7 @@ allprojects {
         //    mavenLocal()
         google()
         jcenter()
+        mavenCentral()
         maven {// url "https://maven.google.com"
             url "https://maven.fabric.io/public"
         }

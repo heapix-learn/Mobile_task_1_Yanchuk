@@ -111,6 +111,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant_run_split_apk_resources" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javac" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/legacy_multidex_aapt_derived_proguard_rules" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/legacy_multidex_main_dex_list" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint_jar" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifest-checker" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_assets" />
@@ -139,10 +141,11 @@
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-core-16.0.6" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-games-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-cast-framework-license-12.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-android-sdk-4.19.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.zxing:core:3.3.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:cardview-v7-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:drawerlayout-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-measurement-connector-impl-17.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-marketing-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-analytics-impl-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.retrofit2:adapter-rxjava2:2.5.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-storage-license-12.0.1" level="project" />
@@ -150,6 +153,7 @@
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-iid-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-cast-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-panorama-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-login-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-gass-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-config-16.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: javax.inject:javax.inject:1@jar" level="project" />
@@ -159,6 +163,7 @@
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-places-placereport-16.0.0" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:runtime-1.1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.android.support.test:monitor-1.0.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.android.support:multidex-instrumentation-1.0.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-fido-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-instantapps-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-storage-common-license-12.0.1" level="project" />
@@ -170,6 +175,7 @@
     <orderEntry type="library" name="Gradle: com.squareup.okhttp:okhttp-urlconnection:2.7.5@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-tagmanager-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:mediarouter-v7-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-applinks-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: com.twitter.sdk.android:twitter-2.3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-auth-16.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.12.0@jar" level="project" />
@@ -178,6 +184,7 @@
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime-1.1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: net.sf.kxml:kxml2:2.3.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.twitter:twitter-text:1.13.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-v4-27.0.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-measurement-connector-17.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-maps-16.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-vision-common-12.0.1" level="project" />
@@ -185,6 +192,7 @@
     <orderEntry type="library" name="Gradle: com.android.support:slidingpanelayout-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-tagmanager-api-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-android-sdk-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:viewmodel-1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.twitter.sdk.android:tweet-composer-2.3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.parse.bolts:bolts-applinks:1.4.0@jar" level="project" />
@@ -192,6 +200,7 @@
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-awareness-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.retrofit2:converter-gson:2.5.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-appinvite-license-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-media-compat-27.0.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-nearby-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:documentfile-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: io.reactivex.rxjava2:rxjava:2.0.0@jar" level="project" />
@@ -235,24 +244,25 @@
     <orderEntry type="library" name="Gradle: de.hdodenhof:circleimageview-2.2.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:coordinatorlayout-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-cast-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-common-4.39.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.squareup:javawriter:2.1.1@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:multidex-1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-auth-api-phone-16.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-media-compat-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:swiperefreshlayout-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-phenotype-16.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-v4-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-games-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-base-16.0.1" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:livedata-1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-vision-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-core-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-nearby-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-abt-16.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-auth-interop-16.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.firebaseui:firebase-ui-auth-1.2.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:loader-28.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:customtabs-25.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-drive-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:viewpager-28.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-share-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: com.twitter.sdk.android:tweet-ui-2.3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.maps.android:android-maps-utils-0.5" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-database-12.0.1" level="project" />
@@ -274,6 +284,7 @@
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-gcm-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-safetynet-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-gcm-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:customtabs-27.0.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-measurement-api-16.0.4" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-vision-common-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:collections:28.0.0@jar" level="project" />
@@ -295,6 +306,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-panorama-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-plus-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-places-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:print-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-identity-license-12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:gridlayout-v7-28.0.0" level="project" />
@@ -309,6 +321,7 @@
     <orderEntry type="library" name="Gradle: com.android.support:support-fragment-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:livedata-core-1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.databinding:library-3.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.facebook.android:facebook-messenger-4.39.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.twitter.sdk.android:twitter-core-2.3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:palette-v7-26.1.0" level="project" />
