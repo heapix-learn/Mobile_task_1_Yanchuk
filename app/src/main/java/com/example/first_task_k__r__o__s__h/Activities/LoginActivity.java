@@ -1,6 +1,7 @@
 package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -41,6 +43,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -54,6 +57,7 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -79,36 +83,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private final static String SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
     private final static UserApi userApi=Controller.getApi();
     private int index;
-
-
     private List<UserModel> accounts;
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
     private UserLoginTask mAuthTask = null;
-
-
     public int  RC_SIGN_IN = 119;
-
-
     private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
-
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
-
     private CallbackManager callbackManager;
 
+
+    private Locale myLocale;
+    private Button btn_en, btn_ru;
+    private TextView createAccount;
+    private Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        createAccount = (TextView) findViewById(R.id.create_acco);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
@@ -140,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
+        mEmailSignInButton = (Button) findViewById(R.id.login_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,18 +143,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-
-
-
         callbackManager = CallbackManager.Factory.create();
-
         LoginButton facebookSignIn = (LoginButton) findViewById(R.id.facebook_sign_in);
-
         facebookSignIn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-//                LoginManager.getInstance().logOut();
+                LoginManager.getInstance().logOut();
+                String userId = loginResult.getAccessToken().getUserId();
             }
 
             @Override
@@ -173,7 +164,77 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+
+        btn_en = (Button) findViewById(R.id.lang_en);
+        btn_ru = (Button) findViewById(R.id.lang_ru);
+
+
+        btn_en.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String lang = "en";
+                changeLang(lang);
+            }
+        });
+        btn_ru.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String lang = "ru";
+                changeLang(lang);
+            }
+        });
+
+     //   loadLocale();
+
     }
+
+
+    private void changeLang(String lang)
+    {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        myLocale = new Locale(lang);
+        saveLocale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        updateTexts();
+    }
+
+    public void saveLocale(String lang)
+    {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(langPref, lang);
+        editor.apply();
+    }
+
+
+    public void loadLocale()
+    {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        String language = prefs.getString(langPref, "");
+        changeLang(language);
+    }
+
+    private void updateTexts()
+    {
+
+//        mUserNameView.setHint(R.string.username);
+//        mPasswordView.setHint(R.string.prompt_password);
+//        btn_ru.setText(R.string.russian);
+//        btn_en.setText(R.string.english);
+//        createAccount.setText(R.string.create_acco);
+//        mEmailSignInButton.setText(R.string.login);
+
+        Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
 
     private void signOut() {
         mGoogleSignInClient.signOut()
@@ -226,20 +287,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-//        if (requestCode == RC_SIGN_IN) {
-//            // The Task returned from this call is always completed, no need to attach
-//            // a listener.
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//            handleSignInResult(task);
-//        } else {
-
-;
-
-//        }
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
 
@@ -575,6 +629,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
      //       showProgress(false);
         }
+
+
+
+
     }
 }
 

@@ -14,7 +14,7 @@ public class EditPost extends Note {
     @Override
     protected void AddGarbage(){
         noteTitle = (TextView) findViewById(R.id.new_post);
-        noteTitle.setText("Edit post");
+        noteTitle.setText(R.string.edit_post_for_note);
         garbage = (ImageButton) findViewById(R.id.garbage);
         garbage.setVisibility(View.VISIBLE);
     }

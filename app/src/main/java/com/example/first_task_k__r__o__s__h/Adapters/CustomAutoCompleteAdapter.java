@@ -40,7 +40,7 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter {
         mContext = context;
 
         //get GeoDataClient
-        geoDataClient = Places.getGeoDataClient(mContext, null);
+        geoDataClient = Places.getGeoDataClient(mContext);
 
         //get country textview, placetype spinner to get
         // current values to perform research
@@ -168,8 +168,6 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter {
         private Task<AutocompletePredictionBufferResponse> getAutoCompletePlaces(String query) {
             //create autocomplete filter using data from filter Views
             AutocompleteFilter.Builder filterBuilder = new AutocompleteFilter.Builder();
-
-
 
             Task<AutocompletePredictionBufferResponse> results = geoDataClient.getAutocompletePredictions (query, null,
                             filterBuilder.build());

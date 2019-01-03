@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Discover</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_user_name">This user name is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="confirm_registry">Email not found. You want to create a new user with that email and password?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="updatingReport">Updating Report</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main333">Main333Activity</string>
+    <string name="new_document">Новый документ</string>
+    <string name="back">Назад</string>
+    <string name="save">Сохранить</string>
+    <string name="add_task">Добавить</string>
+    <string name="exit">Выход</string>
+    <string name="delete">Удалить</string>
+    <string name="confirm_delete">Вы действительно хотетие удалить эту заметку?</string>
+    <string name="cancel">Отмена</string>
+    <string name="empty_list">(заметок нет)</string>
+    <string name="prompt_title">Title</string>
+    <string name="prompt_text">Description</string>
+    <string name="prompt_location">Location</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="geolocation_global">Глобальная карта</string>
+    <string name="geolocation_local">Локальная карта</string>
+    <string name="access">Доступ</string>
+    <string name="public_access">Открытый</string>
+    <string name="private_access">Закрытый</string>
+    <string name="server_client_id">1053947145143-a48i1jsgtquna5vc5t9di1eopes4snp8.apps.googleusercontent.com</string>
+    <string name="picture">Picture</string>
+    <string name="select_intro">Long-press a thumbnail to add an image</string>
+    <string name="show_intro">Press a thumbnail to display at larger size</string>
+
+    <string name="discover">Discover</string>
+
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_user">User</string>
+    <string name="title_map">Map</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_support">Support</string>
+    <string name="title_phone_book">Phone book</string>
+
+    <string name="error_incorrect_user_name">This user name/phone/email is incorrect</string>
+
+    <string name="facebook_application_id">2016835455060975</string>
+    <string name="fb_login_protocol_scheme">fb2016835455060975</string>
+
+
+
+    <string name="prompt_user_name">UserName</string>
+    <string name="prompt_password">Password</string>
+    <string name="create_acco">Create account</string>
+    <string name="username">UserName</string>
+    <string name="russian">Russian</string>
+    <string name="english">English</string>
+    <string name="login">Login</string>
+    <string name="new_post">New post</string>
+    <string name="add_media">Add media</string>
+    <string name="number_of_video">Number of video</string>
+    <string name="number_of_photo">Number of photo</string>
+    <string name="edit_post_">Edit post</string>
+    <string name="delete_post">Delete post</string>
+    <string name="share_post">Share post</string>
+    <string name="report">Report</string>
+    <string name="info">Info</string>
+    <string name="media">Media</string>
+    <string name="edit_post_for_note">Edit post</string>
+</resources>
