@@ -26,8 +26,6 @@ public class VideoAdapterViewPager extends PagerAdapter {
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-
-
     @Override
     public int getCount() {
         return GalVideos.size();
@@ -42,18 +40,14 @@ public class VideoAdapterViewPager extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = mLayoutInflater.inflate(R.layout.pager_item_video, container, false);
-
         videoView = (VideoView) itemView.findViewById(R.id.videoViewFullScreen);
         videoView.setVideoURI(Uri.parse(GalVideos.get(position)));
         MediaController mediaController = new MediaController(context);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
         videoView.requestFocus();
-
         videoView.seekTo(25);
         container.addView(itemView);
-
-
         return itemView;
     }
 

@@ -32,22 +32,11 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter {
             new CustomAutoCompleteAdapter.CustomAutoCompleteFilter();
 
 
-
-
     public CustomAutoCompleteAdapter(Context context) {
         super(context, android.R.layout.simple_dropdown_item_1line,
                 new ArrayList<Place>());
         mContext = context;
-
-        //get GeoDataClient
         geoDataClient = Places.getGeoDataClient(mContext);
-
-        //get country textview, placetype spinner to get
-        // current values to perform research
-
-        //spinner value map from array resources
-
-
     }
 
     @Override
@@ -125,7 +114,6 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter {
                         } else {
                             Log.d(TAG, "Auto complete prediction unsuccessful");
                         }
-                        //inform waiting thread about api call completion
                         placeResults = true;
                         synchronized (lockTwo) {
                             lockTwo.notifyAll();
@@ -133,7 +121,6 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter {
                     }
                 });
 
-                //wait for the results from asynchronous API call
                 while (!placeResults) {
                     synchronized (lockTwo) {
                         try {
@@ -166,7 +153,6 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter {
         }
 
         private Task<AutocompletePredictionBufferResponse> getAutoCompletePlaces(String query) {
-            //create autocomplete filter using data from filter Views
             AutocompleteFilter.Builder filterBuilder = new AutocompleteFilter.Builder();
 
             Task<AutocompletePredictionBufferResponse> results = geoDataClient.getAutocompletePredictions (query, null,

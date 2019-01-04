@@ -50,14 +50,6 @@ public class PhoneAuthorization extends AppCompatActivity {
             }
         });
 
-//        if (mAuth.getCurrentUser()!=null){
-//            Intent myIntent = new Intent(PhoneAuthorization.this,MapsActivity.class);
-//            PhoneAuthorization.this.startActivity(myIntent);
-//        }else {
-//            //sign-out
-//        }
-
-
     }
 
     private void  verifySignInCode(){
@@ -104,10 +96,10 @@ public class PhoneAuthorization extends AppCompatActivity {
         }
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
-                60,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                this,               // Activity (for callback binding)
+                phoneNumber,
+                60,
+                TimeUnit.SECONDS,
+                this,
                 mCallbacks);
 
 

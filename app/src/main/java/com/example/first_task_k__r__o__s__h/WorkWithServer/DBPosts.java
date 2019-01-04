@@ -154,8 +154,6 @@ public abstract class DBPosts {
 
     public static boolean updateMarker(OwnMarker ownMarker){
         deleteMarker(ownMarker.getPostId());
-
-
         try {
             return new ServerPushMarkerBackground().execute(ownMarker).get();
         } catch (ExecutionException e) {

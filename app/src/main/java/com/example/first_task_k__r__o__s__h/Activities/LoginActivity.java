@@ -2,11 +2,9 @@ package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -33,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.first_task_k__r__o__s__h.AppContext;
-import com.example.first_task_k__r__o__s__h.NumberOfAccounts;
 import com.example.first_task_k__r__o__s__h.R;
 import com.example.first_task_k__r__o__s__h.UserModel;
 import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
@@ -41,8 +38,6 @@ import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -59,30 +54,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import static android.Manifest.permission.READ_CONTACTS;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
     private static final int REQUEST_READ_CONTACTS = 0;
     public static UserModel myUser;
 
-    private final static String G_PLUS_SCOPE ="oauth2:https://www.googleapis.com/auth/plus.me";
-    private final static String USERINFO_SCOPE ="https://www.googleapis.com/auth/userinfo.profile";
-    private final static String EMAIL_SCOPE ="https://www.googleapis.com/auth/userinfo.email";
-    private final static String SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
     private final static UserApi userApi=Controller.getApi();
-    private int index;
     private List<UserModel> accounts;
     private UserLoginTask mAuthTask = null;
     public int  RC_SIGN_IN = 119;
@@ -93,21 +72,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private CallbackManager callbackManager;
 
 
-    private Locale myLocale;
-    private Button btn_en, btn_ru;
-    private TextView createAccount;
-    private Button mEmailSignInButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        createAccount = (TextView) findViewById(R.id.create_acco);
+        TextView createAccount = (TextView) findViewById(R.id.create_acco);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
-        // Set up the login form.
         accounts = new ArrayList<>();
         mUserNameView = (AutoCompleteTextView) findViewById(R.id.username);
         populateAutoComplete();
@@ -135,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        mEmailSignInButton = (Button) findViewById(R.id.login_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,8 +135,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
 
-        btn_en = (Button) findViewById(R.id.lang_en);
-        btn_ru = (Button) findViewById(R.id.lang_ru);
+        Button btn_en = (Button) findViewById(R.id.lang_en);
+        Button btn_ru = (Button) findViewById(R.id.lang_ru);
 
 
         btn_en.setOnClickListener(new OnClickListener() {
@@ -184,8 +154,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-     //   loadLocale();
-
     }
 
 
@@ -193,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     {
         if (lang.equalsIgnoreCase(""))
             return;
-        myLocale = new Locale(lang);
+        Locale myLocale = new Locale(lang);
         saveLocale(lang);
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
@@ -222,14 +190,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void updateTexts()
     {
-
-//        mUserNameView.setHint(R.string.username);
-//        mPasswordView.setHint(R.string.prompt_password);
-//        btn_ru.setText(R.string.russian);
-//        btn_en.setText(R.string.english);
-//        createAccount.setText(R.string.create_acco);
-//        mEmailSignInButton.setText(R.string.login);
-
         Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
@@ -241,16 +201,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
-                });
-    }
-    private void revokeAccess() {
-        mGoogleSignInClient.revokeAccess()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
                     }
                 });
     }
@@ -301,28 +251,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent myIntent;
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            // Signed in successfully, show authenticated UI.
-            // updateUI(account);
             myUser = new UserModel();
             myUser.setEmail(account.getEmail());
-//            myUser.setUserName(account.getDisplayName());
-//            myUser.setFullName(account.ge);
             myIntent = new Intent(LoginActivity.this,MapsActivity.class);
             LoginActivity.this.startActivity(myIntent);
             signOut();
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            //Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            // updateUI(null);
         }
     }
 
 
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -333,46 +271,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
 
-        // Reset errors.
         mUserNameView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
         String userName = mUserNameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(userName)) {
             mUserNameView.setError(getString(R.string.error_field_required));
             focusView = mUserNameView;
             cancel = true;
         }
-//        } else if (!isEmailValid(userName)) {
-//            mUserNameView.setError(getString(R.string.error_invalid_user_name));
-//            focusView = mUserNameView;
-//            cancel = true;
-//        }
 
         if (cancel) {
             focusView.requestFocus();
@@ -384,30 +307,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    private boolean isEmailValid(String userName) {
-        //TODO: Replace this with your own logic
-        return true;
-    }
-
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 6;
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 
-                // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
                 .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 
@@ -429,7 +342,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
@@ -445,13 +357,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
     public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
         private final String mUserName;
@@ -459,21 +366,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mPhone;
         private final String mEmail;
 
-        private final Context mContext;
-
         UserLoginTask(String info, String password, Context context) {
             mUserName = info;
             mPassword = password;
             mPhone = info;
             mEmail = info;
-            mContext= context;
         }
 
 
 
         @Override
         protected Integer doInBackground(Void... params) {
-            int ans;
             try {
                 accounts.addAll(userApi.checkLoginUserName(mUserName).execute().body());
             } catch (IOException e) {
@@ -491,8 +394,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-
-
             try {
                 accounts.addAll(userApi.checkLoginPhone(mPhone).execute().body());
             } catch (IOException e) {
@@ -508,8 +409,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     accounts.clear();
                 }
             }
-
-
 
             try {
                 accounts.addAll(userApi.checkLoginEmail(mEmail).execute().body());
@@ -527,90 +426,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-
             return AppContext.USER_NAME_ERROR;
         }
 
         @Override
         protected void onPostExecute(final Integer success) {
             mAuthTask = null;
-     //       showProgress(false);
 
             if (success==AppContext.SUCCESS_LOGIN) {
                 if (!myUser.getId().equals("-1")){
                     Intent myIntent = new Intent(LoginActivity.this,MapsActivity.class);
                     LoginActivity.this.startActivity(myIntent);
-                    ///finish();
                 } else {
-                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which){
-                                case DialogInterface.BUTTON_POSITIVE:
-                                    userApi.getLastAccountNumber("1").enqueue(new Callback<NumberOfAccounts>() {
-                                        @Override
-                                        public void onResponse(Call<NumberOfAccounts> call, Response<NumberOfAccounts> response) {
-                                            index=Integer.parseInt(response.body().getSize());
-                                            myUser.setId(String.valueOf(index + 1));
-
-                                            Controller.pushNewUser(myUser, new Callback<UserModel>() {
-                                                @Override
-                                                public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                                                    Toast myToast = Toast.makeText(mContext, R.string.updatingReport, Toast.LENGTH_SHORT);
-                                                    myToast.show();
-
-                                                    userApi.deleteLastAccountNumber("1").enqueue(new Callback<ResponseBody>() {
-                                                        @Override
-                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                            NumberOfAccounts numberOfAccounts=new NumberOfAccounts();
-                                                            numberOfAccounts.setId("1");
-                                                            numberOfAccounts.setSize(String.valueOf(index+1));
-                                                            userApi.pushLastAccountNumber(numberOfAccounts).enqueue(new Callback<NumberOfAccounts>() {
-                                                                @Override
-                                                                public void onResponse(Call<NumberOfAccounts> call, Response<NumberOfAccounts> response) {
-                                                                    Intent myIntent = new Intent(LoginActivity.this, MapsActivity.class);
-                                                                    LoginActivity.this.startActivity(myIntent);
-                                                                }
-                                                                @Override
-                                                                public void onFailure(Call<NumberOfAccounts> call, Throwable t) {
-                                                                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-
-                                                        }
-                                                        @Override
-                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                            Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
-
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<UserModel> call, Throwable t) {
-                                                    Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }
-                                        @Override
-                                        public void onFailure(Call<NumberOfAccounts> call, Throwable t) {
-                                            Toast.makeText(LoginActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-                                    break;
-
-                                case DialogInterface.BUTTON_NEGATIVE:
-                                    mPasswordView.setError(getString(R.string.error_incorrect_password));
-                                    mPasswordView.requestFocus();
-                                    break;
-                            }
-                        }
-                    };
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this.mContext);
-                    builder.setMessage(R.string.confirm_registry).setPositiveButton(R.string.yes, dialogClickListener)
-                            .setNegativeButton(R.string.no, dialogClickListener).show();
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
                 }
             } else {
                 if (success==AppContext.PASSWORD_ERROR) {
@@ -627,11 +456,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-     //       showProgress(false);
         }
-
-
-
 
     }
 }

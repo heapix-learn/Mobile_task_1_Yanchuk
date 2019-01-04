@@ -88,7 +88,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
     private void setUpClusterer() {
         mClusterManager = new ClusterManager<OwnMarker>(this, mMap);
         mMap.setOnCameraIdleListener(mClusterManager);
@@ -109,15 +108,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void addItems() {
 
-        // Set some lat/lng coordinates to start with.
-//        int info = getIntent().getExtras().getInt("global", 0);
-//
-//
-//        if (info==0) {
-//            listDocuments = DBNotes.getNotesAllMy(LoginActivity.myUser.username);
-//        }else{
-//            listDocuments = DBNotes.getNotesAllPublic();
-//        }
         listDocuments = DBPosts.getMarkersAllMy("");
 
         for (int i=0; i<listDocuments.size(); i++) {

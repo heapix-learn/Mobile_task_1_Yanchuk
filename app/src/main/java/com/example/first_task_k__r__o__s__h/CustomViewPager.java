@@ -42,7 +42,7 @@ public class CustomViewPager extends ViewGroup {
     private static final boolean DEBUG = false;
     private static final boolean USE_CACHE = false;
     private static final int DEFAULT_OFFSCREEN_PAGES = 0;
-    private static final int MAX_SETTLE_DURATION = 600; // ms
+    private static final int MAX_SETTLE_DURATION = 600;
 
     static class ItemInfo {
         Object object;
@@ -59,8 +59,6 @@ public class CustomViewPager extends ViewGroup {
 
     private static final Interpolator sInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
-            // _o(t) = t * t * ((tension + 1) * t + tension)
-            // o(t) = _o(t - 1) + 1
             t -= 1.0f;
             return t * t * t + 1.0f;
         }
@@ -69,12 +67,12 @@ public class CustomViewPager extends ViewGroup {
     private final ArrayList<ItemInfo> mItems = new ArrayList<ItemInfo>();
 
     private PagerAdapter mAdapter;
-    private int mCurItem;   // Index of currently displayed page.
+    private int mCurItem;
     private int mRestoredCurItem = -1;
     private Parcelable mRestoredAdapterState = null;
     private ClassLoader mRestoredClassLoader = null;
     private Scroller mScroller;
-    //private PagerAdapter.DataSetObserver mObserver;
+
 
     private int mPageMargin;
     private Drawable mMarginDrawable;
@@ -93,25 +91,15 @@ public class CustomViewPager extends ViewGroup {
     private boolean mIsUnableToDrag;
     private int mTouchSlop;
     private float mInitialMotionX;
-    /**
-     * Position of the last motion event.
-     */
+
     private float mLastMotionX;
     private float mLastMotionY;
-    /**
-     * ID of the active pointer. This is used to retain consistency during
-     * drags/flings if multiple pointers are used.
-     */
+
     private int mActivePointerId = INVALID_POINTER;
-    /**
-     * Sentinel value for no current active pointer.
-     * Used by {@link #mActivePointerId}.
-     */
+
     private static final int INVALID_POINTER = -1;
 
-    /**
-     * Determines speed during touch scrolling
-     */
+
     private VelocityTracker mVelocityTracker;
     private int mMinimumVelocity;
     private int mMaximumVelocity;
@@ -128,80 +116,39 @@ public class CustomViewPager extends ViewGroup {
 
     private OnPageChangeListener mOnPageChangeListener;
 
-    /**
-     * Indicates that the pager is in an idle, settled state. The current page
-     * is fully in view and no animation is in progress.
-     */
+
     public static final int SCROLL_STATE_IDLE = 0;
 
-    /**
-     * Indicates that the pager is currently being dragged by the user.
-     */
     public static final int SCROLL_STATE_DRAGGING = 1;
 
-    /**
-     * Indicates that the pager is in the process of settling to a final position.
-     */
+
     public static final int SCROLL_STATE_SETTLING = 2;
 
     private int mScrollState = SCROLL_STATE_IDLE;
 
-    /**
-     * Callback interface for responding to changing state of the selected page.
-     */
+
     public interface OnPageChangeListener {
 
-        /**
-         * This method will be invoked when the current page is scrolled, either as part
-         * of a programmatically initiated smooth scroll or a user initiated touch scroll.
-         *
-         * @param position             Position index of the first page currently being displayed.
-         *                             Page position+1 will be visible if positionOffset is nonzero.
-         * @param positionOffset       Value from [0, 1) indicating the offset from the page at position.
-         * @param positionOffsetPixels Value in pixels indicating the offset from position.
-         */
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
 
-        /**
-         * This method will be invoked when a new page becomes selected. Animation is not
-         * necessarily complete.
-         *
-         * @param position Position index of the new selected page.
-         */
         public void onPageSelected(int position);
 
-        /**
-         * Called when the scroll state changes. Useful for discovering when the user
-         * begins dragging, when the pager is automatically settling to the current page,
-         * or when it is fully stopped/idle.
-         *
-         * @param state The new scroll state.
-         * @see CustomViewPager#SCROLL_STATE_IDLE
-         * @see CustomViewPager#SCROLL_STATE_DRAGGING
-         * @see CustomViewPager#SCROLL_STATE_SETTLING
-         */
         public void onPageScrollStateChanged(int state);
     }
 
-    /**
-     * Simple implementation of the {@link OnPageChangeListener} interface with stub
-     * implementations of each method. Extend this if you do not intend to override
-     * every method of {@link OnPageChangeListener}.
-     */
     public static class SimpleOnPageChangeListener implements OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            // This space for rent
         }
 
         @Override
         public void onPageSelected(int position) {
-            // This space for rent
+
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            // This space for rent
+
         }
     }
 
@@ -278,24 +225,12 @@ public class CustomViewPager extends ViewGroup {
         return mAdapter;
     }
 
-    /**
-     * Set the currently selected page. If the ViewPager has already been through its first
-     * layout there will be a smooth animated transition between the current item and the
-     * specified item.
-     *
-     * @param item Item index to select
-     */
+
     public void setCurrentItem(int item) {
         mPopulatePending = false;
         setCurrentItemInternal(item, !mFirstLayout, false);
     }
 
-    /**
-     * Set the currently selected page.
-     *
-     * @param item         Item index to select
-     * @param smoothScroll True to smoothly scroll to the new item, false to transition immediately
-     */
     public void setCurrentItem(int item, boolean smoothScroll) {
         mPopulatePending = false;
         setCurrentItemInternal(item, smoothScroll, false);
@@ -325,9 +260,6 @@ public class CustomViewPager extends ViewGroup {
         }
         final int pageLimit = mOffscreenPageLimit;
         if (item > (mCurItem + pageLimit) || item < (mCurItem - pageLimit)) {
-            // We are doing a jump by more than one page.  To avoid
-            // glitches, we want to keep all current pages in the view
-            // until the scroll ends.
             for (int i = 0; i < mItems.size(); i++) {
                 mItems.get(i).scrolling = true;
             }
@@ -354,34 +286,11 @@ public class CustomViewPager extends ViewGroup {
         mOnPageChangeListener = listener;
     }
 
-    /**
-     * Returns the number of pages that will be retained to either side of the
-     * current page in the view hierarchy in an idle state. Defaults to 1.
-     *
-     * @return How many pages will be kept offscreen on either side
-     * @see #setOffscreenPageLimit(int)
-     */
+
     public int getOffscreenPageLimit() {
         return mOffscreenPageLimit;
     }
 
-    /**
-     * Set the number of pages that should be retained to either side of the
-     * current page in the view hierarchy in an idle state. Pages beyond this
-     * limit will be recreated from the adapter when needed.
-     * <p>
-     * <p>This is offered as an optimization. If you know in advance the number
-     * of pages you will need to support or have lazy-loading mechanisms in place
-     * on your pages, tweaking this setting can have benefits in perceived smoothness
-     * of paging animations and interaction. If you have a small number of pages (3-4)
-     * that you can keep active all at once, less time will be spent in layout for
-     * newly created view subtrees as the user pages back and forth.</p>
-     * <p>
-     * <p>You should keep this limit low, especially if your pages have complex layouts.
-     * This setting defaults to 1.</p>
-     *
-     * @param limit How many pages will be kept offscreen in an idle state.
-     */
     public void setOffscreenPageLimit(int limit) {
         if (limit < DEFAULT_OFFSCREEN_PAGES) {
             Log.w(TAG, "Requested offscreen page limit " + limit + " too small; defaulting to " +
@@ -394,14 +303,7 @@ public class CustomViewPager extends ViewGroup {
         }
     }
 
-    /**
-     * Set the margin between pages.
-     *
-     * @param marginPixels Distance between adjacent pages in pixels
-     * @see #getPageMargin()
-     * @see #setPageMarginDrawable(Drawable)
-     * @see #setPageMarginDrawable(int)
-     */
+
     public void setPageMargin(int marginPixels) {
         final int oldMargin = mPageMargin;
         mPageMargin = marginPixels;
@@ -412,20 +314,11 @@ public class CustomViewPager extends ViewGroup {
         requestLayout();
     }
 
-    /**
-     * Return the margin between pages.
-     *
-     * @return The size of the margin in pixels
-     */
+
     public int getPageMargin() {
         return mPageMargin;
     }
 
-    /**
-     * Set a drawable that will be used to fill the margin between pages.
-     *
-     * @param d Drawable to display between pages
-     */
     public void setPageMarginDrawable(Drawable d) {
         mMarginDrawable = d;
         if (d != null) refreshDrawableState();
@@ -433,11 +326,7 @@ public class CustomViewPager extends ViewGroup {
         invalidate();
     }
 
-    /**
-     * Set a drawable that will be used to fill the margin between pages.
-     *
-     * @param resId Resource ID of a drawable to display between pages
-     */
+
     public void setPageMarginDrawable(int resId) {
         setPageMarginDrawable(getContext().getResources().getDrawable(resId));
     }
@@ -456,36 +345,20 @@ public class CustomViewPager extends ViewGroup {
         }
     }
 
-    // We want the duration of the page snap animation to be influenced by the distance that
-    // the screen has to travel, however, we don't want this duration to be effected in a
-    // purely linear fashion. Instead, we use this method to moderate the effect that the distance
-    // of travel has on the overall snap duration.
+
     float distanceInfluenceForSnapDuration(float f) {
-        f -= 0.5f; // center the values about 0.
+        f -= 0.5f;
         f *= 0.3f * Math.PI / 2.0f;
         return (float) Math.sin(f);
     }
 
-    /**
-     * Like {@link View#scrollBy}, but scroll smoothly instead of immediately.
-     *
-     * @param x the number of pixels to scroll by on the X axis
-     * @param y the number of pixels to scroll by on the Y axis
-     */
+
     void smoothScrollTo(int x, int y) {
         smoothScrollTo(x, y, 0);
     }
 
-    /**
-     * Like {@link View#scrollBy}, but scroll smoothly instead of immediately.
-     *
-     * @param x        the number of pixels to scroll by on the X axis
-     * @param y        the number of pixels to scroll by on the Y axis
-     * @param velocity the velocity associated with a fling, if applicable. (0 otherwise)
-     */
     void smoothScrollTo(int x, int y, int velocity) {
         if (getChildCount() == 0) {
-            // Nothing to do.
             setScrollingCacheEnabled(false);
             return;
         }
@@ -530,7 +403,6 @@ public class CustomViewPager extends ViewGroup {
     }
 
     void dataSetChanged() {
-        // This method only gets called if our observer is attached, so mAdapter is non-null.
 
         boolean needPopulate = mItems.size() < 3 && mItems.size() < mAdapter.getCount();
         int newCurrItem = -1;
@@ -550,7 +422,6 @@ public class CustomViewPager extends ViewGroup {
                 needPopulate = true;
 
                 if (mCurItem == ii.position) {
-                    // Keep the current item in the valid range
                     newCurrItem = Math.max(0, Math.min(mCurItem, mAdapter.getCount() - 1));
                 }
                 continue;
@@ -558,7 +429,6 @@ public class CustomViewPager extends ViewGroup {
 
             if (ii.position != newPos) {
                 if (ii.position == mCurItem) {
-                    // Our current item changed position. Follow it.
                     newCurrItem = newPos;
                 }
 
@@ -570,7 +440,7 @@ public class CustomViewPager extends ViewGroup {
         Collections.sort(mItems, COMPARATOR);
 
         if (newCurrItem >= 0) {
-            // TODO This currently causes a jump.
+
             setCurrentItemInternal(newCurrItem, false, true);
             needPopulate = true;
         }
@@ -585,18 +455,11 @@ public class CustomViewPager extends ViewGroup {
             return;
         }
 
-        // Bail now if we are waiting to populate.  This is to hold off
-        // on creating views from the time the user releases their finger to
-        // fling to a new position until we have finished the scroll to
-        // that position, avoiding glitches from happening at that point.
         if (mPopulatePending) {
             if (DEBUG) Log.i(TAG, "populate is pending, skipping for now...");
             return;
         }
 
-        // Also, don't populate until we are attached to a window.  This is to
-        // avoid trying to populate before we have restored our view hierarchy
-        // state and conflicting with what is restored.
         if (getWindowToken() == null) {
             return;
         }
@@ -610,7 +473,6 @@ public class CustomViewPager extends ViewGroup {
 
         if (DEBUG) Log.v(TAG, "populating: startPos=" + startPos + " endPos=" + endPos);
 
-        // Add and remove pages in the existing list.
         int lastPos = -1;
         for (int i = 0; i < mItems.size(); i++) {
             ItemInfo ii = mItems.get(i);
@@ -620,9 +482,7 @@ public class CustomViewPager extends ViewGroup {
                 i--;
                 mAdapter.destroyItem(this, ii.position, ii.object);
             } else if (lastPos < endPos && ii.position > startPos) {
-                // The next item is outside of our range, but we have a gap
-                // between it and the last item where we want to have a page
-                // shown.  Fill in the gap.
+
                 lastPos++;
                 if (lastPos < startPos) {
                     lastPos = startPos;
@@ -637,7 +497,6 @@ public class CustomViewPager extends ViewGroup {
             lastPos = ii.position;
         }
 
-        // Add any new pages we need at the end.
         lastPos = mItems.size() > 0 ? mItems.get(mItems.size() - 1).position : -1;
         if (lastPos < endPos) {
             lastPos++;
@@ -809,26 +668,18 @@ public class CustomViewPager extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // For simple implementation, or internal size is always 0.
-        // We depend on the container to specify the layout size of
-        // our view.  We can't really know what it is since we will be
-        // adding and removing different arbitrary views and do not
-        // want the layout to change as this happens.
         setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
                 getDefaultSize(0, heightMeasureSpec));
 
-        // Children are just made to fill our space.
         mChildWidthMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth() -
                 getPaddingLeft() - getPaddingRight(), MeasureSpec.EXACTLY);
         mChildHeightMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredHeight() -
                 getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
 
-        // Make sure we have created all fragments that we need to have shown.
         mInLayout = true;
         populate();
         mInLayout = false;
 
-        // Make sure all children have been properly measured.
         final int size = getChildCount();
         for (int i = 0; i < size; ++i) {
             final View child = getChildAt(i);
@@ -844,7 +695,6 @@ public class CustomViewPager extends ViewGroup {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        // Make sure scroll position is set correctly.
         if (w != oldw) {
             recomputeScrollPosition(w, oldw, mPageMargin, mPageMargin);
         }
@@ -860,7 +710,6 @@ public class CustomViewPager extends ViewGroup {
             final int scrollPos = (int) ((oldScrollItem + scrollOffset) * widthWithMargin);
             scrollTo(scrollPos, getScrollY());
             if (!mScroller.isFinished()) {
-                // We now return to your regularly scheduled scroll, already in progress.
                 final int newDuration = mScroller.getDuration() - mScroller.timePassed();
                 mScroller.startScroll(scrollPos, 0, mCurItem * widthWithMargin, 0, newDuration);
             }
@@ -923,20 +772,17 @@ public class CustomViewPager extends ViewGroup {
                     mOnPageChangeListener.onPageScrolled(position, offset, offsetPixels);
                 }
 
-                // Keep on drawing until the animation has finished.
                 invalidate();
                 return;
             }
         }
 
-        // Done with scroll, clean up state.
         completeScroll();
     }
 
     private void completeScroll() {
         boolean needPopulate = mScrolling;
         if (needPopulate) {
-            // Done with scroll, no longer want to cache view drawing.
             setScrollingCacheEnabled(false);
             mScroller.abortAnimation();
             int oldX = getScrollX();
@@ -964,26 +810,16 @@ public class CustomViewPager extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        /*
-         * This method JUST determines whether we want to intercept the motion.
-         * If we return true, onMotionEvent will be called and we do the actual
-         * scrolling there.
-         */
 
         final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
 
-        // Always take care of the touch gesture being complete.
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
-            // Release the drag.
             if (DEBUG) Log.v(TAG, "Intercept done!");
             mIsBeingDragged = false;
             mIsUnableToDrag = false;
             mActivePointerId = INVALID_POINTER;
             return false;
         }
-
-        // Nothing more to do here if we have decided whether or not we
-        // are dragging.
         if (action != MotionEvent.ACTION_DOWN) {
             if (mIsBeingDragged) {
                 if (DEBUG) Log.v(TAG, "Intercept returning true!");
@@ -997,18 +833,10 @@ public class CustomViewPager extends ViewGroup {
 
         switch (action) {
             case MotionEvent.ACTION_MOVE: {
-                /*
-                 * mIsBeingDragged == false, otherwise the shortcut would have caught it. Check
-                 * whether the user has moved far enough from his original down touch.
-                 */
 
-                /*
-                 * Locally do absolute value. mLastMotionY is set to the y value
-                 * of the down event.
-                 */
                 final int activePointerId = mActivePointerId;
                 if (activePointerId == INVALID_POINTER) {
-                    // If we don't have a valid id, the touch down wasn't on content.
+
                     break;
                 }
 
@@ -1024,7 +852,6 @@ public class CustomViewPager extends ViewGroup {
                 if (DEBUG) Log.v(TAG, "Moved x to " + x + "," + y + " diff=" + xDiff + "," + yDiff);
 
                 if (canScroll(this, false, (int) dx, (int) x, (int) y)) {
-                    // Nested view has scrollable area under this point. Let it be handled there.
                     mInitialMotionX = mLastMotionX = x;
                     mLastMotionY = y;
                     return false;
@@ -1037,10 +864,6 @@ public class CustomViewPager extends ViewGroup {
                     setScrollingCacheEnabled(true);
                 } else {
                     if (yDiff > mTouchSlop) {
-                        // The finger has moved enough in the vertical
-                        // direction to be counted as a drag...  abort
-                        // any attempt to drag horizontally, to work correctly
-                        // with children that have scrolling containers.
                         if (DEBUG) Log.v(TAG, "Starting unable to drag!");
                         mIsUnableToDrag = true;
                     }
@@ -1049,16 +872,12 @@ public class CustomViewPager extends ViewGroup {
             }
 
             case MotionEvent.ACTION_DOWN: {
-                /*
-                 * Remember location of down touch.
-                 * ACTION_DOWN always refers to pointer index 0.
-                 */
+
                 mLastMotionX = mInitialMotionX = ev.getX();
                 mLastMotionY = ev.getY();
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
 
                 if (mScrollState == SCROLL_STATE_SETTLING) {
-                    // Let the user 'catch' the pager as it animates.
                     mIsBeingDragged = true;
                     mIsUnableToDrag = false;
                     setScrollState(SCROLL_STATE_DRAGGING);
@@ -1079,30 +898,23 @@ public class CustomViewPager extends ViewGroup {
                 break;
         }
 
-        /*
-         * The only time we want to intercept motion events is if we are in the
-         * drag mode.
-         */
+
         return mIsBeingDragged;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (mFakeDragging) {
-            // A fake drag is in progress already, ignore this real one
-            // but still eat the touch events.
-            // (It is likely that the user is multi-touching the screen.)
+
             return true;
         }
 
         if (ev.getAction() == MotionEvent.ACTION_DOWN && ev.getEdgeFlags() != 0) {
-            // Don't handle edge touches immediately -- they may actually belong to one of our
-            // descendants.
+
             return false;
         }
 
         if (mAdapter == null || mAdapter.getCount() == 0) {
-            // Nothing to present or scroll; nothing to touch.
             return false;
         }
 
@@ -1116,13 +928,9 @@ public class CustomViewPager extends ViewGroup {
 
         switch (action & MotionEventCompat.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: {
-                /*
-                 * If being flinged and user touches, stop the fling. isFinished
-                 * will be false if being flinged.
-                 */
+
                 completeScroll();
 
-                // Remember where the motion event started
                 mLastMotionX = mInitialMotionX = ev.getX();
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
                 break;
@@ -1144,7 +952,6 @@ public class CustomViewPager extends ViewGroup {
                     }
                 }
                 if (mIsBeingDragged) {
-                    // Scroll to follow the motion event
                     final int activePointerIndex = MotionEventCompat.findPointerIndex(
                             ev, mActivePointerId);
                     final float x = MotionEventCompat.getX(ev, activePointerIndex);
@@ -1172,7 +979,6 @@ public class CustomViewPager extends ViewGroup {
                         }
                         scrollX = rightBound;
                     }
-                    // Don't lose the rounded component
                     mLastMotionX += scrollX - (int) scrollX;
                     scrollTo((int) scrollX, getScrollY());
                     if (mOnPageChangeListener != null) {
@@ -1267,7 +1073,6 @@ public class CustomViewPager extends ViewGroup {
         }
 
         if (needsInvalidate) {
-            // Keep animating
             invalidate();
         }
     }
@@ -1276,13 +1081,11 @@ public class CustomViewPager extends ViewGroup {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Draw the margin drawable if needed.
         if (mPageMargin > 0 && mMarginDrawable != null) {
             final int scrollX = getScrollX();
             final int width = getWidth();
             final int offset = scrollX % (width + mPageMargin);
             if (offset != 0) {
-                // Pages fit completely when settled; we only need to draw when in between
                 final int left = scrollX - offset + width;
                 mMarginDrawable.setBounds(left, 0, left + mPageMargin, getHeight());
                 mMarginDrawable.draw(canvas);
@@ -1290,22 +1093,6 @@ public class CustomViewPager extends ViewGroup {
         }
     }
 
-    /**
-     * Start a fake drag of the pager.
-     * <p>
-     * <p>A fake drag can be useful if you want to synchronize the motion of the ViewPager
-     * with the touch scrolling of another view, while still letting the ViewPager
-     * control the snapping motion and fling behavior. (e.g. parallax-scrolling tabs.)
-     * Call {@link #fakeDragBy(float)} to simulate the actual drag motion. Call
-     * {@link #endFakeDrag()} to complete the fake drag and fling as necessary.
-     * <p>
-     * <p>During a fake drag the ViewPager will ignore all touch events. If a real drag
-     * is already in progress, this method will return false.
-     *
-     * @return true if the fake drag began successfully, false if it could not be started.
-     * @see #fakeDragBy(float)
-     * @see #endFakeDrag()
-     */
     public boolean beginFakeDrag() {
         if (mIsBeingDragged) {
             return false;
@@ -1326,12 +1113,6 @@ public class CustomViewPager extends ViewGroup {
         return true;
     }
 
-    /**
-     * End a fake drag of the pager.
-     *
-     * @see #beginFakeDrag()
-     * @see #fakeDragBy(float)
-     */
     public void endFakeDrag() {
         if (!mFakeDragging) {
             throw new IllegalStateException("No fake drag in progress. Call beginFakeDrag first.");
@@ -1357,13 +1138,6 @@ public class CustomViewPager extends ViewGroup {
         mFakeDragging = false;
     }
 
-    /**
-     * Fake drag by an offset in pixels. You must have called {@link #beginFakeDrag()} first.
-     *
-     * @param xOffset Offset in pixels to drag by.
-     * @see #beginFakeDrag()
-     * @see #endFakeDrag()
-     */
     public void fakeDragBy(float xOffset) {
         if (!mFakeDragging) {
             throw new IllegalStateException("No fake drag in progress. Call beginFakeDrag first.");
@@ -1382,7 +1156,7 @@ public class CustomViewPager extends ViewGroup {
         } else if (scrollX > rightBound) {
             scrollX = rightBound;
         }
-        // Don't lose the rounded component
+
         mLastMotionX += scrollX - (int) scrollX;
         scrollTo((int) scrollX, getScrollY());
         if (mOnPageChangeListener != null) {
@@ -1393,7 +1167,6 @@ public class CustomViewPager extends ViewGroup {
                     positionOffsetPixels);
         }
 
-        // Synthesize an event for the VelocityTracker.
         final long time = SystemClock.uptimeMillis();
         final MotionEvent ev = MotionEvent.obtain(mFakeDragBeginTime, time, MotionEvent.ACTION_MOVE,
                 mLastMotionX, 0, 0);
@@ -1401,14 +1174,7 @@ public class CustomViewPager extends ViewGroup {
         ev.recycle();
     }
 
-    /**
-     * Returns true if a fake drag is in progress.
-     *
-     * @return true if currently in a fake drag, false otherwise.
-     * @see #beginFakeDrag()
-     * @see #fakeDragBy(float)
-     * @see #endFakeDrag()
-     */
+
     public boolean isFakeDragging() {
         return mFakeDragging;
     }
@@ -1417,8 +1183,6 @@ public class CustomViewPager extends ViewGroup {
         final int pointerIndex = MotionEventCompat.getActionIndex(ev);
         final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
         if (pointerId == mActivePointerId) {
-            // This was our active pointer going up. Choose a new
-            // active pointer and adjust accordingly.
             final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
             mLastMotionX = MotionEventCompat.getX(ev, newPointerIndex);
             mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
@@ -1453,27 +1217,13 @@ public class CustomViewPager extends ViewGroup {
         }
     }
 
-    /**
-     * Tests scrollability within child views of v given a delta of dx.
-     *
-     * @param v      View to test for horizontal scrollability
-     * @param checkV Whether the view v passed should itself be checked for scrollability (true),
-     *               or just its children (false).
-     * @param dx     Delta scrolled in pixels
-     * @param x      X coordinate of the active touch point
-     * @param y      Y coordinate of the active touch point
-     * @return true if child views of v can be scrolled by delta of dx.
-     */
     protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
         if (v instanceof ViewGroup) {
             final ViewGroup group = (ViewGroup) v;
             final int scrollX = v.getScrollX();
             final int scrollY = v.getScrollY();
             final int count = group.getChildCount();
-            // Count backwards - let topmost views consume scroll distance first.
             for (int i = count - 1; i >= 0; i--) {
-                // TODO: Add versioned support here for transformed views.
-                // This will not work for transformed views in Honeycomb+
                 final View child = group.getChildAt(i);
                 if (x + scrollX >= child.getLeft() && x + scrollX < child.getRight() &&
                         y + scrollY >= child.getTop() && y + scrollY < child.getBottom() &&
@@ -1489,18 +1239,10 @@ public class CustomViewPager extends ViewGroup {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        // Let the focused view and/or our descendants get the key first
         return super.dispatchKeyEvent(event) || executeKeyEvent(event);
     }
 
-    /**
-     * You can call this function yourself to have the scroll view perform
-     * scrolling from a key event, just as if the event had been dispatched to
-     * it by the view hierarchy.
-     *
-     * @param event The key event to execute.
-     * @return Return true if the event was handled, else false.
-     */
+
     public boolean executeKeyEvent(KeyEvent event) {
         boolean handled = false;
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -1511,13 +1253,6 @@ public class CustomViewPager extends ViewGroup {
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
                     handled = arrowScroll(FOCUS_RIGHT);
                     break;
-//                case KeyEvent.KEYCODE_TAB:
-//                    if (KeyEventCompat.hasNoModifiers(event)) {
-//                        handled = arrowScroll(FOCUS_FORWARD);
-//                    } else if (KeyEventCompat.hasModifiers(event, KeyEvent.META_SHIFT_ON)) {
-//                        handled = arrowScroll(FOCUS_BACKWARD);
-//                    }
-//                    break;
             }
         }
         return handled;
@@ -1533,16 +1268,12 @@ public class CustomViewPager extends ViewGroup {
                 direction);
         if (nextFocused != null && nextFocused != currentFocused) {
             if (direction == View.FOCUS_LEFT) {
-                // If there is nothing to the left, or this is causing us to
-                // jump to the right, then what we really want to do is page left.
                 if (currentFocused != null && nextFocused.getLeft() >= currentFocused.getLeft()) {
                     handled = pageLeft();
                 } else {
                     handled = nextFocused.requestFocus();
                 }
             } else if (direction == View.FOCUS_RIGHT) {
-                // If there is nothing to the right, or this is causing us to
-                // jump to the left, then what we really want to do is page right.
                 if (currentFocused != null && nextFocused.getLeft() <= currentFocused.getLeft()) {
                     handled = pageRight();
                 } else {
@@ -1550,10 +1281,8 @@ public class CustomViewPager extends ViewGroup {
                 }
             }
         } else if (direction == FOCUS_LEFT || direction == FOCUS_BACKWARD) {
-            // Trying to move left and nothing there; try to page.
             handled = pageLeft();
         } else if (direction == FOCUS_RIGHT || direction == FOCUS_FORWARD) {
-            // Trying to move right and nothing there; try to page.
             handled = pageRight();
         }
         if (handled) {
@@ -1578,9 +1307,7 @@ public class CustomViewPager extends ViewGroup {
         return false;
     }
 
-    /**
-     * We only want the current page that is being shown to be focusable.
-     */
+
     @Override
     public void addFocusables(ArrayList<View> views, int direction, int focusableMode) {
         final int focusableCount = views.size();
@@ -1599,16 +1326,9 @@ public class CustomViewPager extends ViewGroup {
             }
         }
 
-        // we add ourselves (if focusable) in all cases except for when we are
-        // FOCUS_AFTER_DESCENDANTS and there are some descendants focusable.  this is
-        // to avoid the focus search finding layouts when a more precise search
-        // among the focusable children would be more interesting.
         if (
                 descendantFocusability != FOCUS_AFTER_DESCENDANTS ||
-                        // No focusable descendants
                         (focusableCount == views.size())) {
-            // Note that we can't call the superclass here, because it will
-            // add all views in.  So we need to do the same thing View does.
             if (!isFocusable()) {
                 return;
             }
@@ -1622,14 +1342,9 @@ public class CustomViewPager extends ViewGroup {
         }
     }
 
-    /**
-     * We only want the current page that is being shown to be touchable.
-     */
     @Override
     public void addTouchables(ArrayList<View> views) {
-        // Note that we don't call super.addTouchables(), which means that
-        // we don't call View.addTouchables().  This is okay because a ViewPager
-        // is itself not touchable.
+
         for (int i = 0; i < getChildCount(); i++) {
             final View child = getChildAt(i);
             if (child.getVisibility() == VISIBLE) {
@@ -1641,9 +1356,6 @@ public class CustomViewPager extends ViewGroup {
         }
     }
 
-    /**
-     * We only want the current page that is being shown to be focusable.
-     */
     @Override
     protected boolean onRequestFocusInDescendants(int direction,
                                                   Rect previouslyFocusedRect) {
@@ -1676,10 +1388,6 @@ public class CustomViewPager extends ViewGroup {
 
     @Override
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
-        // ViewPagers should only report accessibility info for the current page,
-        // otherwise things get very confusing.
-
-        // TODO: Should this note something about the paging container?
 
         final int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {

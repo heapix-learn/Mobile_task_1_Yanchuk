@@ -22,8 +22,6 @@ public class PicAdapter extends BaseAdapter {
     private List<String> video;
     private List<String> videoScreen;
 
-
-
     public PicAdapter(Context c, List<String> imageInfo, List<String> videoInfo, List<String> videoScreenInfo) {
         galleryContext = c;
         image=imageInfo;
