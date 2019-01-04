@@ -1,13 +1,11 @@
 package com.example.first_task_k__r__o__s__h.Activities;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -52,7 +50,6 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -134,65 +131,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-
-        Button btn_en = (Button) findViewById(R.id.lang_en);
-        Button btn_ru = (Button) findViewById(R.id.lang_ru);
-
-
-        btn_en.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String lang = "en";
-                changeLang(lang);
-            }
-        });
-        btn_ru.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String lang = "ru";
-                changeLang(lang);
-            }
-        });
-
-    }
-
-
-    private void changeLang(String lang)
-    {
-        if (lang.equalsIgnoreCase(""))
-            return;
-        Locale myLocale = new Locale(lang);
-        saveLocale(lang);
-        Locale.setDefault(myLocale);
-        android.content.res.Configuration config = new android.content.res.Configuration();
-        config.locale = myLocale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        updateTexts();
-    }
-
-    public void saveLocale(String lang)
-    {
-        String langPref = "Language";
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(langPref, lang);
-        editor.apply();
-    }
-
-
-    public void loadLocale()
-    {
-        String langPref = "Language";
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        String language = prefs.getString(langPref, "");
-        changeLang(language);
-    }
-
-    private void updateTexts()
-    {
-        Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
     }
 
 

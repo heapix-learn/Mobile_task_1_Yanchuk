@@ -27,8 +27,7 @@
             android:value="@string/facebook_application_id" />
 
         <activity
-            android:name=".Activities.LoginActivity"
-            android:label="@string/title_activity_login">
+            android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
