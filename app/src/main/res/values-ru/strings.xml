@@ -83,4 +83,5 @@
     <string name="info">Информация</string>
     <string name="media">Медиа</string>
     <string name="edit_post_for_note">Редактирование поста</string>
+    <string name="error_incorrect_login_password">Этот логин/пароь неверен</string>
 </resources>
