@@ -11,7 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Controller {
-    static final String BASE_URL = "http://192.168.0.100:3000/";
+    static final String BASE_URL = "http://192.168.0.125:3000/";
     private static UserApi service;
 
     public static UserApi getApi() {

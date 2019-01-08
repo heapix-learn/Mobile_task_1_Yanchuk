@@ -14,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -27,12 +28,21 @@ public interface UserApi {
     @GET("/Accounts")
     Call<List<UserModel>> checkLoginEmail(@Query("email") String resourceName);
 
+    @GET("/Accounts")
+    Call<List<UserModel>> checkGoogleID(@Query("googleID") String googleID);
+
+    @GET("/Accounts")
+    Call<List<UserModel>> checkFacebookID(@Query("facebookID") String facebookID);
 
     @POST("/Accounts")
     Call<UserModel> pushNewUser(@Body UserModel user);
 
     @GET("/Number_of_accounts/{id}")
     Call<NumberOfAccounts> getLastAccountNumber(@Path("id") String id);
+
+    @PUT("/Number_of_accounts/{id}")
+    Call<NumberOfAccounts> updateLastAccountNumber(@Path("id") String id, @Body NumberOfAccounts numberOfAccounts);
+
 
     @DELETE("/Number_of_accounts/{id}")
     Call<ResponseBody> deleteLastAccountNumber(@Path("id") String id);

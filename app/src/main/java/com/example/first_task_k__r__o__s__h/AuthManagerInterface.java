@@ -1,24 +1,10 @@
 package com.example.first_task_k__r__o__s__h;
 
-import android.content.Context;
+import com.facebook.Profile;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-public class AuthManagerInterface {
-
-    public interface AuthManagerInterfaceView<Result> {
-
-        void onSuccess(Result result);
-
-        void onError(String error);
-
-    }
-
-    public static void tryLoginWith(Context context, String login, String password, AuthManagerInterfaceView<UserModel> listener) {
-        AuthManager.tryLoginWith(context, login, password, listener);
-
-    }
-
-//    public static void tryLoginWithGoogle(Activity activity, AuthManagerInterfaceView<UserModel> listener, Bundle bundle){
-//        AuthManager authManager= new AuthManager();
-//        authManager.tryLoginWithGoogle(activity, listener, bundle);
-//    }
+public interface AuthManagerInterface {
+    void tryLoginWith(String login, String password, Runnable onSuccess, MyRunnable onFailure);
+    void tryLoginWithGoogle(GoogleSignInAccount account, Runnable onSuccess, MyRunnable onFailure);
+    void tryLoginWithFacebook(Profile account, Runnable onSuccess, MyRunnable onFailure);
 }

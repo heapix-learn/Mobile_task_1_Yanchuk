@@ -26,6 +26,13 @@ import com.google.gson.annotations.SerializedName;
         @Expose
         private String phone;
 
+        @SerializedName("googleID")
+        @Expose
+        private String googleID;
+
+        @SerializedName("facebookID")
+        @Expose
+        private String facebookID;
 
         public UserModel(){}
 
@@ -75,6 +82,22 @@ import com.google.gson.annotations.SerializedName;
 
         public void setPhone(String phone) {
             this.phone = phone;
+        }
+
+        public String getFacebookID() {
+            return facebookID;
+        }
+
+        public String getGoogleID() {
+            return googleID;
+        }
+
+        public void setFacebookID(String facebookID) {
+            this.facebookID = facebookID;
+        }
+
+        public void setGoogleID(String googleID) {
+            this.googleID = googleID;
         }
     }
 

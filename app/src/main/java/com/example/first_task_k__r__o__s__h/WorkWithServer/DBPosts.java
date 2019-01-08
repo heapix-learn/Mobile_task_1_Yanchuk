@@ -97,9 +97,6 @@ public abstract class DBPosts {
         return convertRead;
     }
 
-
-
-
     public static boolean deletePost(String id){
         try {
             return (new ServerDeletePostBackground().execute(id)).get();

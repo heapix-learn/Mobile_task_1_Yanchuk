@@ -21,7 +21,10 @@ public class AppContext extends Application {
     public static final int PASSWORD_ERROR=6;
     public static final int SUCCESS_LOGIN=7;
 
-
+    public enum TypeOfAuthManagerError{
+        SERVER_ERROR,
+        USER_CHECK_ERROR
+    }
 
     public static String ListPathToString(List<String> list){
         if (list.size()==0) return "";
