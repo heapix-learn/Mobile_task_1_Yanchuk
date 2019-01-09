@@ -7,4 +7,7 @@ public interface AuthManagerInterface {
     void tryLoginWith(String login, String password, Runnable onSuccess, MyRunnable onFailure);
     void tryLoginWithGoogle(GoogleSignInAccount account, Runnable onSuccess, MyRunnable onFailure);
     void tryLoginWithFacebook(Profile account, Runnable onSuccess, MyRunnable onFailure);
+    void tryLoginWithStoredInfo(Runnable onSuccess, Runnable onFailure);
+    String getStoredLogin();
+
 }

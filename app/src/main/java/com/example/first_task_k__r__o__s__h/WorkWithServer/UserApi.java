@@ -34,6 +34,9 @@ public interface UserApi {
     @GET("/Accounts")
     Call<List<UserModel>> checkFacebookID(@Query("facebookID") String facebookID);
 
+    @GET("/Accounts")
+    Call<List<UserModel>> checkID(@Query("id") String id);
+
     @POST("/Accounts")
     Call<UserModel> pushNewUser(@Body UserModel user);
 

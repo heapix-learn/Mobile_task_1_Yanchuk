@@ -15,8 +15,8 @@ import retrofit2.Response;
 
 public class AuthManager implements AuthManagerInterface {
 
-
     private AppContext.TypeOfAuthManagerError error;
+    private AuthStoreInterface authStoreInterface = new Store();
 
     private void addUser(final UserModel myUser, final MyRunnable onFailure) {
 
@@ -87,7 +87,10 @@ public class AuthManager implements AuthManagerInterface {
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
                 boolean status;
                 status = goResponse(response, password);
-                if (status) onSuccess.run();
+                if (status) {
+                    authStoreInterface.saveUser(response.body().get(0));
+                    onSuccess.run();
+                }
                 else {
                     error = AppContext.TypeOfAuthManagerError.USER_CHECK_ERROR;
                     onFailure.run();
@@ -99,7 +102,6 @@ public class AuthManager implements AuthManagerInterface {
             public void onFailure(Call<List<UserModel>> call, Throwable t) {
                 error = AppContext.TypeOfAuthManagerError.SERVER_ERROR;
                 onFailure.run();
-
             }
         });
     }
@@ -107,12 +109,8 @@ public class AuthManager implements AuthManagerInterface {
     @Override
     public void tryLoginWith(final String login, final String password, final Runnable onSuccess, final MyRunnable onFailure) {
         this.error = null;
-        final Runnable onSuccessUserCheck = new Runnable() {
-            @Override
-            public void run() {
-                onSuccess.run();
-            }
-        };
+        String token = "1234567890";
+        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(login,token, onSuccess);
 
         final Runnable onFailureUserCheck = new Runnable() {
             @Override
@@ -164,16 +162,12 @@ public class AuthManager implements AuthManagerInterface {
         });
     }
 
-
     @Override
     public void tryLoginWithGoogle(final GoogleSignInAccount account, final Runnable onSuccess, final MyRunnable onFailure) {
         this.error = null;
-        final Runnable onSuccessUserCheck = new Runnable() {
-            @Override
-            public void run() {
-                onSuccess.run();
-            }
-        };
+        String token = "1234567890";
+
+        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(account.getEmail(),token, onSuccess);
 
         final UserApi userApi = Controller.getApi();
         checkServerID(userApi.checkGoogleID(account.getId()), onSuccessUserCheck, new Runnable() {
@@ -191,25 +185,21 @@ public class AuthManager implements AuthManagerInterface {
                 myUser.setEmail(account.getEmail());
                 myUser.setFullName(account.getDisplayName());
                 addUser(myUser, onFailure);
-
+                authStoreInterface.saveUser(myUser);
             }
         });
 
     }
 
-
     @Override
     public void tryLoginWithFacebook(final Profile account, final Runnable onSuccess, final MyRunnable onFailure) {
         this.error = null;
-        final Runnable onSuccessUserCheck = new Runnable() {
-            @Override
-            public void run() {
-                onSuccess.run();
-            }
-        };
+        String token = "1234567890";
+
+        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(account.getName(), token, onSuccess);
 
         final UserApi userApi = Controller.getApi();
-        checkServerID(userApi.checkGoogleID(account.getId()), onSuccessUserCheck, new Runnable() {
+        checkServerID(userApi.checkFacebookID(account.getId()), onSuccessUserCheck, new Runnable() {
             @Override
             public void run() {
                 if (error == AppContext.TypeOfAuthManagerError.SERVER_ERROR) {
@@ -219,14 +209,67 @@ public class AuthManager implements AuthManagerInterface {
                 }
 
                 final UserModel myUser = new UserModel();
-                myUser.setGoogleID(account.getId());
+                myUser.setFacebookID(account.getId());
                 myUser.setFullName(account.getName());
+                myUser.setUserName(account.getName());
 
                 addUser(myUser, onFailure);
+                authStoreInterface.saveUser(myUser);
             }
 
 
 
         });
     }
+
+    @Override
+    public void tryLoginWithStoredInfo(final Runnable onSuccess, final Runnable onFailure) {
+
+        UserModel myUser = authStoreInterface.getUser();
+
+
+        Runnable onSuccessCheck = new Runnable() {
+            @Override
+            public void run() {
+                onSuccess.run();
+            }
+        };
+        Runnable onFailureCheck = new Runnable() {
+            @Override
+            public void run() {
+                onFailure.run();
+
+            }
+        };
+
+        if (myUser==null){
+            onFailure.run();
+            return;
+        }
+
+        final UserApi userApi = Controller.getApi();
+        checkServerID(userApi.checkID(myUser.getId()), onSuccessCheck, onFailureCheck);
+
+        onFailureCheck.run();
+    }
+
+    @Override
+    public String getStoredLogin() {
+        return authStoreInterface.getLogin();
+    }
+
+  
+
+    private Runnable getOnSuccessUserCheck(final String login, final String token, final Runnable onSuccess){
+            return new Runnable() {
+            @Override
+            public void run() {
+                authStoreInterface.saveLogin(login);
+                authStoreInterface.saveToken(token);
+                onSuccess.run();
+            }
+        };
+
+    }
+
 }

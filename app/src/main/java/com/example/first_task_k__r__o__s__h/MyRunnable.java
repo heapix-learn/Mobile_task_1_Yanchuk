@@ -6,6 +6,7 @@ public class MyRunnable implements Runnable {
         this.error=myError;
         return this;
     }
+
     @Override
     public void run() {
     }
@@ -13,4 +14,5 @@ public class MyRunnable implements Runnable {
     protected AppContext.TypeOfAuthManagerError getError() {
         return error;
     }
+
 }

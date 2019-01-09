@@ -16,7 +16,6 @@ import com.example.first_task_k__r__o__s__h.AuthManager;
 import com.example.first_task_k__r__o__s__h.AuthManagerInterface;
 import com.example.first_task_k__r__o__s__h.MyRunnable;
 import com.example.first_task_k__r__o__s__h.R;
-import com.example.first_task_k__r__o__s__h.UserModel;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -34,8 +33,6 @@ import com.google.android.gms.tasks.Task;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static UserModel myUser;
-
     public int  RC_SIGN_IN = 119;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
@@ -45,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private AuthManagerInterface authManager = new AuthManager();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         TextView createAccount = (TextView) findViewById(R.id.create_acco);
         mUserNameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
-
 
         Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         LoginButton facebookSignIn = (LoginButton) findViewById(R.id.facebook_sign_in);
-
         facebookSignIn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -111,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(FacebookException error) {
             }
         });
-
+        mUserNameView.setText(authManager.getStoredLogin());
     }
     private void attemptLogin() {
         Runnable onSuccess = new Runnable() {
@@ -151,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             Runnable onSuccess = new Runnable() {
@@ -173,10 +166,5 @@ public class LoginActivity extends AppCompatActivity {
         } catch (ApiException e) {
         }
     }
-
-
-
-
-
 
 }
