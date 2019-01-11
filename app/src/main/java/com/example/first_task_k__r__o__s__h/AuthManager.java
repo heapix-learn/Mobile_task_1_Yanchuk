@@ -1,5 +1,7 @@
 package com.example.first_task_k__r__o__s__h;
 
+import android.content.Context;
+
 import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
 import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
 import com.facebook.Profile;
@@ -198,8 +200,9 @@ public class AuthManager implements AuthManagerInterface {
     }
 
     @Override
-    public void tryLoginWithStoredInfo(final Runnable onSuccess, final Runnable onFailure) {
+    public void tryLoginWithStoredInfo(Context context, final Runnable onSuccess, final Runnable onFailure) {
 
+        authStoreInterface.setContext(context);
         User myUser = authStoreInterface.getUser();
 
 
@@ -229,7 +232,8 @@ public class AuthManager implements AuthManagerInterface {
     }
 
     @Override
-    public String getStoredLogin() {
+    public String getStoredLogin(Context context) {
+        authStoreInterface.setContext(context);
         return authStoreInterface.getLogin();
     }
 

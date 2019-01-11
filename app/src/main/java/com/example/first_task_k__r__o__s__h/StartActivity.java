@@ -30,6 +30,6 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         };
-        authManagerInterface.tryLoginWithStoredInfo(onSuccess, onFailure);
+        authManagerInterface.tryLoginWithStoredInfo(this.getApplicationContext(), onSuccess, onFailure);
     }
 }

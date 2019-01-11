@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(FacebookException error) {
             }
         });
-        mUserNameView.setText(authManager.getStoredLogin());
+        mUserNameView.setText(authManager.getStoredLogin(LoginActivity.this));
 
 
         createAccount.setOnClickListener(new View.OnClickListener() {
