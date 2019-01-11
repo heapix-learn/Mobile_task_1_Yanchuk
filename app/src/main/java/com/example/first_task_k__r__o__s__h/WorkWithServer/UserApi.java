@@ -4,7 +4,8 @@ import com.example.first_task_k__r__o__s__h.ConvertToDoDocuments;
 import com.example.first_task_k__r__o__s__h.NumberOfAccounts;
 import com.example.first_task_k__r__o__s__h.NumberOfPosts;
 import com.example.first_task_k__r__o__s__h.OwnMarker;
-import com.example.first_task_k__r__o__s__h.UserModel;
+import com.example.first_task_k__r__o__s__h.ServerAnswer;
+import com.example.first_task_k__r__o__s__h.User;
 
 import java.util.List;
 
@@ -13,32 +14,35 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserApi {
-    @GET("/Accounts")
-    Call<List<UserModel>> checkLoginUserName(@Query("userName") String resourceName);
+
+
+    @POST("/signin")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> checkLogin(@Body User loginPasswordUser);
+
+
+    @POST("/signup")
+    @Headers({"Content-Type: application/json"})
+    Call<ResponseBody> SignUp(@Body User myUser);
 
     @GET("/Accounts")
-    Call<List<UserModel>> checkLoginPhone(@Query("phone") String resourceName);
+    Call<List<User>> checkGoogleID(@Query("googleID") String googleID);
 
     @GET("/Accounts")
-    Call<List<UserModel>> checkLoginEmail(@Query("email") String resourceName);
+    Call<List<User>> checkFacebookID(@Query("facebookID") String facebookID);
 
     @GET("/Accounts")
-    Call<List<UserModel>> checkGoogleID(@Query("googleID") String googleID);
-
-    @GET("/Accounts")
-    Call<List<UserModel>> checkFacebookID(@Query("facebookID") String facebookID);
-
-    @GET("/Accounts")
-    Call<List<UserModel>> checkID(@Query("id") String id);
+    Call<List<User>> checkID(@Query("id") String id);
 
     @POST("/Accounts")
-    Call<UserModel> pushNewUser(@Body UserModel user);
+    Call<User> pushNewUser(@Body User user);
 
     @GET("/Number_of_accounts/{id}")
     Call<NumberOfAccounts> getLastAccountNumber(@Path("id") String id);

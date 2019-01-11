@@ -41,6 +41,18 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private CallbackManager callbackManager;
     private AuthManagerInterface authManager = new AuthManager();
+    private Runnable onSuccess = new Runnable() {
+    @Override
+    public void run() {
+            Toast.makeText(LoginActivity.this, "Success",  Toast.LENGTH_SHORT).show();
+        }
+    };
+    private MyRunnable onFailure = new MyRunnable() {
+        @Override
+        public void run() {
+            Toast.makeText(LoginActivity.this, "" + this.getError().getDescription(),  Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         mUserNameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
+        final Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,20 +89,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                Runnable onSuccess = new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LoginActivity.this, "Success",  Toast.LENGTH_SHORT).show();
-                    }
-                };
-
-                MyRunnable onFailure = new MyRunnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LoginActivity.this, "Failure " + this.getError(),  Toast.LENGTH_SHORT).show();
-                    }
-                };
-
                 Profile profile = Profile.getCurrentProfile();
                 authManager.tryLoginWithFacebook(profile, onSuccess, onFailure);
 
@@ -106,21 +104,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         mUserNameView.setText(authManager.getStoredLogin());
+
+
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                authManager.tryRegistrationWith(mUserNameView.getText().toString(), mPasswordView.getText().toString(), "", "", onSuccess, onFailure);
+            }
+        });
+
     }
     private void attemptLogin() {
-        Runnable onSuccess = new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(LoginActivity.this, "Success",  Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        MyRunnable onFailure = new MyRunnable() {
-            @Override
-            public void run() {
-                Toast.makeText(LoginActivity.this, "Failure " + this.getError(),  Toast.LENGTH_SHORT).show();
-            }
-        };
         authManager.tryLoginWith(mUserNameView.getText().toString(), mPasswordView.getText().toString(), onSuccess, onFailure);
     }
 
@@ -157,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
             MyRunnable onFailure = new MyRunnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(LoginActivity.this, "Failure " + this.getError(),  Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "" + this.getError().getDescription(),  Toast.LENGTH_SHORT).show();
                 }
             };
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);

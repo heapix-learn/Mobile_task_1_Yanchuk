@@ -17,13 +17,21 @@ public class AppContext extends Application {
     public static final int TODO_NOTE_SETTING_REQUEST=3;
     public static final int EDIT_POST_REQUEST=4;
     public static final String OWN_MARKER="OwnMarker";
-    public static final int USER_NAME_ERROR=5;
-    public static final int PASSWORD_ERROR=6;
-    public static final int SUCCESS_LOGIN=7;
 
     public enum TypeOfAuthManagerError{
-        SERVER_ERROR,
-        USER_CHECK_ERROR
+        SERVER_ERROR("Server error"),
+        USER_CHECK_ERROR("Not authorized."),
+        WRONG_CREDENTIALS("Wrong credentials"),
+        SUCH_EMAIL_ALREADY_REGISTERED("Such email already registered."),
+        ACCESS_DENIED("Access denied");
+
+        private String description;
+
+        TypeOfAuthManagerError(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {return description;}
     }
 
     public static String ListPathToString(List<String> list){
@@ -47,6 +55,15 @@ public class AppContext extends Application {
             else help.append(str.charAt(i));
         }
         return ans;
+    }
+
+    public static TypeOfAuthManagerError convertError(String str){
+        if (TypeOfAuthManagerError.ACCESS_DENIED.getDescription().equals(str))  return TypeOfAuthManagerError.ACCESS_DENIED;
+        if (TypeOfAuthManagerError.SERVER_ERROR.getDescription().equals(str))  return TypeOfAuthManagerError.SERVER_ERROR;
+        if (TypeOfAuthManagerError.SUCH_EMAIL_ALREADY_REGISTERED.getDescription().equals(str))  return TypeOfAuthManagerError.SUCH_EMAIL_ALREADY_REGISTERED;
+        if (TypeOfAuthManagerError.USER_CHECK_ERROR.getDescription().equals(str))  return TypeOfAuthManagerError.USER_CHECK_ERROR;
+        if (TypeOfAuthManagerError.WRONG_CREDENTIALS.getDescription().equals(str))  return TypeOfAuthManagerError.WRONG_CREDENTIALS;
+        return null;
     }
 
 }

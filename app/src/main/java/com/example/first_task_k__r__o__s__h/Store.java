@@ -13,12 +13,12 @@ public class Store implements AuthStoreInterface {
     }
 
     @Override
-    public void saveUser(UserModel user) {
+    public void saveUser(User user) {
 
     }
 
     @Override
-    public UserModel getUser() {
+    public User getUser() {
         return null;
     }
 

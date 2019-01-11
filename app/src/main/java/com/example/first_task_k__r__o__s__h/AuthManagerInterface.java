@@ -9,5 +9,5 @@ public interface AuthManagerInterface {
     void tryLoginWithFacebook(Profile account, Runnable onSuccess, MyRunnable onFailure);
     void tryLoginWithStoredInfo(Runnable onSuccess, Runnable onFailure);
     String getStoredLogin();
-
+    void tryRegistrationWith(String login, String password, String firstName, String LastName, Runnable onSuccess, MyRunnable onFailure);
 }

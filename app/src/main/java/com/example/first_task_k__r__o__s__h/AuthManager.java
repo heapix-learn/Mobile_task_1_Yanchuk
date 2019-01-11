@@ -4,10 +4,12 @@ import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
 import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,8 +19,10 @@ public class AuthManager implements AuthManagerInterface {
 
     private AppContext.TypeOfAuthManagerError error;
     private AuthStoreInterface authStoreInterface = new Store();
+    String login;
+    private String token;
 
-    private void addUser(final UserModel myUser, final MyRunnable onFailure) {
+    private void addUser(final User myUser, final MyRunnable onFailure) {
 
         final UserApi userApi = Controller.getApi();
         userApi.getLastAccountNumber("1").enqueue(new Callback<NumberOfAccounts>() {
@@ -28,9 +32,9 @@ public class AuthManager implements AuthManagerInterface {
 
                 numberOfAccounts.setSize((Integer.parseInt(numberOfAccounts.getSize()) + 1) + "");
                 myUser.setId(numberOfAccounts.getSize());
-                userApi.pushNewUser(myUser).enqueue(new Callback<UserModel>() {
+                userApi.pushNewUser(myUser).enqueue(new Callback<User>() {
                     @Override
-                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                    public void onResponse(Call<User> call, Response<User> response) {
                         userApi.updateLastAccountNumber("1", numberOfAccounts).enqueue(new Callback<NumberOfAccounts>() {
                             @Override
                             public void onResponse(Call<NumberOfAccounts> call, Response<NumberOfAccounts> response) {
@@ -47,7 +51,7 @@ public class AuthManager implements AuthManagerInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<UserModel> call, Throwable t) {
+                    public void onFailure(Call<User> call, Throwable t) {
                         onFailure.init(error);
                         onFailure.run();
                     }
@@ -64,54 +68,9 @@ public class AuthManager implements AuthManagerInterface {
 
     }
 
-    private boolean goResponse(Response<List<UserModel>> response, String password) {
-        int result = -1;
-        UserModel myUser;
-        List<UserModel> accounts = new ArrayList<>();
-
-        accounts.addAll(response.body());
-        if (accounts.size() != 0) {
-            myUser = accounts.get(0);
-            if (myUser.getPassword().equals(password)) result = AppContext.SUCCESS_LOGIN;
-            accounts.clear();
-        }
-
-        return result == AppContext.SUCCESS_LOGIN;
-    }
-
-    private void checkUser(Call<List<UserModel>> request, final String password, final Runnable onSuccess, final Runnable onFailure) {
-
-        request.enqueue(new Callback<List<UserModel>>() {
-
-            @Override
-            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                boolean status;
-                status = goResponse(response, password);
-                if (status) {
-                    authStoreInterface.saveUser(response.body().get(0));
-                    onSuccess.run();
-                }
-                else {
-                    error = AppContext.TypeOfAuthManagerError.USER_CHECK_ERROR;
-                    onFailure.run();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                error = AppContext.TypeOfAuthManagerError.SERVER_ERROR;
-                onFailure.run();
-            }
-        });
-    }
-
     @Override
     public void tryLoginWith(final String login, final String password, final Runnable onSuccess, final MyRunnable onFailure) {
-        this.error = null;
-        String token = "1234567890";
-        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(login,token, onSuccess);
-
+        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(onSuccess);
         final Runnable onFailureUserCheck = new Runnable() {
             @Override
             public void run() {
@@ -120,31 +79,48 @@ public class AuthManager implements AuthManagerInterface {
             }
         };
         final UserApi userApi = Controller.getApi();
-        checkUser(userApi.checkLoginUserName(login), password, onSuccessUserCheck, new Runnable() {
+        this.login=login;
+        User loginPasswordUser = new User();
+        loginPasswordUser.setEmail(login);
+        loginPasswordUser.setPassword(password);
+
+        userApi.checkLogin(loginPasswordUser).enqueue(new Callback<ServerAnswer>() {
             @Override
-            public void run() {
-                if (error == AppContext.TypeOfAuthManagerError.SERVER_ERROR) {
-                    onFailure.init(error);
-                    onFailure.run();
+            public void onResponse(Call<ServerAnswer> call, Response<ServerAnswer> response) {
+
+                if (response.body()==null) {
+                    Gson gson = new Gson();
+                    ServerAnswer serverAnswer=gson.fromJson(response.errorBody().charStream(),ServerAnswer.class);
+                    error = AppContext.convertError(serverAnswer.getError());
+                    onFailureUserCheck.run();
                     return;
                 }
-                checkUser(userApi.checkLoginPhone(login), password, onSuccessUserCheck, new Runnable() {
-                    @Override
-                    public void run() {
-                        checkUser(userApi.checkLoginEmail(login), password, onSuccessUserCheck, onFailureUserCheck);
-                    }
-                });
+                if (response.body().getSuccess() && response.body().getToken()!=null){
+                    token = response.body().getToken();
+                    onSuccessUserCheck.run();
+                }
+                else {
+                    error = AppContext.TypeOfAuthManagerError.USER_CHECK_ERROR;
+                    onFailureUserCheck.run();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerAnswer> call, Throwable t) {
+                error = AppContext.TypeOfAuthManagerError.SERVER_ERROR;
+                onFailureUserCheck.run();
             }
         });
     }
 
-    private void checkServerID(Call<List<UserModel>> request, final Runnable onSuccess, final Runnable onFailure) {
-        request.enqueue(new Callback<List<UserModel>>() {
+
+    private void checkServerID(Call<List<User>> request, final Runnable onSuccess, final Runnable onFailure) {
+        request.enqueue(new Callback<List<User>>() {
 
             @Override
-            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
 
-                List<UserModel> accounts = new ArrayList<>();
+                List<User> accounts = new ArrayList<>();
                 accounts.addAll(response.body());
                 if (accounts.size() != 0) {
                     onSuccess.run();
@@ -155,7 +131,7 @@ public class AuthManager implements AuthManagerInterface {
 
 
             @Override
-            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 error = AppContext.TypeOfAuthManagerError.SERVER_ERROR;
                 onFailure.run();
             }
@@ -165,9 +141,9 @@ public class AuthManager implements AuthManagerInterface {
     @Override
     public void tryLoginWithGoogle(final GoogleSignInAccount account, final Runnable onSuccess, final MyRunnable onFailure) {
         this.error = null;
-        String token = "1234567890";
+        login=account.getEmail();
 
-        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(account.getEmail(),token, onSuccess);
+        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(onSuccess);
 
         final UserApi userApi = Controller.getApi();
         checkServerID(userApi.checkGoogleID(account.getId()), onSuccessUserCheck, new Runnable() {
@@ -179,7 +155,7 @@ public class AuthManager implements AuthManagerInterface {
                     return;
                 }
 
-                final UserModel myUser = new UserModel();
+                final User myUser = new User();
                 myUser.setGoogleID(account.getId());
                 myUser.setUserName(account.getEmail().substring(0, account.getEmail().indexOf("@")));
                 myUser.setEmail(account.getEmail());
@@ -194,9 +170,8 @@ public class AuthManager implements AuthManagerInterface {
     @Override
     public void tryLoginWithFacebook(final Profile account, final Runnable onSuccess, final MyRunnable onFailure) {
         this.error = null;
-        String token = "1234567890";
-
-        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(account.getName(), token, onSuccess);
+        login=account.getName();
+        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(onSuccess);
 
         final UserApi userApi = Controller.getApi();
         checkServerID(userApi.checkFacebookID(account.getId()), onSuccessUserCheck, new Runnable() {
@@ -208,7 +183,7 @@ public class AuthManager implements AuthManagerInterface {
                     return;
                 }
 
-                final UserModel myUser = new UserModel();
+                final User myUser = new User();
                 myUser.setFacebookID(account.getId());
                 myUser.setFullName(account.getName());
                 myUser.setUserName(account.getName());
@@ -225,7 +200,7 @@ public class AuthManager implements AuthManagerInterface {
     @Override
     public void tryLoginWithStoredInfo(final Runnable onSuccess, final Runnable onFailure) {
 
-        UserModel myUser = authStoreInterface.getUser();
+        User myUser = authStoreInterface.getUser();
 
 
         Runnable onSuccessCheck = new Runnable() {
@@ -258,9 +233,45 @@ public class AuthManager implements AuthManagerInterface {
         return authStoreInterface.getLogin();
     }
 
-  
+    @Override
+    public void tryRegistrationWith(String login, String password, String firstName, String LastName, Runnable onSuccess, final MyRunnable onFailure) {
+        final Runnable onSuccessUserCheck = getOnSuccessUserCheck(onSuccess);
+        final Runnable onFailureUserCheck = new Runnable() {
+            @Override
+            public void run() {
+                onFailure.init(error);
+                onFailure.run();
+            }
+        };
+        final UserApi userApi = Controller.getApi();
+        User myUser = new User();
+        myUser.setEmail(login);
+        myUser.setPassword(password);
 
-    private Runnable getOnSuccessUserCheck(final String login, final String token, final Runnable onSuccess){
+
+        userApi.SignUp(myUser).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.errorBody()!=null) {
+                    Gson gson = new Gson();
+                    ServerAnswer serverAnswer=gson.fromJson(response.errorBody().charStream(),ServerAnswer.class);
+                    error = AppContext.convertError(serverAnswer.getError());
+                    onFailureUserCheck.run();
+                }
+                else{
+                    onSuccessUserCheck.run();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                error = AppContext.TypeOfAuthManagerError.SERVER_ERROR;
+                onFailureUserCheck.run();
+            }
+        });
+    }
+
+    private Runnable getOnSuccessUserCheck(final Runnable onSuccess){
             return new Runnable() {
             @Override
             public void run() {
@@ -271,5 +282,6 @@ public class AuthManager implements AuthManagerInterface {
         };
 
     }
+
 
 }
