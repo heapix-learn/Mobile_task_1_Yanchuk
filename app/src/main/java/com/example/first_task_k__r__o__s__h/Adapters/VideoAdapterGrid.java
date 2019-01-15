@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.first_task_k__r__o__s__h.AppContext;
 import com.example.first_task_k__r__o__s__h.FullScreenMediaDisplay.FullScreenVideo;
 import com.example.first_task_k__r__o__s__h.R;
 import com.example.first_task_k__r__o__s__h.RoundRectCornerImageView;
@@ -33,6 +32,9 @@ public class VideoAdapterGrid extends BaseAdapter {
     private Bundle bundle;
     private View lineForAddMedia;
     private PhotoAdapterGrid photoAdapterGrid;
+    private static final String VIDEO_URL="videoURL";
+    private static final String POSITION="position";
+
 
     public VideoAdapterGrid(Context context, Bundle bundle, List<String> video, List<String> videoScreen, TextView textView, View lineForAddMedia, PhotoAdapterGrid photoAdapterGrid, GridView gridViewForVideo, boolean edit){
         this.context=context;
@@ -95,8 +97,8 @@ public class VideoAdapterGrid extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, FullScreenVideo.class);
-                myIntent.putExtra(AppContext.VIDEO_URL, AppContext.ListPathToString(video));
-                myIntent.putExtra(AppContext.POSITION, position);
+                myIntent.putExtra(VIDEO_URL, (String[]) video.toArray());
+                myIntent.putExtra(POSITION, position);
                 ActivityCompat.startActivity(context, myIntent, bundle);
             }
         });

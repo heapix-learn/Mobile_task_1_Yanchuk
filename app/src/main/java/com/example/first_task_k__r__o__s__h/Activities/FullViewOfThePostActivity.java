@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.first_task_k__r__o__s__h.Adapters.VideoAdapterGrid;
-import com.example.first_task_k__r__o__s__h.AppContext;
 import com.example.first_task_k__r__o__s__h.Adapters.PhotoAdapterGrid;
+import com.example.first_task_k__r__o__s__h.Adapters.VideoAdapterGrid;
 import com.example.first_task_k__r__o__s__h.R;
 import com.example.first_task_k__r__o__s__h.ToDoDocuments;
 
@@ -24,13 +23,17 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
     private PhotoAdapterGrid photoAdapterGrid;
     private Bundle bundle;
     private View lineForAddMedia;
+    private static final String TODO_DOCUMENT="ToDoDocument";
+    public static final int DELETE_POST_REQUEST=2;
+    public static final int TODO_NOTE_SETTING_REQUEST=3;
+    public static final int EDIT_POST_REQUEST=4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundle = savedInstanceState;
         setContentView(R.layout.activity_full_view_of_the_post);
-        todoDocument = getIntent().getParcelableExtra(AppContext.TODO_DOCUMENT);
+        todoDocument = getIntent().getParcelableExtra(TODO_DOCUMENT);
 
         textTitle = (TextView) findViewById(R.id.textTitleFullView);
         textDescription=(TextView) findViewById(R.id.textDescriptionFullView);
@@ -58,21 +61,21 @@ public class FullViewOfThePostActivity extends AppCompatActivity {
 
     public void onClickSettingsPost(View v){
         Intent myIntent = new Intent(this, SettingMenuForFullView.class);
-        startActivityForResult(myIntent, AppContext.TODO_NOTE_SETTING_REQUEST);
+        startActivityForResult(myIntent, TODO_NOTE_SETTING_REQUEST);
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AppContext.TODO_NOTE_SETTING_REQUEST) {
+        if (requestCode == TODO_NOTE_SETTING_REQUEST) {
             switch (resultCode) {
-                case AppContext.DELETE_POST_REQUEST:
-                    setResult(AppContext.DELETE_POST_REQUEST, getIntent());
+                case DELETE_POST_REQUEST:
+                    setResult(DELETE_POST_REQUEST, getIntent());
                     finish();
                     break;
-                case AppContext.EDIT_POST_REQUEST:
-                    setResult(AppContext.EDIT_POST_REQUEST, getIntent());
+                case EDIT_POST_REQUEST:
+                    setResult(EDIT_POST_REQUEST, getIntent());
                     finish();
                     break;
             }

@@ -18,9 +18,9 @@ public class User {
     @Expose
     private String email;
 
-    @SerializedName("fullName")
+    @SerializedName("name")
     @Expose
-    private String fullName;
+    private String name;
 
     @SerializedName("phone")
     @Expose
@@ -62,16 +62,16 @@ public class User {
         return email;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {

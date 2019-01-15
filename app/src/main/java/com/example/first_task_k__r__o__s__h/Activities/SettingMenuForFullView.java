@@ -6,10 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.first_task_k__r__o__s__h.AppContext;
 import com.example.first_task_k__r__o__s__h.R;
 
+
 public class SettingMenuForFullView extends AppCompatActivity {
+
+    public static final int DELETE_POST_REQUEST=2;
+    public static final int EDIT_POST_REQUEST=4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +22,7 @@ public class SettingMenuForFullView extends AppCompatActivity {
         deletePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(AppContext.DELETE_POST_REQUEST, getIntent());
+                setResult(DELETE_POST_REQUEST, getIntent());
                 finish();
             }
         });
@@ -27,7 +31,7 @@ public class SettingMenuForFullView extends AppCompatActivity {
         editPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(AppContext.EDIT_POST_REQUEST, getIntent());
+                setResult(EDIT_POST_REQUEST, getIntent());
                 finish();
             }
         });

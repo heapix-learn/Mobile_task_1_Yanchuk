@@ -1,5 +1,6 @@
 package com.example.first_task_k__r__o__s__h.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -16,22 +17,27 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.first_task_k__r__o__s__h.AppContext;
-import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
-import com.example.first_task_k__r__o__s__h.WorkWithServer.DBPosts;
+import com.example.first_task_k__r__o__s__h.StoreInterface;
+import com.example.first_task_k__r__o__s__h.Authorization.Activities.LoginActivity;
 import com.example.first_task_k__r__o__s__h.NumberOfPosts;
 import com.example.first_task_k__r__o__s__h.OwnMarker;
 import com.example.first_task_k__r__o__s__h.R;
+import com.example.first_task_k__r__o__s__h.Store;
 import com.example.first_task_k__r__o__s__h.ToDoDocuments;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.DBPosts;
 import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -64,6 +70,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public int size=0;
     private final static UserApi userApi=Controller.getApi();
     private NumberOfPosts numberOfPosts;
+    private static final String TODO_DOCUMENT="ToDoDocument";
+    private static final int TODO_NOTE_REQUEST=1;
+
+    private static final int DELETE_POST_REQUEST=2;
+    private static final String GET_POST_ID="getPostId";
+
+    private static final int EDIT_POST_REQUEST=4;
+    private static final String OWN_MARKER="OwnMarker";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
 
     }
@@ -84,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Resources.NotFoundException e) {
 
         }
-        setUpClusterer();
+        //setUpClusterer();
     }
 
 
@@ -97,7 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onClusterItemClick(OwnMarker ownMarker) {
                 Intent myIntent = new Intent(MapsActivity.this, MarkerPreview.class);
                 myIntent.putExtra("markerId",ownMarker.getPostId());
-                startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
+                startActivityForResult(myIntent, TODO_NOTE_REQUEST);
 
                 return false;
             }
@@ -264,6 +282,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 this.mContentView = this.mTextView = (TextView)this.mRotationLayout.findViewById(com.google.maps.android.R.id.amu_text);
                 this.setStyle(1);
             }
+
 
             public Bitmap makeIcon(CharSequence text) {
                 if (this.mTextView != null) {
@@ -518,27 +537,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onClickAddNoteMaps(View view){
-        ToDoDocuments toDoDocuments = new ToDoDocuments();
-        showDocuments(toDoDocuments);
+        StoreInterface storeInterface = Store.getInstance();
+        storeInterface.saveToken("");
+        Intent intent = new Intent(MapsActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+//        ToDoDocuments toDoDocuments = new ToDoDocuments();
+//        showDocuments(toDoDocuments);
     }
 
     private void showDocuments(ToDoDocuments toDoDocuments){
         imageButtonAddNoteMaps.setVisibility(View.GONE);
         Intent myIntent = new Intent(this, Note.class);
-        myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
-        startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
+        myIntent.putExtra(TODO_DOCUMENT,toDoDocuments);
+        startActivityForResult(myIntent, TODO_NOTE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode ,Intent data){
         imageButtonAddNoteMaps.setVisibility(View.VISIBLE);
-        if (requestCode == AppContext.TODO_NOTE_REQUEST){
+        if (requestCode == TODO_NOTE_REQUEST){
             switch(resultCode){
                 case RESULT_CANCELED: {
                     break;
                 }
                 case Note.RESULT_SAVE: {
-                    final ToDoDocuments toDoDocuments =  data.getParcelableExtra(AppContext.TODO_DOCUMENT);
+                    final ToDoDocuments toDoDocuments =  data.getParcelableExtra(TODO_DOCUMENT);
                     final OwnMarker ownMarker = new OwnMarker();
                     ownMarker.setNumber(""+toDoDocuments.getNumber());
                     ownMarker.setPostId(toDoDocuments.getId());
@@ -599,9 +623,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     break;
                 }
-                case AppContext.DELETE_POST_REQUEST: {
-                    ToDoDocuments toDoDocuments = data.getParcelableExtra(AppContext.TODO_DOCUMENT);
-                    OwnMarker ownMarker = data.getParcelableExtra(AppContext.OWN_MARKER);
+                case DELETE_POST_REQUEST: {
+                    ToDoDocuments toDoDocuments = data.getParcelableExtra(TODO_DOCUMENT);
+                    OwnMarker ownMarker = data.getParcelableExtra(OWN_MARKER);
                     deleteDocument(ownMarker);
                     DBPosts.deletePost(toDoDocuments.getId());
                     DBPosts.deleteMarker(ownMarker.getPostId());
@@ -610,15 +634,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     break;
                 }
 
-                case AppContext.EDIT_POST_REQUEST: {
-                    ToDoDocuments toDoDocuments = data.getParcelableExtra(AppContext.TODO_DOCUMENT);
-                    OwnMarker ownMarker = data.getParcelableExtra(AppContext.OWN_MARKER);
-                    String id =  data.getExtras().getString(AppContext.GET_POST_ID);
+                case EDIT_POST_REQUEST: {
+                    ToDoDocuments toDoDocuments = data.getParcelableExtra(TODO_DOCUMENT);
+                    OwnMarker ownMarker = data.getParcelableExtra(OWN_MARKER);
+                    String id =  data.getExtras().getString(GET_POST_ID);
 
                     imageButtonAddNoteMaps.setVisibility(View.GONE);
                     Intent myIntent = new Intent(this, EditPost.class);
-                    myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
-                    startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
+                    myIntent.putExtra(TODO_DOCUMENT,toDoDocuments);
+                    startActivityForResult(myIntent, TODO_NOTE_REQUEST);
 
                     break;
                 }

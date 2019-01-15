@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.first_task_k__r__o__s__h.Activities.LoginActivity;
 import com.example.first_task_k__r__o__s__h.Activities.MapsActivity;
+import com.example.first_task_k__r__o__s__h.Authorization.Activities.LoginActivity;
+import com.example.first_task_k__r__o__s__h.Authorization.AuthManager;
+import com.example.first_task_k__r__o__s__h.Authorization.Interfaces.AuthManagerInterface;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -13,13 +15,14 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        AuthManagerInterface authManagerInterface = new AuthManager();
+        final AuthManagerInterface authManagerInterface = AuthManager.getInstance();
 
         Runnable onSuccess = new Runnable() {
             @Override
             public void run() {
                 Intent myIntent = new Intent(StartActivity.this, MapsActivity.class);
                 startActivity(myIntent);
+                finish();
             }
         };
 
@@ -28,8 +31,9 @@ public class StartActivity extends AppCompatActivity {
             public void run() {
                 Intent myIntent = new Intent(StartActivity.this, LoginActivity.class);
                 startActivity(myIntent);
+                finish();
             }
         };
-        authManagerInterface.tryLoginWithStoredInfo(this.getApplicationContext(), onSuccess, onFailure);
+        authManagerInterface.tryLoginWithStoredInfo(onSuccess, onFailure);
     }
 }

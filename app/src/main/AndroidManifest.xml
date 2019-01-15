@@ -13,10 +13,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCOUNT_MANAGER"
+    <uses-permission
+        android:name="android.permission.ACCOUNT_MANAGER"
         tools:ignore="ProtectedPermissions" />
 
     <application
+        android:name=".AppContext"
         android:allowBackup="true"
         android:enabled="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,9 +30,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_application_id" />
 
-        <activity android:name=".Activities.LoginActivity">
-
-        </activity>
+        <activity android:name=".Authorization.Activities.LoginActivity" />
         <activity
             android:name=".Activities.Note"
             android:theme="@style/AppTheme.MyTransparent" />
@@ -51,7 +51,7 @@
 
         <activity
             android:name=".Activities.MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:theme="@style/AppTheme.WithoutAnimation"/>
         <activity
             android:name=".Activities.MarkerPreview"
             android:theme="@style/AppTheme.MyTransparent" />
@@ -73,6 +73,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Authorization.Activities.LoginActivitySignUp" />
+        <activity android:name=".Authorization.Activities.LoginActivityForgotPassword" />
+        <activity android:name=".Authorization.Activities.LoginActivitySignUpConfirmCodePhone" />
+        <activity android:name=".Authorization.Activities.LoginActivitySignUpConfirmCodeEmail" />
+        <activity android:name=".Authorization.Activities.LoginActivityVerification" />
+        <activity android:name=".Activities.Activity"/>
     </application>
 
 </manifest>

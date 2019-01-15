@@ -66,13 +66,13 @@
     <string name="error_incorrect_user_name">This user name/phone/email is incorrect</string>
 
     <string name="facebook_application_id">2016835455060975</string>
-    <string name="fb_login_protocol_scheme">fb2016835455060975</string>
+    <string name="fb_login_protocol_scheme">d54b6a358eea703babfd48b846f2c262</string>
+    <string name="google_auth_default_web_client_id">54383859181-nhbi7hmi6bc7ulevhbpd3lsjn6f9uj4a.apps.googleusercontent.com</string>
 
-
-    <string name="username">Имя пользователя</string>
+    <string name="username">Почта, телефон или ник</string>
     <string name="create_acco">Создать аккаунт</string>
     <string name="prompt_password">Пароль</string>
-    <string name="prompt_user_name">Имя пользователя</string>
+    <string name="prompt_user_name">Почта, телефон или ник</string>
     <string name="russian">Русский</string>
     <string name="english">Английский</string>
     <string name="login">Вход</string>
@@ -84,4 +84,29 @@
     <string name="media">Медиа</string>
     <string name="edit_post_for_note">Редактирование поста</string>
     <string name="error_incorrect_login_password">Этот логин/пароь неверен</string>
+    <string name="forgot_password">Забыл пароль</string>
+    <string name="nickName">Ник</string>
+    <string name="name">Имя</string>
+    <string name="next">Далее</string>
+    <string name="forgot_password_">Забыли пароль?</string>
+    <string name="text_for_forgot_password">Введите ваше имя пользователя или адрес электронной почты, и мы вышлем вам ссылку, чтобы вернуться в вашу учетную запись.</string>
+    <string name="send">Отправить</string>
+    <string name="type_confirm_code">Введите код подтверждения</string>
+    <string name="text_type_confirm_code_phone">Введите код, отправленный на номер </string>
+    <string name="text_type_confirm_code_phone2">Проверьте номер</string>
+    <string name="text_type_confirm_code_phone3">или</string>
+    <string name="text_type_confirm_code_phone4">Отправьте СМС еще раз</string>
+    <string name="confirmation_code">Код подтверждения</string>
+
+    <string name="text_type_confirm_code_email">Перейдите по ссылке отправленной на почту </string>
+    <string name="text_type_confirm_code_email2">Проверьте почту</string>
+    <string name="text_type_confirm_code_email3">или</string>
+    <string name="text_type_confirm_code_email4">Отправьте письмо еще раз</string>
+
+    <string name="phone">\ \ \ Телефон\ \ \ \ </string>
+    <string name="phoneNumber">Номер телефона</string>
+    <string name="emailView">\ \ \ \ Email\ \ \ \ \ </string>
+    <string name="email">Email</string>
+    <string name="textPhoneForVerification">Мы отправим вам СМС с кодом</string>
+    <string name="textEmailForVerification">Мы отправим вам Email с ссылкой для нажатия</string>
 </resources>

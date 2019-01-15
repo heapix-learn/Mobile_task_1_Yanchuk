@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".Activities.LoginActivity">
+    tools:context=".Authorization.Activities.LoginActivity">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,7 +36,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|bottom"
+            android:gravity="center"
             android:layout_marginBottom="25dp"
             android:orientation="horizontal">
 
@@ -44,19 +44,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="50dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/discover"
-                    android:layout_width="240dp"
-                    android:layout_height="49dp"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/discover"
                     android:textAppearance="@style/discover"
@@ -65,12 +61,11 @@
 
 
                 <AutoCompleteTextView
-
                     android:id="@+id/username"
                     android:layout_width="265dp"
                     android:layout_height="41dp"
-                    android:layout_marginTop="5dp"
-                    android:alpha="0.8"
+                    android:layout_marginTop="35dp"
+                    android:alpha="0.7"
                     android:hint="@string/username"
                     android:shadowColor="@color/white"
                     android:textAppearance="@style/username"
@@ -91,12 +86,47 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:alpha="0.8"
+                    android:alpha="0.7"
                     android:shadowColor="@color/white"
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white" />
 
+
+                <Button
+                    android:id="@+id/login_button"
+                    android:layout_marginTop="35dp"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/login"
+                    android:textSize="18sp"
+                    android:background="@drawable/login"
+                    android:visibility="visible" />
+                <TextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/forgot_password"
+                    android:textAppearance="@style/create_acco"
+                    android:gravity="center_horizontal"
+                    />
+                <TextView
+                    android:id="@+id/create_acco"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/create_acco"
+                    android:textAppearance="@style/create_acco"
+                    android:gravity="center_horizontal"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,70 +135,25 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <com.facebook.login.widget.LoginButton
+                    <Button
                         android:id="@+id/facebook_sign_in"
                         android:layout_width="21dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+
+
+                        android:background="@drawable/facebook_img"
                         android:visibility="visible" />
 
 
-                    <Button
-                        android:id="@+id/twitter_sign_in"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/twitter_img"
-                        android:visibility="visible" />
-                    <Button
-                        android:id="@+id/vk_sign_in"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/vk_img"
-                        android:visibility="visible" />
-                    <Button
-                        android:id="@+id/snapchat_sign_in"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/snapchat_img"
-                        android:visibility="visible" />
                     <Button
                         android:id="@+id/google_sign_in"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+
                         android:background="@drawable/google_img"
                         android:visibility="visible" />
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/login_button"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/login"
-                    android:background="@drawable/login"
-                    android:visibility="visible" />
-                <TextView
-                    android:id="@+id/create_acco"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/create_acco"
-                    android:textAppearance="@style/create_acco"
-                    android:gravity="center_horizontal"
-                    />
 
             </LinearLayout>
         </LinearLayout>

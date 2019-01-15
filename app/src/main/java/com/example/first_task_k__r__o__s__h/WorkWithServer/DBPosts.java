@@ -2,7 +2,6 @@ package com.example.first_task_k__r__o__s__h.WorkWithServer;
 
 import android.os.AsyncTask;
 
-import com.example.first_task_k__r__o__s__h.AppContext;
 import com.example.first_task_k__r__o__s__h.ConvertToDoDocuments;
 import com.example.first_task_k__r__o__s__h.OwnMarker;
 import com.example.first_task_k__r__o__s__h.ToDoDocuments;
@@ -179,20 +178,33 @@ public abstract class DBPosts {
 
             ToDoDocuments add = new ToDoDocuments();
             add.setTitle(convertRead.getTitle());
-            add.setImagePath (AppContext.FromStringToList(convertRead.getImagePath()));
+            add.setImagePath (FromStringToList(convertRead.getImagePath()));
             add.setNumber(Integer.parseInt(convertRead.getNumber()));
             add.setCreateDate(new Date(Long.parseLong(convertRead.getCreateDate())));
             add.setAccountId(convertRead.getAccountId());
             add.setId(convertRead.getId());
             add.setTextNote(convertRead.getTextNote());
             add.setLocation(convertRead.getLocation());
-            add.setVideoPath(AppContext.FromStringToList(convertRead.getVideoPath()));
-            add.setVideoScreen(AppContext.FromStringToList(convertRead.getVideoScreen()));
+            add.setVideoPath(FromStringToList(convertRead.getVideoPath()));
+            add.setVideoScreen(FromStringToList(convertRead.getVideoScreen()));
             add.setAccess(Integer.parseInt(convertRead.getAccess()));
             add.setNameLocation(convertRead.getNameLocation());
         return add;
     }
 
+    public static List<String>FromStringToList(String str){
+        List<String> ans = new ArrayList<>();
+        StringBuilder help= new StringBuilder();
+        for (int i=0; i<str.length()-1; i++){
+            if (str.charAt(i)=='&' && str.charAt(i+1)=='&'){
+                ans.add(help.toString());
+                help = new StringBuilder();
+                i++;
+            }
+            else help.append(str.charAt(i));
+        }
+        return ans;
+    }
 
     public static OwnMarker getOneMarkerFromPostId(String id){
         OwnMarker convertRead;

@@ -1,11 +1,15 @@
 package com.example.first_task_k__r__o__s__h.WorkWithServer;
 
+import com.example.first_task_k__r__o__s__h.Authorization.LoginInfo;
 import com.example.first_task_k__r__o__s__h.ConvertToDoDocuments;
 import com.example.first_task_k__r__o__s__h.NumberOfAccounts;
 import com.example.first_task_k__r__o__s__h.NumberOfPosts;
 import com.example.first_task_k__r__o__s__h.OwnMarker;
 import com.example.first_task_k__r__o__s__h.ServerAnswer;
+import com.example.first_task_k__r__o__s__h.Authorization.VerificationData;
 import com.example.first_task_k__r__o__s__h.User;
+import com.facebook.Profile;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.util.List;
 
@@ -25,12 +29,40 @@ public interface UserApi {
 
     @POST("/signin")
     @Headers({"Content-Type: application/json"})
-    Call<ServerAnswer> checkLogin(@Body User loginPasswordUser);
+    Call<ServerAnswer> checkLogin(@Body LoginInfo info);
 
 
     @POST("/signup")
     @Headers({"Content-Type: application/json"})
     Call<ResponseBody> SignUp(@Body User myUser);
+
+
+
+    @POST("/sign-in-with-google")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> signInWithGoogle(@Body GoogleSignInAccount account);
+
+    @POST("/sign-in-with-facebook")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> signInWithFacebook(@Body Profile profile);
+
+    @POST("/send-verification-email")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> checkEmail(@Body User user);
+
+    @POST("/send-verification-code")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> checkPhone(@Body User user);
+
+    @POST("/check-verification")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> checkVerification(@Body VerificationData verificationData);
+
+    @POST("/forgot-password")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> forgotPassword(@Body LoginInfo user);
+
+
 
     @GET("/Accounts")
     Call<List<User>> checkGoogleID(@Query("googleID") String googleID);

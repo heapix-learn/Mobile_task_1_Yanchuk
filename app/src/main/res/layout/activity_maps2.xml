@@ -45,12 +45,9 @@
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-
+        android:id="@+id/navigation_map_activity"
         android:layout_width="0dp"
-
         android:layout_height="53dp"
-
         android:background="#000000"
         app:itemIconTint="@animator/bottom_navigation_colors"
         app:labelVisibilityMode="unlabeled"

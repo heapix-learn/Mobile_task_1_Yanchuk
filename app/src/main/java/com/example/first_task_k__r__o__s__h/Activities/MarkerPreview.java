@@ -9,19 +9,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.first_task_k__r__o__s__h.Adapters.PicAdapter;
-import com.example.first_task_k__r__o__s__h.AppContext;
-import com.example.first_task_k__r__o__s__h.WorkWithServer.DBPosts;
 import com.example.first_task_k__r__o__s__h.FullScreenMediaDisplay.FullScreenGallery;
 import com.example.first_task_k__r__o__s__h.OwnMarker;
 import com.example.first_task_k__r__o__s__h.R;
 import com.example.first_task_k__r__o__s__h.ToDoDocuments;
+import com.example.first_task_k__r__o__s__h.WorkWithServer.DBPosts;
 
 public class MarkerPreview extends AppCompatActivity {
     private ImageButton like;
     private ImageButton subscription;
     private ToDoDocuments toDoDocuments;
     private OwnMarker ownMarker;
-
+    private static final String TODO_DOCUMENT="ToDoDocument";
+    private static final int TODO_NOTE_REQUEST=1;
+    public static final String PHOTOS_URL="photoSURL";
+    public static final String VIDEO_URL="videoURL";
+    public static final String POSITION="position";
+    public static final int DELETE_POST_REQUEST=2;
+    public static final int EDIT_POST_REQUEST=4;
+    public static final String OWN_MARKER="OwnMarker";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +67,9 @@ public class MarkerPreview extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(MarkerPreview.this, FullScreenGallery.class);
-                    myIntent.putExtra(AppContext.VIDEO_URL, AppContext.ListPathToString(toDoDocuments.getVideoPath()));
-                    myIntent.putExtra(AppContext.PHOTOS_URL, AppContext.ListPathToString(toDoDocuments.getImagePath()));
-                    myIntent.putExtra(AppContext.POSITION, v.getId());
+                    myIntent.putExtra(VIDEO_URL, (String[]) toDoDocuments.getVideoPath().toArray());
+                    myIntent.putExtra(PHOTOS_URL, (String[]) toDoDocuments.getImagePath().toArray());
+                    myIntent.putExtra(POSITION, v.getId());
                     startActivity(myIntent);
                 }
             });
@@ -81,8 +87,8 @@ public class MarkerPreview extends AppCompatActivity {
     }
     public void onClickFullView(View v){
         Intent myIntent = new Intent(this, FullViewOfThePostActivity.class);
-        myIntent.putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
-        startActivityForResult(myIntent, AppContext.TODO_NOTE_REQUEST);
+        myIntent.putExtra(TODO_DOCUMENT,toDoDocuments);
+        startActivityForResult(myIntent, TODO_NOTE_REQUEST);
     }
 
     @Override
@@ -102,18 +108,18 @@ public class MarkerPreview extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AppContext.TODO_NOTE_REQUEST) {
+        if (requestCode == TODO_NOTE_REQUEST) {
             switch (resultCode) {
-                case AppContext.DELETE_POST_REQUEST:
-                    getIntent().putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
-                    getIntent().putExtra(AppContext.OWN_MARKER,ownMarker);
-                    setResult(AppContext.DELETE_POST_REQUEST, getIntent());
+                case DELETE_POST_REQUEST:
+                    getIntent().putExtra(TODO_DOCUMENT,toDoDocuments);
+                    getIntent().putExtra(OWN_MARKER,ownMarker);
+                    setResult(DELETE_POST_REQUEST, getIntent());
                     finish();
                     break;
-                case AppContext.EDIT_POST_REQUEST:
-                    getIntent().putExtra(AppContext.TODO_DOCUMENT,toDoDocuments);
-                    getIntent().putExtra(AppContext.OWN_MARKER,ownMarker);
-                    setResult(AppContext.EDIT_POST_REQUEST, getIntent());
+                case EDIT_POST_REQUEST:
+                    getIntent().putExtra(TODO_DOCUMENT,toDoDocuments);
+                    getIntent().putExtra(OWN_MARKER,ownMarker);
+                    setResult(EDIT_POST_REQUEST, getIntent());
                     finish();
                     break;
 

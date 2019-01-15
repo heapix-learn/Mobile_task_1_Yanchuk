@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.first_task_k__r__o__s__h.AppContext;
 import com.example.first_task_k__r__o__s__h.FullScreenMediaDisplay.FullScreenPhoto;
 import com.example.first_task_k__r__o__s__h.R;
 import com.squareup.picasso.Picasso;
@@ -31,6 +30,10 @@ public class PhotoAdapterGrid extends BaseAdapter {
     private Bundle bundle;
     private View lineForAddMedia;
     private VideoAdapterGrid videoAdapterGrid;
+    private static final String PHOTOS_URL="photoSURL";
+    private static final String POSITION="position";
+
+
 
     public PhotoAdapterGrid(Context context, Bundle bundle, List<String> photo, TextView textView, View lineForAddMedia, VideoAdapterGrid videoAdapterGrid, GridView gridViewForPhoto, boolean edit){
         this.context=context;
@@ -80,8 +83,8 @@ public class PhotoAdapterGrid extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, FullScreenPhoto.class);
-                myIntent.putExtra(AppContext.PHOTOS_URL, AppContext.ListPathToString(photo));
-                myIntent.putExtra(AppContext.POSITION, position);
+                myIntent.putExtra(PHOTOS_URL, (String[]) photo.toArray());
+                myIntent.putExtra(POSITION, position);
                 ActivityCompat.startActivity(context, myIntent, bundle);
             }
         });

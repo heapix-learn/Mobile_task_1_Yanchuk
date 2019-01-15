@@ -66,13 +66,14 @@
     <string name="error_incorrect_user_name">This user name/phone/email is incorrect</string>
 
     <string name="facebook_application_id">2016835455060975</string>
-    <string name="fb_login_protocol_scheme">fb2016835455060975</string>
+    <string name="fb_login_protocol_scheme">d54b6a358eea703babfd48b846f2c262</string>
 
+    <string name="google_auth_default_web_client_id">54383859181-nhbi7hmi6bc7ulevhbpd3lsjn6f9uj4a.apps.googleusercontent.com</string>
 
-    <string name="prompt_user_name">UserName</string>
+    <string name="prompt_user_name">Email, phone or username</string>
     <string name="prompt_password">Password</string>
-    <string name="create_acco">Create account</string>
-    <string name="username">UserName</string>
+    <string name="create_acco">Sign up</string>
+    <string name="username">Email, phone or username</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
     <string name="login">Login</string>
@@ -84,4 +85,29 @@
     <string name="media">Media</string>
     <string name="edit_post_for_note">Edit post</string>
     <string name="error_incorrect_login_password">This login/password is incorrect</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="nickName">Nickname</string>
+    <string name="name">Name</string>
+    <string name="next">Next</string>
+    <string name="forgot_password_">Forgot password?</string>
+    <string name="text_for_forgot_password">Enter your username or email and we\'ll send you a link to get back into your account.</string>
+    <string name="send">Send</string>
+    <string name="type_confirm_code">Type confirmation code</string>
+    <string name="text_type_confirm_code_phone">Enter the code that we send to the number </string>
+    <string name="text_type_confirm_code_phone2">Change number</string>
+    <string name="text_type_confirm_code_phone3">or</string>
+    <string name="text_type_confirm_code_phone4">Send SMS again</string>
+    <string name="confirmation_code">Confirmation code</string>
+
+    <string name="text_type_confirm_code_email">Click on the link that we send to the email </string>
+    <string name="text_type_confirm_code_email2">Change Email</string>
+    <string name="text_type_confirm_code_email3">or</string>
+    <string name="text_type_confirm_code_email4">Send email again</string>
+
+    <string name="phone">\ \ \ \ Phone\ \ \ \ \ </string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="emailView">\ \ \ \ Email\ \ \ \ \ </string>
+    <string name="email">Email</string>
+    <string name="textPhoneForVerification">We will send you SMS with code</string>
+    <string name="textEmailForVerification">We will send you Email with click link</string>
 </resources>

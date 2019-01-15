@@ -74,7 +74,8 @@ public class EmailAuthorization extends AppCompatActivity {
             editTextPassword.setError("Password is empty!");
             return;
         }
-        
+
+
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

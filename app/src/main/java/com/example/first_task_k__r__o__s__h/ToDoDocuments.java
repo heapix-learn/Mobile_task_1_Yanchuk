@@ -78,11 +78,11 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         accountId=data[3];
         id = data[4];
         textNote=data[5];
-        imagePath= AppContext.FromStringToList(data[6]);
+        imagePath= FromStringToList(data[6]);
         location = data[7];
         access = Integer.parseInt(data[8]);
-        videoPath= AppContext.FromStringToList(data[9]);
-        videoScreen= AppContext.FromStringToList(data[10]);
+        videoPath= FromStringToList(data[9]);
+        videoScreen=FromStringToList(data[10]);
         nameLocation = data[11];
     }
 
@@ -295,5 +295,20 @@ public class ToDoDocuments implements Parcelable, Comparable<ToDoDocuments>, Clu
         return getId();
     }
 
+
+
+    public List<String>FromStringToList(String str){
+        List<String> ans = new ArrayList<>();
+        StringBuilder help= new StringBuilder();
+        for (int i=0; i<str.length()-1; i++){
+            if (str.charAt(i)=='&' && str.charAt(i+1)=='&'){
+                ans.add(help.toString());
+                help = new StringBuilder();
+                i++;
+            }
+            else help.append(str.charAt(i));
+        }
+        return ans;
+    }
 
 }

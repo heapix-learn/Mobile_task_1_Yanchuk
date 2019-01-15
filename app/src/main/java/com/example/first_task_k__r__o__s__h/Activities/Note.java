@@ -20,10 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.first_task_k__r__o__s__h.Adapters.CustomAutoCompleteAdapter;
-import com.example.first_task_k__r__o__s__h.Adapters.VideoAdapterGrid;
-import com.example.first_task_k__r__o__s__h.AppContext;
-import com.example.first_task_k__r__o__s__h.MyLocationListener;
 import com.example.first_task_k__r__o__s__h.Adapters.PhotoAdapterGrid;
+import com.example.first_task_k__r__o__s__h.Adapters.VideoAdapterGrid;
+import com.example.first_task_k__r__o__s__h.MyLocationListener;
 import com.example.first_task_k__r__o__s__h.R;
 import com.example.first_task_k__r__o__s__h.ToDoDocuments;
 
@@ -55,6 +54,7 @@ public class Note extends AppCompatActivity {
     private View lineForAddMedia;
     private PhotoAdapterGrid photoAdapterGrid;
     private VideoAdapterGrid videoAdapterGrid;
+    private static final String TODO_DOCUMENT="ToDoDocument";
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -63,7 +63,7 @@ public class Note extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         setContentView(R.layout.activity_note);
-        todoDocuments = getIntent().getParcelableExtra(AppContext.TODO_DOCUMENT);
+        todoDocuments = getIntent().getParcelableExtra(TODO_DOCUMENT);
         bundle = savedInstanceState;
         textTitle = (EditText) findViewById(R.id.textTitle);
         textDescription=(EditText) findViewById(R.id.textDescription);
