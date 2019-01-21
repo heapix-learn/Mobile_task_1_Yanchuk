@@ -1,10 +1,7 @@
 package com.example.first_task_k__r__o__s__h.Authorization;
 
-import com.example.first_task_k__r__o__s__h.StoreInterface;
 import com.example.first_task_k__r__o__s__h.Authorization.Interfaces.AuthManagerInterface;
 import com.example.first_task_k__r__o__s__h.ServerAnswer;
-import com.example.first_task_k__r__o__s__h.Store;
-import com.example.first_task_k__r__o__s__h.User;
 import com.example.first_task_k__r__o__s__h.WorkWithServer.Controller;
 import com.example.first_task_k__r__o__s__h.WorkWithServer.UserApi;
 import com.facebook.Profile;
@@ -46,15 +43,15 @@ public class AuthManager implements AuthManagerInterface {
             }
         };
 
-        LoginInfo loginInfo = new LoginInfo();
-        loginInfo.setLogin(login);
-        loginInfo.setPassword(password);
+        AuthUserInfo authUserInfo = new AuthUserInfo();
+        authUserInfo.setLogin(login);
+        authUserInfo.setPassword(password);
 
-        userApi.checkLogin(loginInfo).enqueue(new Callback<ServerAnswer>() {
+        userApi.checkLogin(authUserInfo).enqueue(new Callback<ServerAnswer>() {
             @Override
             public void onResponse(Call<ServerAnswer> call, final Response<ServerAnswer> response) {
 
-                if (response.body()==null) {
+                if (isExist(response.body())) {
                     Gson gson = new Gson();
                     ServerAnswer serverAnswer=gson.fromJson(response.errorBody().charStream(),ServerAnswer.class);
                     error = AuthorizationErrors.convertError(serverAnswer.getError());
@@ -64,6 +61,7 @@ public class AuthManager implements AuthManagerInterface {
                 if (response.body().getSuccess() && response.body().getToken()!=null){
                     storeInterface.saveToken(response.body().getToken());
                     storeInterface.saveLogin(login);
+                    saveUser();
                     onSuccess.run();
                 }
                 else {
@@ -86,7 +84,7 @@ public class AuthManager implements AuthManagerInterface {
         userApi.signInWithGoogle(account).enqueue(new Callback<ServerAnswer>() {
             @Override
             public void onResponse(Call<ServerAnswer> call, Response<ServerAnswer> response) {
-                if (response.body()!=null){
+                if (isExist(response.body())){
                     if (response.body().getSuccess() && (response.body().getToken()!=null)){
                         storeInterface.saveLogin(account.getEmail());
                         storeInterface.saveToken(response.body().getToken());
@@ -109,10 +107,11 @@ public class AuthManager implements AuthManagerInterface {
         userApi.signInWithFacebook(account).enqueue(new Callback<ServerAnswer>() {
             @Override
             public void onResponse(Call<ServerAnswer> call, Response<ServerAnswer> response) {
-                if (response.body()!=null){
+                if (isExist(response.body())){
                     if (response.body().getSuccess() && (response.body().getToken()!=null)){
                         storeInterface.saveLogin(account.getName());
                         storeInterface.saveToken(response.body().getToken());
+                        saveUser();
                         onSuccess.run();
                     }
                 }
@@ -178,7 +177,7 @@ public class AuthManager implements AuthManagerInterface {
         userApi.checkEmail(user).enqueue(new Callback<ServerAnswer>() {
             @Override
             public void onResponse(Call<ServerAnswer> call, Response<ServerAnswer> response) {
-                if (response.body()!=null){
+                if (isExist(response.body())){
                     if (response.body().getSuccess() && (response.body().getToken()!=null)){
                         verificationData.setToken(response.body().getToken());
                         onSuccess.run();
@@ -231,7 +230,7 @@ public class AuthManager implements AuthManagerInterface {
         userApi.checkPhone(user).enqueue(new Callback<ServerAnswer>() {
             @Override
             public void onResponse(Call<ServerAnswer> call, Response<ServerAnswer> response) {
-                if (response.body()!=null){
+                if (isExist(response.body())){
                     if (response.body().getSuccess() && (response.body().getToken()!=null)){
                         verificationData.setToken(response.body().getToken());
                         onSuccess.run();
@@ -253,7 +252,7 @@ public class AuthManager implements AuthManagerInterface {
         userApi.checkVerification(verificationData).enqueue(new Callback<ServerAnswer>() {
             @Override
             public void onResponse(Call<ServerAnswer> call, Response<ServerAnswer> response) {
-                if (response.body()!=null){
+                if (isExist(response.body())){
                     if (response.body().getSuccess()){
                         onSuccess.run();
                     }
@@ -272,9 +271,9 @@ public class AuthManager implements AuthManagerInterface {
 
     @Override
     public void forgotPassword(String login, final Runnable onSuccess, final RunnableWithError onFailure) {
-        LoginInfo loginInfo = new LoginInfo();
-        loginInfo.setLogin(login);
-        userApi.forgotPassword(loginInfo).enqueue(new Callback<ServerAnswer>() {
+        AuthUserInfo authUserInfo = new AuthUserInfo();
+        authUserInfo.setLogin(login);
+        userApi.forgotPassword(authUserInfo).enqueue(new Callback<ServerAnswer>() {
             @Override
             public void onResponse(Call<ServerAnswer> call, Response<ServerAnswer> response) {
                 if (response.body()!=null){
@@ -293,5 +292,28 @@ public class AuthManager implements AuthManagerInterface {
         });
     }
 
+    private void saveUser(){
+        userApi.getUser(storeInterface.getToken()).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (isExist(response.body())){
+                    storeInterface.saveUser(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private boolean isExist(User user){
+        return user!=null;
+    }
+
+    private boolean isExist(ServerAnswer serverAnswer){
+        return serverAnswer!=null;
+    }
 
 }

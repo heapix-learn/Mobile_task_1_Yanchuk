@@ -10,12 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.first_task_k__r__o__s__h.Activities.MapsActivity;
 import com.example.first_task_k__r__o__s__h.Authorization.AuthManager;
 import com.example.first_task_k__r__o__s__h.Authorization.Interfaces.AuthManagerInterface;
 import com.example.first_task_k__r__o__s__h.Authorization.RunnableWithError;
+import com.example.first_task_k__r__o__s__h.Authorization.User;
+import com.example.first_task_k__r__o__s__h.MainActivity.Activities.MainActivity;
 import com.example.first_task_k__r__o__s__h.R;
-import com.example.first_task_k__r__o__s__h.User;
 
 public class LoginActivityVerification extends AppCompatActivity {
 
@@ -155,7 +155,7 @@ public class LoginActivityVerification extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         setResult(RESULT_SUCCESS);
-                                        Intent intent = new Intent(LoginActivityVerification.this, MapsActivity.class);
+                                        Intent intent = new Intent(LoginActivityVerification.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                     }
@@ -187,7 +187,7 @@ public class LoginActivityVerification extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         setResult(RESULT_SUCCESS);
-                                        Intent intent = new Intent(LoginActivityVerification.this, MapsActivity.class);
+                                        Intent intent = new Intent(LoginActivityVerification.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                     }

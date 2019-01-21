@@ -1,13 +1,12 @@
 package com.example.first_task_k__r__o__s__h.WorkWithServer;
 
-import com.example.first_task_k__r__o__s__h.Authorization.LoginInfo;
-import com.example.first_task_k__r__o__s__h.ConvertToDoDocuments;
-import com.example.first_task_k__r__o__s__h.NumberOfAccounts;
-import com.example.first_task_k__r__o__s__h.NumberOfPosts;
-import com.example.first_task_k__r__o__s__h.OwnMarker;
-import com.example.first_task_k__r__o__s__h.ServerAnswer;
+import com.example.first_task_k__r__o__s__h.Authorization.AuthUserInfo;
+import com.example.first_task_k__r__o__s__h.Authorization.User;
 import com.example.first_task_k__r__o__s__h.Authorization.VerificationData;
-import com.example.first_task_k__r__o__s__h.User;
+import com.example.first_task_k__r__o__s__h.ConvertPostForServer;
+import com.example.first_task_k__r__o__s__h.MainActivity.MapItem;
+import com.example.first_task_k__r__o__s__h.MainActivity.PostId;
+import com.example.first_task_k__r__o__s__h.ServerAnswer;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -16,12 +15,8 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserApi {
@@ -29,14 +24,11 @@ public interface UserApi {
 
     @POST("/signin")
     @Headers({"Content-Type: application/json"})
-    Call<ServerAnswer> checkLogin(@Body LoginInfo info);
-
+    Call<ServerAnswer> checkLogin(@Body AuthUserInfo info);
 
     @POST("/signup")
     @Headers({"Content-Type: application/json"})
     Call<ResponseBody> SignUp(@Body User myUser);
-
-
 
     @POST("/sign-in-with-google")
     @Headers({"Content-Type: application/json"})
@@ -60,72 +52,53 @@ public interface UserApi {
 
     @POST("/forgot-password")
     @Headers({"Content-Type: application/json"})
-    Call<ServerAnswer> forgotPassword(@Body LoginInfo user);
+    Call<ServerAnswer> forgotPassword(@Body AuthUserInfo user);
+
+    @POST("/get-user")
+    @Headers({"Content-Type: application/json"})
+    Call<User> getUser(@Query("access_token") String token);
 
 
 
-    @GET("/Accounts")
-    Call<List<User>> checkGoogleID(@Query("googleID") String googleID);
+    @POST("/add-post")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> addPost(@Body ConvertPostForServer post, @Query("access_token") String token);
 
-    @GET("/Accounts")
-    Call<List<User>> checkFacebookID(@Query("facebookID") String facebookID);
+    @POST("/edit-post")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> editPost(@Body ConvertPostForServer post, @Query("access_token") String token);
 
-    @GET("/Accounts")
-    Call<List<User>> checkID(@Query("id") String id);
+    @POST("/delete-post")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> deletePost(@Body ConvertPostForServer post, @Query("access_token") String token);
 
-    @POST("/Accounts")
-    Call<User> pushNewUser(@Body User user);
-
-    @GET("/Number_of_accounts/{id}")
-    Call<NumberOfAccounts> getLastAccountNumber(@Path("id") String id);
-
-    @PUT("/Number_of_accounts/{id}")
-    Call<NumberOfAccounts> updateLastAccountNumber(@Path("id") String id, @Body NumberOfAccounts numberOfAccounts);
+    @POST("/get-one-post-with-item-post-id")
+    @Headers({"Content-Type: application/json"})
+    Call<ConvertPostForServer> getOnePostWithItemPostId(@Body PostId postId, @Query("access_token") String token);
 
 
-    @DELETE("/Number_of_accounts/{id}")
-    Call<ResponseBody> deleteLastAccountNumber(@Path("id") String id);
+    @POST("/get-all-public-map-items")
+    @Headers({"Content-Type: application/json"})
+    Call<List<MapItem>> getAllPublicMapItems();
 
-    @POST("/Number_of_accounts")
-    Call<NumberOfAccounts> pushLastAccountNumber(@Body NumberOfAccounts numberOfAccounts);
+    @POST("/get-all-private-map-items")
+    @Headers({"Content-Type: application/json"})
+    Call<List<MapItem>> getAllPrivateMapItems(@Query("access_token") String token);
 
-    @GET("/Posts/{id}")
-    Call<ConvertToDoDocuments> getPostFromId(@Path("id") String id);
+    @POST("/add-map-item")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> addMapItem(@Body MapItem mapItem, @Query("access_token") String token);
 
-    @GET("/Number_of_posts/{id}")
-    Call<NumberOfPosts> getNumberOfPosts(@Path("id") String id);
+    @POST("/edit-map-item")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> editMapItem(@Body MapItem mapItem, @Query("access_token") String token);
 
+    @POST("/delete-map-item")
+    @Headers({"Content-Type: application/json"})
+    Call<ServerAnswer> deleteMapItem(@Body MapItem mapItem, @Query("access_token") String token);
 
+    @POST("/get-map-item-with-post")
+    @Headers({"Content-Type: application/json"})
+    Call<MapItem> getMapItemWith(@Body ConvertPostForServer post, @Query("access_token") String token);
 
-    @POST("/Number_of_posts")
-    Call<ResponseBody> pushNumberOfPosts(@Body NumberOfPosts size);
-
-
-
-    @GET("/Markers")
-    Call<List<OwnMarker>> getMarkersFromAccountId(@Query("accountId") String resourceName);
-
-    @GET("/Markers")
-    Call<List<OwnMarker>> getMarkersFromAccess(@Query("access") String resourceName);
-
-
-
-    @DELETE("/Posts/{id}")
-    Call<ResponseBody> deletePost(@Path("id") String id);
-
-    @POST("/Posts/")
-    Call<ResponseBody> pushPost(@Body ConvertToDoDocuments convertToDoDocuments);
-
-    @DELETE("/Markers/{postId}")
-    Call<ResponseBody> deleteMarker(@Path("postId") String id);
-
-    @POST("/Markers/")
-    Call<ResponseBody> pushMarker(@Body OwnMarker ownMarker);
-
-    @GET("/Markers/{postId}")
-    Call<OwnMarker> getMarkerFromPostId(@Path("postId") String id);
-
-
-    @DELETE("/Number_of_posts/{id}/")
-    Call<ResponseBody> deleteNumberOfPosts(@Path("id") String id);
 }

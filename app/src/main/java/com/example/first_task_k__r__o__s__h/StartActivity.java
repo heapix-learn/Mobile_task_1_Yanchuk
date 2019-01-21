@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.first_task_k__r__o__s__h.Activities.MapsActivity;
 import com.example.first_task_k__r__o__s__h.Authorization.Activities.LoginActivity;
 import com.example.first_task_k__r__o__s__h.Authorization.AuthManager;
 import com.example.first_task_k__r__o__s__h.Authorization.Interfaces.AuthManagerInterface;
+import com.example.first_task_k__r__o__s__h.MainActivity.Activities.MainActivity;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class StartActivity extends AppCompatActivity {
         Runnable onSuccess = new Runnable() {
             @Override
             public void run() {
-                Intent myIntent = new Intent(StartActivity.this, MapsActivity.class);
+                Intent myIntent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(myIntent);
                 finish();
             }

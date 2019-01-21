@@ -32,15 +32,12 @@
 
         <activity android:name=".Authorization.Activities.LoginActivity" />
         <activity
-            android:name=".Activities.Note"
-            android:theme="@style/AppTheme.MyTransparent" />
-        <activity
-            android:name=".Activities.EditPost"
+            android:name=".MainActivity.Activities.EditPostActivity"
             android:theme="@style/AppTheme.MyTransparent" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
+             NewPostActivity that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
@@ -50,16 +47,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activities.MapsActivity"
-            android:theme="@style/AppTheme.WithoutAnimation"/>
-        <activity
-            android:name=".Activities.MarkerPreview"
+            android:name=".MainActivity.Activities.PostPreviewActivity"
             android:theme="@style/AppTheme.MyTransparent" />
         <activity
-            android:name=".Activities.FullViewOfThePostActivity"
-            android:theme="@style/AppTheme.MyTransparent" />
-        <activity
-            android:name=".Activities.SettingMenuForFullView"
+            android:name=".MainActivity.Activities.SettingMenuForFullView"
             android:theme="@style/AppTheme.MyTransparent" />
         <activity android:name=".FullScreenMediaDisplay.FullScreenPhoto" />
         <activity android:name=".FullScreenMediaDisplay.FullScreenVideo" />
@@ -67,18 +58,19 @@
         <activity android:name=".AuxiliaryComponents.PhoneAuthorization" />
         <activity android:name=".AuxiliaryComponents.EmailAuthorization" />
         <activity android:name=".StartActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Authorization.Activities.LoginActivitySignUp" />
         <activity android:name=".Authorization.Activities.LoginActivityForgotPassword" />
         <activity android:name=".Authorization.Activities.LoginActivitySignUpConfirmCodePhone" />
         <activity android:name=".Authorization.Activities.LoginActivitySignUpConfirmCodeEmail" />
         <activity android:name=".Authorization.Activities.LoginActivityVerification" />
-        <activity android:name=".Activities.Activity"/>
+        <activity android:name=".MainActivity.Activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

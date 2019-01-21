@@ -1,7 +1,7 @@
 package com.example.first_task_k__r__o__s__h.Authorization.Interfaces;
 
 import com.example.first_task_k__r__o__s__h.Authorization.RunnableWithError;
-import com.example.first_task_k__r__o__s__h.User;
+import com.example.first_task_k__r__o__s__h.Authorization.User;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 

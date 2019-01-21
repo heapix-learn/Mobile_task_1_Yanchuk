@@ -12,13 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.first_task_k__r__o__s__h.Activities.MapsActivity;
-import com.example.first_task_k__r__o__s__h.StoreInterface;
 import com.example.first_task_k__r__o__s__h.Authorization.AuthManager;
 import com.example.first_task_k__r__o__s__h.Authorization.Interfaces.AuthManagerInterface;
 import com.example.first_task_k__r__o__s__h.Authorization.RunnableWithError;
+import com.example.first_task_k__r__o__s__h.Authorization.Store;
+import com.example.first_task_k__r__o__s__h.Authorization.StoreInterface;
+import com.example.first_task_k__r__o__s__h.MainActivity.Activities.MainActivity;
 import com.example.first_task_k__r__o__s__h.R;
-import com.example.first_task_k__r__o__s__h.Store;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private Runnable onSuccess = new Runnable() {
     @Override
     public void run() {
-            Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
     };
